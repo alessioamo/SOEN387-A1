@@ -1,5 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%@ page import="database_package_model.*" %>
+    <%
+    User auth = (User) request.getSession().getAttribute("auth");
+    if (auth != null) {
+    	request.setAttribute("auth", auth);
+    	response.sendRedirect("index.jsp");
+    }
+    %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,14 +21,14 @@
 		<div class="card w-50 mx-auto my-5">
 			<div class="card-header text-center">Admin Login</div>
 			<div class="card-body">
-				<form action="" method="post">
-					<!-- <div class="form-group">
-						<label class="">Username</label>
+				<form action="user-login" method="post">
+					<div class="form-group">
+						<label class="">Username (admin for admin)</label>
 						<input type="username" class="form-control" name="login-username" placeholder="Username" required>
-					</div> !-->
+					</div>
 
 					<div class="form-group">
-						<label class="">Admin Password</label>
+						<label class="">Password</label>
 						<input type="password" class="form-control" name="login-password" placeholder="Password" required>
 					</div>
 					<div class="text-center">
