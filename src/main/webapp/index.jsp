@@ -7,6 +7,7 @@
     if (auth != null) {
     	request.setAttribute("auth", auth);
     }
+    
     %>
 <!DOCTYPE html>
 <html>
