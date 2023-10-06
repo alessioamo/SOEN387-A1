@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%@ page import="java.util.List" %>
-<%@ page import="database_package_connection.databaseConnection" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="database_package_connection.*" %>
 <%@ page import="database_package_dao.ProductDao" %>
 <%@ page import="database_package_model.*" %>
     <%
@@ -12,6 +13,11 @@
     
     ProductDao pd = new ProductDao(databaseConnection.getConnection());
     List<Product> products = pd.getAllProducts();
+    
+    ArrayList<Cart> cart_list = (ArrayList<Cart>) session.getAttribute("cart-list");
+    if (cart_list != null) {
+    	request.setAttribute("cart_list", cart_list);
+    }
     
     %>
 <!DOCTYPE html>

@@ -1,10 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%@ page import="java.util.ArrayList" %>
 <%@ page import="database_package_model.*" %>
     <%
     User auth = (User) request.getSession().getAttribute("auth");
     if (auth != null) {
     	request.setAttribute("auth", auth);
+    }
+    
+    ArrayList<Cart> cart_list = (ArrayList<Cart>) session.getAttribute("cart-list");
+    if (cart_list != null) {
+    	request.setAttribute("cart_list", cart_list);
     }
     %>
 <!DOCTYPE html>
