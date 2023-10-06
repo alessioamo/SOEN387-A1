@@ -1,11 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%@ page import="java.util.ArrayList" %>
+<%@ page import="java.text.DecimalFormat" %>
 <%@ page import="java.util.List" %>
 <%@ page import="database_package_model.*" %>
 <%@ page import="database_package_dao.*" %>
 <%@ page import="database_package_connection.*" %>
     <%
+    DecimalFormat dcf = new DecimalFormat("#.00");
+    request.setAttribute("dcf", dcf);
     User auth = (User) request.getSession().getAttribute("auth");
     if (auth != null) {
     	request.setAttribute("auth", auth);
@@ -43,7 +46,7 @@
 	
 	<div class="container">
 		<div class="d-flex py-3">
-			<h3>Total Price: $${ (total>0)?total:0 }</h3>
+			<h3>Total Price: $${ (total>0)?dcf.format(total):0 }</h3>
 			<a class="mx-3 btn btn-primary" href="#">Check Out</a>
 		</div>
 		<table class="table table-light">
@@ -63,14 +66,14 @@
 					<tr>
 					<td><%= c.getName() %></td>
 					<td><%= c.getCategory() %></td>
-					<td>$<%= c.getPrice() %></td>
+					<td>$<%= dcf.format(c.getPrice()) %></td>
 					<td>
 						<form action="" method="post" class="form-inline">
 							<input type="hidden" name="id" value="<%= c.getId() %>" class="form-input">
 							<div class="form-group d-flex justify-content-between">
-								<a class="btn btn-sm btn-decre" href="quantity-incre-decre"><i class="fas fa-minus-square"></i></a>
-								<input type="text" name="quantity" class="form-control" value="1" readonly>
-								<a class="btn btn-sm btn-incre" href="quantity-incre-decre"><i class="fas fa-plus-square"></i></a>
+								<a class="btn btn-sm btn-decre" href="quantity-incre-decre?action=decre&id=<%= c.getId() %>"><i class="fas fa-minus-square"></i></a>
+								<input type="text" name="quantity" class="form-control" value="<%= c.getQuantity() %>" readonly>
+								<a class="btn btn-sm btn-incre" href="quantity-incre-decre?action=incre&id=<%= c.getId() %>"><i class="fas fa-plus-square"></i></a>
 							</div>
 						</form>
 					</td>
