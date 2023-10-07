@@ -49,4 +49,14 @@
     <servlet-name>QuantityIncreDecreServlet</servlet-name>
     <url-pattern>/quantity-incre-decre</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>RemoveFromCartServlet</display-name>
+    <servlet-name>RemoveFromCartServlet</servlet-name>
+    <servlet-class>database_package_servlet.RemoveFromCartServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>RemoveFromCartServlet</servlet-name>
+    <url-pattern>/remove-from-cart</url-pattern>
+  </servlet-mapping>
 </web-app>

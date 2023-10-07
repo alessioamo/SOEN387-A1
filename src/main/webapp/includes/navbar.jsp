@@ -10,7 +10,11 @@
 		<div class="" id="navbarSupportedContent">
 			<ul class="navbar-nav ml-auto">
 				<li class="nav-item active"><a class="nav-link" href="index.jsp">Home</a></li>
-				<li class="nav-item active"><a class="nav-link" href="cart.jsp">Cart<span class="badge bg-danger px-1"> ${ cart_list.size() }</span></a></li>
+				<li class="nav-item active"><a class="nav-link" href="cart.jsp">Cart
+					<c:if test="${ cart_list.size() > 0 }">
+			            <span class="badge bg-danger px-1">${ cart_list.size() }</span>
+			        </c:if>
+				</a></li>
 				<li class="nav-item active"><a class="nav-link" href="products.jsp">Products</a></li>
 				
 				<%
