@@ -9,6 +9,7 @@
     <%
     DecimalFormat dcf = new DecimalFormat("#.00");
     request.setAttribute("dcf", dcf);
+    
     User auth = (User) request.getSession().getAttribute("auth");
     if (auth != null) {
     	request.setAttribute("auth", auth);
@@ -52,10 +53,12 @@
 		<table class="table table-light">
 			<thead>
 				<tr>
+					<th scope="col">Image</th>
 					<th scope="col">Name</th>
 					<th scope="col">Category</th>
 					<th scope="col">Price</th>
-					<th scope="col">Buy Now</th>
+					<!-- TODO - add image stuff all on this page -->
+					<th scope="col">Quantity</th>
 					<th scope="col">Cancel</th>
 				</tr>
 			</thead>
@@ -64,6 +67,7 @@
 			if (cart_list != null) {
 				for (Cart c:cartProduct) { %>
 					<tr>
+					<td><img src="product-images/<%= c.getImage() %>" style="width:4rem;height:4rem;"></td>
 					<td><%= c.getName() %></td>
 					<td><%= c.getCategory() %></td>
 					<td>$<%= dcf.format(c.getPrice()) %></td>

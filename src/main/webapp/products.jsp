@@ -2,10 +2,14 @@
     pageEncoding="ISO-8859-1"%>
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.ArrayList" %>
+<%@ page import="java.text.DecimalFormat" %>
 <%@ page import="database_package_connection.*" %>
 <%@ page import="database_package_dao.ProductDao" %>
 <%@ page import="database_package_model.*" %>
     <%
+    DecimalFormat dcf = new DecimalFormat("#.00");
+    request.setAttribute("dcf", dcf);
+    
     User auth = (User) request.getSession().getAttribute("auth");
     if (auth != null) {
     	request.setAttribute("auth", auth);
@@ -39,14 +43,14 @@
 					
 					<div class="col-md-3 my-3">
 					<div class="card w-100" style="width: 18rem;">
-						<img src="product-images/<%= p.getImage() %>" class="card-img-top" alt="...">
+						<img src="product-images/<%= p.getImage() %>" class="card-img-top" style="width:18rem;height:20rem;" alt="...">
 						<div class="card-body">
 							<h5 class="card-title"><%= p.getName() %></h5>
-							<h6 class="price">Price: $<%= p.getPrice() %></h6>
+							<h6 class="price">Price: $<%= dcf.format(p.getPrice()) %></h6>
 							<h6 class="category">Category: <%= p.getCategory() %></h6>
 							<div class="mt-3 d-flex justify-content-between">
 								<a href="add-to-cart?id=<%= p.getId() %>" class="btn btn-dark">Add to Cart</a>
-								<a href="#" class="btn btn-primary">Buy Now</a>
+								<!-- Might need a buy now feature in the future <a href="#" class="btn btn-primary">Buy Now</a>  -->
 							</div>
 						</div>
 					</div>

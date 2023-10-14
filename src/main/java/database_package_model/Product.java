@@ -6,16 +6,24 @@ public class Product {
 	private String category;
 	private Double price;
 	private String image;
+	private String description;
+	private String vendor;
+	private String urlSlug;
+	private String sku;
 	
 	public Product() {
 	}
 	
-	public Product(int id, String name, String category, Double price, String image) {
+	public Product(int id, String name, String category, Double price, String image, String description, String vendor, String urlSlug, String sku) {
 		this.id = id;
 		this.name = name;
 		this.category = category;
 		this.price = price;
 		this.image = image;
+		this.description = description;
+		this.vendor = vendor;
+		this.urlSlug = urlSlug;
+		this.sku = sku;
 	}
 
 	public int getId() {
@@ -58,10 +66,45 @@ public class Product {
 		this.image = image;
 	}
 
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public String getVendor() {
+		return vendor;
+	}
+
+	public void setVendor(String vendor) {
+		this.vendor = vendor;
+	}
+
+	public String getUrlSlug() {
+		return urlSlug;
+	}
+
+	public void setUrlSlug(String urlSlug) {
+		this.urlSlug = urlSlug;
+	}
+
+	public String getSku() {
+		return sku;
+	}
+
+	public void setSku(String sku) {
+		this.sku = sku;
+	}
+
 	@Override
 	public String toString() {
 		return "Product [id=" + id + ", name=" + name + ", category=" + category + ", price=" + price + ", image="
-				+ image + "]";
+				+ image + ", description=" + description + ", vendor=" + vendor + ", urlSlug=" + urlSlug + ", sku="
+				+ sku + "]";
 	}
+
+	
 
 }

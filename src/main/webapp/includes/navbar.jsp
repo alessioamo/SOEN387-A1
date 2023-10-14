@@ -21,8 +21,7 @@
 
 				<%
 				if (auth != null) {%>
-				<li class="nav-item active"><a class="nav-link"
-					href="orders.jsp">Orders</a></li>
+				<!-- <li class="nav-item active"><a class="nav-link" href="orders.jsp">Orders</a></li> -->
 				<li class="nav-item active"><a class="nav-link" href="log-out">Logout</a></li>
 				<%} else { %>
 				<li class="nav-item active"><a class="nav-link"

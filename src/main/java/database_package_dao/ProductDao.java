@@ -33,6 +33,10 @@ public class ProductDao {
 				row.setCategory(rs.getString("category"));
 				row.setPrice(rs.getDouble("price"));
 				row.setImage(rs.getString("image"));
+				row.setDescription(rs.getString("description"));
+				row.setVendor(rs.getString("vendor"));
+				row.setUrlSlug(rs.getString("urlSlug"));
+				row.setSku(rs.getString("sku"));
 				
 				products.add(row);
 			}
@@ -61,6 +65,7 @@ public class ProductDao {
 						row.setCategory(rs.getString("category"));
 						row.setPrice(rs.getDouble("price")*item.getQuantity());
 						row.setQuantity(item.getQuantity());
+						row.setImage(rs.getString("image"));
 						products.add(row);
 					}
 				}
