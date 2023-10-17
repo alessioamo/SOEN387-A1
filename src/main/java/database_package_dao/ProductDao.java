@@ -47,6 +47,24 @@ public class ProductDao {
 		return products;
 	}
 	
+	public Product getProductBySlug(String slug) {
+        List<Product> products = getAllProducts();
+
+        try {
+        	// Find the product with the matching slug
+            for (Product product : products) {
+                if (product.getUrlSlug().equals(slug)) {
+                    return product;
+                }
+            }
+        } catch(Exception e) {
+			e.printStackTrace();
+		}
+
+        // If the product with the given slug is not found, return null or throw an exception
+        return null;
+    }
+	
 	public List<Cart> getCartProducts(ArrayList<Cart> cartList) {
 		List<Cart> products = new ArrayList<Cart>();
 		
