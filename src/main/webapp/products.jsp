@@ -45,7 +45,7 @@
 					<div class="card w-100" style="width: 18rem;">
 						<a href="<%= request.getContextPath() %>/products/<%= p.getUrlSlug() %>"><img src="product-images/<%= p.getImage() %>" class="card-img-top" style="width:18rem;height:20rem;" alt="..."></a>
 						<div class="card-body">
-							<a href="products?slug<%= p.getUrlSlug() %>"><h5 class="card-title"><%= p.getName() %></h5></a>
+							<a href="<%= request.getContextPath() %>/products/<%= p.getUrlSlug() %>"><h5 class="card-title" style="color:black;text-decoration:none;"><%= p.getName() %></h5></a>
 							<h6 class="price">Price: $<%= dcf.format(p.getPrice()) %></h6>
 							<h6 class="category">Category: <%= p.getCategory() %></h6>
 							<div class="mt-3 d-flex justify-content-between">
