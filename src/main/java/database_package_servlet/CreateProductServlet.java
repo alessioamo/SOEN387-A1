@@ -6,6 +6,7 @@ import java.sql.SQLException;
 
 import database_package_connection.databaseConnection;
 import database_package_dao.BusinessFunctions;
+import database_package_dao.ProductDao;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -28,10 +29,12 @@ public class CreateProductServlet extends HttpServlet {
 		try (PrintWriter out = response.getWriter()) {
 			String productName = request.getParameter("product-name");
 			String productSku = request.getParameter("product-sku");
-
+			//System.out.print(productName + productSku);
 			try {
-				BusinessFunctions bf = new BusinessFunctions(databaseConnection.getConnection());
-				bf.CreateProduct(productName, productSku);
+				//BusinessFunctions bf = new BusinessFunctions(databaseConnection.getConnection());
+				//bf.CreateProduct(productSku, productName);
+				ProductDao pd = new ProductDao(databaseConnection.getConnection());
+				pd.CreateProduct(productSku, productName);
 				out.print(true);
 				response.sendRedirect("products.jsp");
 

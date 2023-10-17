@@ -19,6 +19,7 @@ package database_package_dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import database_package_model.*;
 
@@ -35,63 +36,32 @@ public class BusinessFunctions {
 	public Product CreateProduct(String sku, String name) {
 		Product product = null;
 		try {
-			query = "INSERT INTO products (name, sku) VALUES (?, ?)";
+			query = "INSERT INTO products (id, name, sku) VALUES (?, ?, ?)";
 			pst = this.con.prepareStatement(query);
-			pst.setString(1, name);
-			pst.setString(2, sku);
-			boolean isResultSet = pst.execute(query);
-			System.out.println(isResultSet);
-			if (!isResultSet) {
-			    int rowsAffected = pst.getUpdateCount();
-			    System.out.println(rowsAffected);
-			}
+			pst.setInt(1, 22);
+			pst.setString(2, name);
+			pst.setString(3, sku);
+			pst.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
 		}
 		return product;
 	}
-
-	/*public Product UpdateProduct(String sku){
-		Product product = null;
-		try {
-			query = "UPDATE candidates "
-	                + "SET last_name = ? "
-	                + "WHERE sku = ?";
-			pst = this.con.prepareStatement(query);
-			pst.setString(1, name);
-			pst.setString(2, sku);
-			boolean isResultSet = pst.execute(query);
-			if (!isResultSet) {
-			    int rowsAffected = pst.getUpdateCount();
-			    System.out.println(rowsAffected);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			System.out.println(e.getMessage());
-		}
-		return product;
-	}*/
 	
-	public Product GetProduct(String sku) {
-		User user = null;
+	/*public Product GetProduct(String sku) {
+		Product product = null;
 		try {
 			query = "select * from products where sku=?";
 			pst = this.con.prepareStatement(query);
 			pst.setString(1, sku);
 			rs = pst.executeQuery();
 			
-			if (rs.next()) {
-				user = new User();
-				user.setId(rs.getInt("id"));
-				user.setUsername(rs.getString("username"));
-				//for security reasons, don't return user's password
-			}
 		}
 		catch (Exception e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
 		}
-		return user;
-	}
+		return product;
+	}*/
 }

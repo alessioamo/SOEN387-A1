@@ -119,4 +119,35 @@ public class ProductDao {
 		
 		return sum;
 	}
+	
+	public void CreateProduct(String sku, String name) {
+		try {
+			query = "INSERT INTO products (id, name, sku) VALUES (?, ?, ?)";
+			pst = this.con.prepareStatement(query);
+			pst.setInt(1, 22);
+			pst.setString(2, name);
+			pst.setString(3, sku);
+			pst.executeUpdate();
+			pst.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		}
+	}
+	
+	public void UpdateProduct(String sku, String name, String description){
+		try {
+			query = "UPDATE table_name SET name = ?, description = ?, WHERE sku=?;";
+			pst = this.con.prepareStatement(query);
+			pst.setString(1, name);
+			pst.setString(2, description);
+			pst.setString(3, sku);
+			pst.executeUpdate();
+			pst.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		}
+	}
+	
 }
