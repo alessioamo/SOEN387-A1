@@ -46,7 +46,6 @@ public class AddToCartServlet extends HttpServlet {
 					if (c.getId() == id) {
 						exist = true;
 						c.setQuantity(c.getQuantity() + 1);
-						System.out.println(c.getQuantity());
 						response.sendRedirect("products.jsp");
 						//out.print("<h3 style='color:crimson; font-size:40px; text-align:center'>Item already exists in Cart.<br>"
 								//+ "<a href='cart.jsp'>Go to Cart Page</a><br><a href='products.jsp'>Go back to Products Page</a></h3>");
