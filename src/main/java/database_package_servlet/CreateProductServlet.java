@@ -29,12 +29,19 @@ public class CreateProductServlet extends HttpServlet {
 		try (PrintWriter out = response.getWriter()) {
 			String productName = request.getParameter("product-name");
 			String productSku = request.getParameter("product-sku");
+			String productDescription = request.getParameter("product-description");
+			String productCategory = request.getParameter("product-category");
+			String productPrice = request.getParameter("product-price");
+			String productQuantity = request.getParameter("product-quantity");
+			String productVendor = request.getParameter("product-vendor");
+			String productSlug = request.getParameter("product-slug");
 			//System.out.print(productName + productSku);
 			try {
 				//BusinessFunctions bf = new BusinessFunctions(databaseConnection.getConnection());
 				//bf.CreateProduct(productSku, productName);
 				ProductDao pd = new ProductDao(databaseConnection.getConnection());
-				pd.createProduct(productSku, productName);
+				pd.createProduct(productSku, productName, productDescription, productCategory,productPrice, productQuantity,
+						productVendor, productSlug);
 				out.print(true);
 				response.sendRedirect("products.jsp");
 

@@ -121,7 +121,8 @@ public class ProductDao {
 		return sum;
 	}
 
-	public void createProduct(String sku, String name) {
+	public void createProduct(String sku, String name, String description, String category, String price,
+			String quantity, String vendor, String slug) {
 		try {
 			query = "INSERT INTO products (name, sku) VALUES (?, ?)";
 			pst = this.con.prepareStatement(query);
@@ -129,6 +130,27 @@ public class ProductDao {
 			pst.setString(2, sku);
 			pst.executeUpdate();
 			pst.close();
+			if (!name.isBlank()) {
+				updateName(sku, name);
+			}
+			if (!description.isBlank()) {
+				updateDescription(sku, description);
+			}
+			if (!category.isBlank()) {
+				updateCategory(sku, category);
+			}
+			if (!price.isBlank()) {
+				updatePrice(sku, Double.parseDouble(price));
+			}
+			if (!quantity.isBlank()) {
+				updateQuantity(sku, Integer.parseInt(quantity));
+			}
+			if (!vendor.isBlank()) {
+				updateVendor(sku, vendor);
+			}
+			if (!slug.isBlank()) {
+				updateSlug(sku, slug);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
