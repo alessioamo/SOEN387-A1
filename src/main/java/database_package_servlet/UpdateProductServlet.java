@@ -12,7 +12,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-public class CreateProductServlet extends HttpServlet {
+public class UpdateProductServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 
@@ -29,12 +29,13 @@ public class CreateProductServlet extends HttpServlet {
 		try (PrintWriter out = response.getWriter()) {
 			String productName = request.getParameter("product-name");
 			String productSku = request.getParameter("product-sku");
+			String productDescription = request.getParameter("product-description");
 			//System.out.print(productName + productSku);
 			try {
 				//BusinessFunctions bf = new BusinessFunctions(databaseConnection.getConnection());
 				//bf.CreateProduct(productSku, productName);
 				ProductDao pd = new ProductDao(databaseConnection.getConnection());
-				pd.createProduct(productSku, productName);
+				pd.updateProduct(productSku, productName, productDescription);
 				out.print(true);
 				response.sendRedirect("products.jsp");
 

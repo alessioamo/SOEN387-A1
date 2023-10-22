@@ -31,10 +31,10 @@
 					</form>
 				</div>
 			</div>
-			<%--<div class="card w-50 mx-auto my-5">
+			<div class="card w-50 mx-auto my-5">
 				<div class="card-header text-center">Update Product</div>
 				<div class="card-body">
-					<form action="create-product" method="post">
+					<form action="update-product" method="post">
 						<div class="form-group">
 							<label class="">SKU</label>
 							<input type="text" class="form-control" name="product-sku" placeholder="Product SKU" required>
@@ -55,7 +55,7 @@
 						</div>
 					</form>
 				</div>
-			</div>--%>
+			</div>
 		</div>
 	</div>
 	

@@ -82,4 +82,14 @@
 		<servlet-name>CreateProductServlet</servlet-name>
 		<url-pattern>/create-product</url-pattern>
 	</servlet-mapping>
+	<servlet>
+		<description></description>
+		<display-name>UpdateProductServlet</display-name>
+		<servlet-name>UpdateProductServlet</servlet-name>
+		<servlet-class>database_package_servlet.UpdateProductServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>UpdateProductServlet</servlet-name>
+		<url-pattern>/update-product</url-pattern>
+	</servlet-mapping>
 </web-app>
