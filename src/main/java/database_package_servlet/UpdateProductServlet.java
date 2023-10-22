@@ -30,13 +30,18 @@ public class UpdateProductServlet extends HttpServlet {
 			String productName = request.getParameter("product-name");
 			String productSku = request.getParameter("product-sku");
 			String productDescription = request.getParameter("product-description");
-			//System.out.print(productName + productSku);
+			String productCategory = request.getParameter("product-category");
+			String productPrice = request.getParameter("product-price");
+			String productQuantity = request.getParameter("product-quantity");
+			String productVendor = request.getParameter("product-vendor");
+			String productSlug = request.getParameter("product-slug");
+			System.out.println("name: " + productName + " sku: " + productSku + " desc: " + productDescription
+					+ " cat: " + productCategory + " quantity: " + productQuantity + " vendor: " + productVendor
+					+ " slug: " + productSlug);
 			try {
-				//BusinessFunctions bf = new BusinessFunctions(databaseConnection.getConnection());
-				//bf.CreateProduct(productSku, productName);
 				ProductDao pd = new ProductDao(databaseConnection.getConnection());
-				pd.updateProduct(productSku, productName, productDescription);
-				out.print(true);
+				pd.updateProduct(productSku, productName, productDescription, productCategory,productPrice, productQuantity,
+						productVendor, productSlug);
 				response.sendRedirect("products.jsp");
 
 			} catch (ClassNotFoundException | SQLException e) {

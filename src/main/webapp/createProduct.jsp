@@ -1,14 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
-<%@ page import="database_package_model.*" %>
+	pageEncoding="ISO-8859-1"%>
+<%@ page import="database_package_model.*"%>
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Create Product</title>
-	<%@include file="includes/head.jsp" %>
+<title>Create Product</title>
+<%@include file="includes/head.jsp"%>
 </head>
 <body>
-	
+
 	<div class="container">
 		<div class="card w-50 mx-auto my-5">
 			<div class="card w-50 mx-auto my-5">
@@ -16,15 +16,17 @@
 				<div class="card-body">
 					<form action="create-product" method="post">
 						<div class="form-group">
-							<label class="">Name</label>
-							<input type="text" class="form-control" name="product-name" placeholder="Product Name" required>
+							<label class="">Name</label> <input type="text"
+								class="form-control" name="product-name"
+								placeholder="Product Name" required>
 						</div>
-						
+
 						<div class="form-group">
-							<label class="">SKU</label>
-							<input type="text" class="form-control" name="product-sku" placeholder="Product SKU" required>
+							<label class="">SKU</label> <input type="text"
+								class="form-control" name="product-sku"
+								placeholder="Product SKU" required>
 						</div>
-						
+
 						<div class="text-center">
 							<button type="submit" class="btn btn-primary">Create</button>
 						</div>
@@ -36,20 +38,53 @@
 				<div class="card-body">
 					<form action="update-product" method="post">
 						<div class="form-group">
-							<label class="">SKU</label>
-							<input type="text" class="form-control" name="product-sku" placeholder="Product SKU" required>
+							<label class="">SKU</label> <input type="text"
+								class="form-control" name="product-sku"
+								placeholder="Product SKU" required>
+						</div>
+
+						<div class="form-group">
+							<label class="">Name</label> <input type="text"
+								class="form-control" name="product-name"
+								placeholder="Product Name">
+						</div>
+
+						<div class="form-group">
+							<label class="">Description</label> <input type="text"
+								class="form-control" name="product-description"
+								placeholder="Product Description">
 						</div>
 						
 						<div class="form-group">
-							<label class="">Name</label>
-							<input type="text" class="form-control" name="product-name" placeholder="Product Name">
+							<label class="">Category</label> <input type="text"
+								class="form-control" name="product-category"
+								placeholder="Product Category">
 						</div>
 						
 						<div class="form-group">
-							<label class="">Description</label>
-							<input type="text" class="form-control" name="product-description" placeholder="Product Description">
+							<label class="">price</label> <input type="number" step="0.01"
+								class="form-control" name="product-price"
+								placeholder="Product price">
 						</div>
-						
+
+						<div class="form-group">
+							<label class="">Quantity</label> <input type="number"
+								class="form-control" name="product-quantity"
+								placeholder="Product Quantity">
+						</div>
+
+						<div class="form-group">
+							<label class="">Vendor</label> <input type="text"
+								class="form-control" name="product-vendor"
+								placeholder="Product Vendor">
+						</div>
+
+						<div class="form-group">
+							<label class="">URL Slug</label> <input type="text"
+								class="form-control" name="product-slug"
+								placeholder="Product's URL Slug">
+						</div>
+
 						<div class="text-center">
 							<button type="submit" class="btn btn-primary">Create</button>
 						</div>
@@ -58,7 +93,7 @@
 			</div>
 		</div>
 	</div>
-	
-	<%@include file="includes/footer.jsp" %>
+
+	<%@include file="includes/footer.jsp"%>
 </body>
 </html>
