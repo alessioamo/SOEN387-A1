@@ -20,7 +20,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import database_package_model.*;
 
 public class BusinessFunctions {
@@ -32,7 +37,7 @@ public class BusinessFunctions {
 	public BusinessFunctions(Connection con) {
 		this.con = con;
 	}
-
+	
 	public Product CreateProduct(String sku, String name) {
 		Product product = null;
 		try {

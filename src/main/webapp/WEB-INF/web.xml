@@ -92,4 +92,24 @@
 		<servlet-name>UpdateProductServlet</servlet-name>
 		<url-pattern>/update-product</url-pattern>
 	</servlet-mapping>
+	<servlet>
+		<description></description>
+		<display-name>DownloadProductsServlet</display-name>
+		<servlet-name>DownloadProductsServlet</servlet-name>
+		<servlet-class>database_package_servlet.DownloadProductsServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>DownloadProductsServlet</servlet-name>
+		<url-pattern>/download-products</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<description></description>
+		<display-name>GetCartServlet</display-name>
+		<servlet-name>GetCartServlet</servlet-name>
+		<servlet-class>database_package_servlet.GetCartServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>GetCartServlet</servlet-name>
+		<url-pattern>/get-cart</url-pattern>
+	</servlet-mapping>
 </web-app>

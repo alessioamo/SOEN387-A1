@@ -127,6 +127,26 @@
 					</form>
 				</div>
 			</div>
+			<div class="card w-50 mx-auto my-5">
+				<div class="card-header text-center">Get Cart</div>
+				<div class="card-body">
+					<form action="get-cart" method="post">
+						<div class="text-center">
+							<button type="submit" class="btn btn-primary">Get Cart</button>
+						</div>
+					</form>
+				</div>
+			</div>
+			<div class="card w-50 mx-auto my-5">
+				<div class="card-header text-center">Download Product Catalog</div>
+				<div class="card-body">
+					<form action="download-products" method="get">
+						<div class="text-center">
+							<button type="submit" class="btn btn-primary">Download</button>
+						</div>
+					</form>
+				</div>
+			</div>
 		</div>
 	</div>
 

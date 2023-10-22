@@ -14,4 +14,10 @@ public class Cart extends Product {
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
+	
+	public String toString() {
+		return "Product [id=" + this.getId() + ", name=" + this.getName() + ", price=" + this.getPrice() + ", quantity=" + this.getQuantity() +", category=" + this.getCategory() + ", image="
+				+ this.getImage() + ", description=" + this.getDescription() + ", vendor=" + this.getVendor() + ", urlSlug=" + this.getUrlSlug() + ", sku="
+				+ this.getSku() + "]";
+	}
 }
