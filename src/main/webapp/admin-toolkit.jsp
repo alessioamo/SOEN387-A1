@@ -91,17 +91,17 @@ request.setAttribute("dcf", dcf);
 				</div>
 			</div>
 			<%
-			String productId = request.getParameter("productId");
-
-			Product selectedProduct = pd.getProduct(productId);
-			String skuAttribute = (selectedProduct != null) ? selectedProduct.getSku() : "";
-			String nameAttribute = (selectedProduct != null) ? selectedProduct.getName() : "";
-			String descriptionAttribute = (selectedProduct != null) ? selectedProduct.getDescription() : "";
-			String categoryAttribute = (selectedProduct != null) ? selectedProduct.getCategory() : "";
+			String productSku = (request.getParameter("productSku") != null) ? request.getParameter("productSku") : "";
+			
+			System.out.println(productSku);
+			Product selectedProduct = pd.getProduct(productSku);
+			String nameAttribute = (selectedProduct!=null && selectedProduct.getName() != null) ? selectedProduct.getName() : "";
+			String descriptionAttribute = (selectedProduct!=null && selectedProduct.getDescription() != null) ? selectedProduct.getDescription() : "";
+			String categoryAttribute = (selectedProduct!=null && selectedProduct.getCategory() != null) ? selectedProduct.getCategory() : "";
 			Double priceAttribute = (selectedProduct != null) ? selectedProduct.getPrice() : null;
-			//String quantityAttribute = (selectedProduct != null) ? selectedProduct.getQuantity() : "";
-			String vendorAttribute = (selectedProduct != null) ? selectedProduct.getVendor() : "";
-			String urlSlugAttribute = (selectedProduct != null) ? selectedProduct.getUrlSlug() : "";
+			String imageAttribute = (selectedProduct!=null && selectedProduct.getImage() != null) ? selectedProduct.getImage() : "";
+			String vendorAttribute = (selectedProduct!=null && selectedProduct.getVendor() != null) ? selectedProduct.getVendor() : "";
+			String urlSlugAttribute = (selectedProduct!=null && selectedProduct.getUrlSlug() != null) ? selectedProduct.getUrlSlug() : "";
 			%>
 			<div class="card w-50 mx-auto my-5" id="update-product-section">
 				<div class="card-header text-center">Update Product</div>
@@ -110,7 +110,7 @@ request.setAttribute("dcf", dcf);
 						<div class="form-group">
 							<label class="">SKU</label> <input type="text"
 								class="form-control" name="product-sku"
-								placeholder="Product SKU" value="<%=skuAttribute%>" required>
+								placeholder="Product SKU" value="<%=productSku%>" required>
 						</div>
 
 						<div class="form-group">
@@ -148,7 +148,8 @@ request.setAttribute("dcf", dcf);
 						<div class="form-group"> 
 							<label class="">Image</label> <input type="text"
 								class="form-control" name="product-image"
-								placeholder="Product Image">
+								placeholder="Example.jpg"
+								value="<%=imageAttribute%>">
 						</div>
 
 						<div class="form-group">
