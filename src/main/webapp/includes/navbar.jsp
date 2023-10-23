@@ -1,3 +1,5 @@
+<%@ page import="database_package_model.*" %>
+
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
 	<div class="container">
 		<a class="navbar-brand" href="index.jsp">JShoP</a>
@@ -28,6 +30,12 @@
 					href="login.jsp">Login</a></li>
 				<%}
 				%>
+				<% 
+				   User user = (User) request.getSession().getAttribute("auth");
+				   if (user != null && "admin".equals(user.getUsername())) {
+				%>
+				<li class="nav-item active"><a class="nav-link" href="create-product">Admin Toolkit</a></li>
+				<%}%>
 
 			</ul>
 		</div>
