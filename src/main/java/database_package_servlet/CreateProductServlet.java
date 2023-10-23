@@ -32,7 +32,7 @@ public class CreateProductServlet extends HttpServlet {
 			String productDescription = request.getParameter("product-description");
 			String productCategory = request.getParameter("product-category");
 			String productPrice = request.getParameter("product-price");
-			String productQuantity = request.getParameter("product-quantity");
+			String productImage = request.getParameter("product-image");
 			String productVendor = request.getParameter("product-vendor");
 			String productSlug = request.getParameter("product-slug");
 			//System.out.print(productName + productSku);
@@ -40,7 +40,7 @@ public class CreateProductServlet extends HttpServlet {
 				//BusinessFunctions bf = new BusinessFunctions(databaseConnection.getConnection());
 				//bf.CreateProduct(productSku, productName);
 				ProductDao pd = new ProductDao(databaseConnection.getConnection());
-				pd.createProduct(productSku, productName, productDescription, productCategory,productPrice, productQuantity,
+				pd.createProduct(productSku, productName, productDescription, productCategory,productPrice, productImage,
 						productVendor, productSlug);
 				out.print(true);
 				response.sendRedirect("products.jsp");

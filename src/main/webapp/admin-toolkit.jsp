@@ -67,9 +67,9 @@ request.setAttribute("dcf", dcf);
 						</div>
 
 						<div class="form-group">
-							<label class="">Quantity</label> <input type="number"
-								class="form-control" name="product-quantity"
-								placeholder="Product Quantity">
+							<label class="">Image name</label> <input type="text"
+								class="form-control" name="product-image"
+								placeholder="example.jpg">
 						</div>
 
 						<div class="form-group">
@@ -146,7 +146,7 @@ request.setAttribute("dcf", dcf);
 						</div>
 						
 						<div class="form-group"> 
-							<label class="">Image</label> <input type="file"
+							<label class="">Image</label> <input type="text"
 								class="form-control" name="product-image"
 								placeholder="Product Image">
 						</div>

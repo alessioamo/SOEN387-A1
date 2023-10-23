@@ -186,7 +186,7 @@ public class ProductDao {
 	}
 
 	public void createProduct(String sku, String name, String description, String category, String price,
-			String quantity, String vendor, String slug) {
+			String image, String vendor, String slug) {
 		try {
 			query = "SELECT * FROM products WHERE sku=?";
 			pst = this.con.prepareStatement(query);
@@ -211,8 +211,8 @@ public class ProductDao {
 				if (!price.isBlank()) {
 					updatePrice(sku, Double.parseDouble(price));
 				}
-				if (!quantity.isBlank()) {
-					updateQuantity(sku, Integer.parseInt(quantity));
+				if (!image.isBlank()) {
+					updateImage(sku, image);
 				}
 				if (!vendor.isBlank()) {
 					updateVendor(sku, vendor);
@@ -233,7 +233,7 @@ public class ProductDao {
 	}
 
 	public void updateProduct(String sku, String name, String description, String category, String price,
-			String quantity, String vendor, String slug) {
+			String image, String vendor, String slug) {
 		System.out.println(price);
 		if (!name.isBlank()) {
 			updateName(sku, name);
@@ -247,8 +247,8 @@ public class ProductDao {
 		if (!price.isBlank()) {
 			updatePrice(sku, Double.parseDouble(price));
 		}
-		if (!quantity.isBlank()) {
-			updateQuantity(sku, Integer.parseInt(quantity));
+		if (!image.isBlank()) {
+			updateImage(sku, image);
 		}
 		if (!vendor.isBlank()) {
 			updateVendor(sku, vendor);
@@ -330,11 +330,11 @@ public class ProductDao {
 		}
 	}
 
-	public void updateQuantity(String sku, int quantity) {
+	public void updateImage(String sku, String image) {
 		try {
-			query = "UPDATE products SET quantity = ? WHERE sku=?;";
+			query = "UPDATE products SET image = ? WHERE sku=?;";
 			pst = this.con.prepareStatement(query);
-			pst.setInt(1, quantity);
+			pst.setString(1, image);
 			pst.setString(2, sku);
 			pst.executeUpdate();
 			pst.close();

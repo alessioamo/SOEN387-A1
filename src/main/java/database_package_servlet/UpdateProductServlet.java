@@ -32,15 +32,12 @@ public class UpdateProductServlet extends HttpServlet {
 			String productDescription = request.getParameter("product-description");
 			String productCategory = request.getParameter("product-category");
 			String productPrice = request.getParameter("product-price");
-			String productQuantity = request.getParameter("product-quantity");
+			String productImage = request.getParameter("product-image");
 			String productVendor = request.getParameter("product-vendor");
 			String productSlug = request.getParameter("product-slug");
-			System.out.println("name: " + productName + " sku: " + productSku + " desc: " + productDescription
-					+ " cat: " + productCategory + " quantity: " + productQuantity + " vendor: " + productVendor
-					+ " slug: " + productSlug);
 			try {
 				ProductDao pd = new ProductDao(databaseConnection.getConnection());
-				pd.updateProduct(productSku, productName, productDescription, productCategory,productPrice, productQuantity,
+				pd.updateProduct(productSku, productName, productDescription, productCategory,productPrice, productImage,
 						productVendor, productSlug);
 				response.sendRedirect("products.jsp");
 
