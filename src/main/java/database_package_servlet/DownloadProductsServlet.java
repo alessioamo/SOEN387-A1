@@ -21,7 +21,6 @@ public class DownloadProductsServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setContentType("application/json; charset=UTF-8");
-		System.out.println("Hi");
 		try {
 			ProductDao pd = new ProductDao(databaseConnection.getConnection());
 			String json = pd.downloadProductCatalog();

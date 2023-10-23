@@ -21,7 +21,6 @@ public class GetCartServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		System.out.println("HI");
 		response.setContentType("text/plain; charset=UTF-8");
 		//PrintWriter out = response.getWriter();
 		ArrayList<Cart> cart_list = (ArrayList<Cart>) request.getSession().getAttribute("cart-list");

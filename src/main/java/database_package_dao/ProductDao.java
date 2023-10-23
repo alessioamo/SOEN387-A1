@@ -47,7 +47,7 @@ public class ProductDao {
 
 		return products;
 	}
-	
+
 	public Product getProduct(String sku) {
 		List<Product> products = getAllProducts();
 
@@ -137,32 +137,32 @@ public class ProductDao {
 
 		return sum;
 	}
-	
+
 	public String downloadProductCatalog() {
 		try {
 			query = "SELECT * FROM products";
 			pst = this.con.prepareStatement(query);
-			rs=pst.executeQuery();
-			
+			rs = pst.executeQuery();
+
 			StringBuilder json = new StringBuilder("[\n");
 			while (rs.next()) {
-                json.append("{\n");
-                json.append("\"id\":\"" + rs.getString("id") + "\",\n");
-                json.append("\"name\":\"" + rs.getString("name") + "\",\n");
-                json.append("\"category\":\"" + rs.getString("category") + "\",\n");
-                json.append("\"price\":\"" + rs.getString("price") + "\",\n");
-                json.append("\"quantity\":\"" + rs.getString("quantity") + "\",\n");
-                json.append("\"image\":\"" + rs.getString("image") + "\",\n");
-                json.append("\"description\":\"" + rs.getString("description") + "\",\n");
-                json.append("\"vendor\":\"" + rs.getString("vendor") + "\",\n");
-                json.append("\"urlSlug\":\"" + rs.getString("urlSlug") + "\",\n");
-                json.append("\"sku\":\"" + rs.getString("sku") + "\"\n");
-                json.append("},\n");
-            }
-            json.deleteCharAt(json.length() - 2); // Remove the trailing comma
-            json.append("]");
-            
-            
+				json.append("{\n");
+				json.append("\"id\":" + rs.getInt("id") + ",\n");
+				json.append("\"name\":\"" + rs.getString("name") + "\",\n");
+				json.append("\"category\":\"" + rs.getString("category") + "\",\n");
+				json.append("\"price\":" + rs.getDouble("price") + ",\n");
+				json.append("\"quantity\":" + rs.getInt("quantity") + ",\n");
+				json.append("\"image\":\"" + rs.getString("image") + "\",\n");
+				json.append("\"description\":\"" + rs.getString("description") + "\",\n");
+				json.append("\"vendor\":\"" + rs.getString("vendor") + "\",\n");
+				json.append("\"urlSlug\":\"" + rs.getString("urlSlug") + "\",\n");
+				json.append("\"sku\":\"" + rs.getString("sku") + "\"\n");
+				json.append("},\n");
+			}
+			pst.close();
+			json.deleteCharAt(json.length() - 2); // Remove the trailing comma
+			json.append("]");
+
 			return json.toString();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -177,7 +177,7 @@ public class ProductDao {
 			query = "SELECT * FROM products WHERE sku=?";
 			pst = this.con.prepareStatement(query);
 			pst.setString(1, sku);
-			rs=pst.executeQuery();
+			rs = pst.executeQuery();
 			if (!rs.next()) {
 				query = "INSERT INTO products (name, sku) VALUES (?, ?)";
 				pst = this.con.prepareStatement(query);
@@ -206,13 +206,12 @@ public class ProductDao {
 				if (!slug.isBlank()) {
 					updateSlug(sku, slug);
 				}
-			}else {
+			} else {
 				// Throw Exception here
 				System.out.println(false);
 			}
 			pst.close();
-			
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
@@ -241,7 +240,23 @@ public class ProductDao {
 			updateVendor(sku, vendor);
 		}
 		if (!slug.isBlank()) {
-			updateSlug(sku, slug);
+			try {
+				query = "SELECT * FROM products WHERE urlSlug=?";
+				pst = this.con.prepareStatement(query);
+				pst.setString(1, slug);
+				rs = pst.executeQuery();
+				if (!rs.next()) {
+					updateSlug(sku, slug);
+				} else {
+					pst.close();
+					// throw exception here
+					System.out.println("FALSE");
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
 		}
 	}
 
@@ -335,7 +350,7 @@ public class ProductDao {
 			pst = this.con.prepareStatement(query);
 			pst.setString(1, slug);
 			rs = pst.executeQuery();
-			
+
 			if (rs.next()) {
 				query = "UPDATE products SET urlSlug = ? WHERE sku=?;";
 				pst = this.con.prepareStatement(query);
@@ -343,12 +358,12 @@ public class ProductDao {
 				pst.setString(2, sku);
 				pst.executeUpdate();
 				pst.close();
-			}else {
+			} else {
 				pst.close();
 				// Throw Exception here
 				System.out.println(false);
 			}
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
