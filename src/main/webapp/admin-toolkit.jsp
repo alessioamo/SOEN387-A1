@@ -24,7 +24,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Create Product</title>
+<title>Admin Toolkit</title>
 <%@include file="includes/head.jsp"%>
 </head>
 <body>
@@ -164,7 +164,7 @@
 			<div class="card w-50 mx-auto my-5">
 				<div class="card-header text-center">Get Cart</div>
 				<div class="card-body">
-					<form action="get-cart" method="post">
+					<form action="get-cart" method="get">
 						<div class="text-center">
 							<button type="submit" class="btn btn-primary">Get Cart</button>
 						</div>

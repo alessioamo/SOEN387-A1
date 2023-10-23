@@ -19,7 +19,7 @@ public class CreateProductServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		response.sendRedirect("createProduct.jsp");
+		response.sendRedirect("admin-toolkit.jsp");
 	}
 
 	@Override

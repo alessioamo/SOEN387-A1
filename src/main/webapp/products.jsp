@@ -53,7 +53,7 @@
 								<% 
 								if (user != null && "admin".equals(user.getUsername())) {
 								%>
-								<a href="createProduct.jsp?productId=<%= p.getId() %>#update-product-section" class="btn btn-primary">Edit</a>
+								<a href="admin-toolkit.jsp?productId=<%= p.getId() %>#update-product-section" class="btn btn-primary">Edit</a>
 								<%}%>
 								
 								<!-- Might need a buy now feature in the future <a href="#" class="btn btn-primary">Buy Now</a>  -->

@@ -34,7 +34,7 @@
 				   User user = (User) request.getSession().getAttribute("auth");
 				   if (user != null && "admin".equals(user.getUsername())) {
 				%>
-				<li class="nav-item active"><a class="nav-link" href="create-product">Admin Toolkit</a></li>
+				<li class="nav-item active"><a class="nav-link" href="admin-toolkit.jsp">Admin Toolkit</a></li>
 				<%}%>
 
 			</ul>
