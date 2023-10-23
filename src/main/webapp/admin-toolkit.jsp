@@ -16,7 +16,7 @@ if (cart_list != null) {
 	request.setAttribute("cart_list", cart_list);
 }
 
-ProductDao pd = new ProductDao(databaseConnection.getConnection());
+BusinessFunctions bf = new BusinessFunctions(databaseConnection.getConnection());
 
 DecimalFormat dcf = new DecimalFormat("#.00");
 request.setAttribute("dcf", dcf);
@@ -92,9 +92,7 @@ request.setAttribute("dcf", dcf);
 			</div>
 			<%
 			String productSku = (request.getParameter("productSku") != null) ? request.getParameter("productSku") : "";
-			
-			System.out.println(productSku);
-			Product selectedProduct = pd.getProduct(productSku);
+			Product selectedProduct = bf.getProduct(productSku);
 			String nameAttribute = (selectedProduct!=null && selectedProduct.getName() != null) ? selectedProduct.getName() : "";
 			String descriptionAttribute = (selectedProduct!=null && selectedProduct.getDescription() != null) ? selectedProduct.getDescription() : "";
 			String categoryAttribute = (selectedProduct!=null && selectedProduct.getCategory() != null) ? selectedProduct.getCategory() : "";

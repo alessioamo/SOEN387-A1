@@ -10,7 +10,7 @@ import java.io.PrintWriter;
 import java.sql.SQLException;
 
 import database_package_connection.databaseConnection;
-import database_package_dao.ProductDao;
+import database_package_dao.BusinessFunctions;
 
 /**
  * Servlet implementation class AddToCartServlet
@@ -22,8 +22,8 @@ public class DownloadProductsServlet extends HttpServlet {
 			throws ServletException, IOException {
 		response.setContentType("application/json; charset=UTF-8");
 		try {
-			ProductDao pd = new ProductDao(databaseConnection.getConnection());
-			String json = pd.downloadProductCatalog();
+			BusinessFunctions bf = new BusinessFunctions(databaseConnection.getConnection());
+			String json = bf.downloadProductCatalog();
 			
 			response.setHeader("Content-Disposition", "attachment; filename=products.json");
 			PrintWriter out = response.getWriter();

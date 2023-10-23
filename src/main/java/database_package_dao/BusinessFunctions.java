@@ -1,19 +1,3 @@
-/*
- * The expected business functions are:
-• CreateProduct(sku, name): Create a new product, with the given name and SKU.
-• UpdateProduct(sku, …): Update some of all the fields of a product with the given sku
-• GetProduct(sku): Get all the information on a product by SKU
-• GetProductBySlug(slug): Get all the information on a product by slug
-• GetCart(user): Get the list of products in the cart associated with the user, if there is no cart
-associated with the user, return the empty list.
-• AddProductToCart(user, sku): Add a product to the cart associated with the user. If no cart is
-associated with the user, create one first.
-• RemoveProductFromCart(user, sku): Remove all instances of a product from the cart associated
-with the user. If no cart is associated with the user, no operation is performed.
-• DownloadProductCatalog(): Produce a file that contains a list of all the products in the store
-which includes name, description, vendor, URL slug, SKU, and price
- */
-
 package database_package_dao;
 
 import java.sql.Connection;
@@ -21,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -33,40 +18,168 @@ public class BusinessFunctions {
 	private String query;
 	private PreparedStatement pst;
 	private ResultSet rs;
+	private ProductDao pd;
 
 	public BusinessFunctions(Connection con) {
 		this.con = con;
+		pd = new ProductDao(con);
 	}
-	
-	public Product CreateProduct(String sku, String name) {
-		Product product = null;
+
+	public void createProduct(String sku, String name, String description, String category, String price, String image,
+			String vendor, String slug) {
 		try {
-			query = "INSERT INTO products (id, name, sku) VALUES (?, ?, ?)";
+			query = "SELECT * FROM products WHERE sku=?";
 			pst = this.con.prepareStatement(query);
-			pst.setInt(1, 22);
-			pst.setString(2, name);
-			pst.setString(3, sku);
-			pst.executeUpdate();
+			pst.setString(1, sku);
+			rs = pst.executeQuery();
+			if (!rs.next()) {
+				query = "INSERT INTO products (name, sku) VALUES (?, ?)";
+				pst = this.con.prepareStatement(query);
+				pst.setString(1, name);
+				pst.setString(2, sku);
+				pst.executeUpdate();
+				pst.close();
+				if (!name.isBlank()) {
+					pd.updateName(sku, name);
+				}
+				if (!description.isBlank()) {
+					pd.updateDescription(sku, description);
+				}
+				if (!category.isBlank()) {
+					pd.updateCategory(sku, category);
+				}
+				if (!price.isBlank()) {
+					pd.updatePrice(sku, Double.parseDouble(price));
+				}
+				if (!image.isBlank()) {
+					pd.updateImage(sku, image);
+				}
+				if (!vendor.isBlank()) {
+					pd.updateVendor(sku, vendor);
+				}
+				if (!slug.isBlank()) {
+					pd.updateSlug(sku, slug);
+				}
+			} else {
+				// Throw Exception here
+				System.out.println(false);
+			}
+			pst.close();
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
 		}
-		return product;
+	}
+
+	public void updateProduct(String sku, String name, String description, String category, String price, String image,
+			String vendor, String slug) {
+		System.out.println(price);
+		if (!name.isBlank()) {
+			pd.updateName(sku, name);
+		}
+		if (!description.isBlank()) {
+			pd.updateDescription(sku, description);
+		}
+		if (!category.isBlank()) {
+			pd.updateCategory(sku, category);
+		}
+		if (!price.isBlank()) {
+			pd.updatePrice(sku, Double.parseDouble(price));
+		}
+		if (!image.isBlank()) {
+			pd.updateImage(sku, image);
+		}
+		if (!vendor.isBlank()) {
+			pd.updateVendor(sku, vendor);
+		}
+		if (!slug.isBlank()) {
+			try {
+				query = "SELECT * FROM products WHERE urlSlug=?";
+				pst = this.con.prepareStatement(query);
+				pst.setString(1, slug);
+				rs = pst.executeQuery();
+				if (!rs.next()) {
+					pd.updateSlug(sku, slug);
+				} else {
+					pst.close();
+					// throw exception here
+					System.out.println("FALSE");
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		}
+	}
+
+	public Product getProduct(String sku) {
+		List<Product> products = pd.getAllProducts();
+
+		try {
+			// Find the product with the matching slug
+			for (Product product : products) {
+				if (product.getSku().equals(sku)) {
+					return product;
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public Product getProductBySlug(String slug) {
+		List<Product> products = pd.getAllProducts();
+
+		try {
+			// Find the product with the matching slug
+			for (Product product : products) {
+				if (product.getUrlSlug().equals(slug)) {
+					return product;
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		// If the product with the given slug is not found, return null or throw an
+		// exception
+		return null;
 	}
 	
-	/*public Product GetProduct(String sku) {
-		Product product = null;
+	
+	public String downloadProductCatalog() {
 		try {
-			query = "select * from products where sku=?";
+			query = "SELECT * FROM products";
 			pst = this.con.prepareStatement(query);
-			pst.setString(1, sku);
 			rs = pst.executeQuery();
-			
-		}
-		catch (Exception e) {
+
+			StringBuilder json = new StringBuilder("[\n");
+			while (rs.next()) {
+				json.append("{\n");
+				json.append("\"id\":" + rs.getInt("id") + ",\n");
+				json.append("\"name\":\"" + rs.getString("name") + "\",\n");
+				json.append("\"category\":\"" + rs.getString("category") + "\",\n");
+				json.append("\"price\":" + rs.getDouble("price") + ",\n");
+				json.append("\"quantity\":" + rs.getInt("quantity") + ",\n");
+				json.append("\"image\":\"" + rs.getString("image") + "\",\n");
+				json.append("\"description\":\"" + rs.getString("description") + "\",\n");
+				json.append("\"vendor\":\"" + rs.getString("vendor") + "\",\n");
+				json.append("\"urlSlug\":\"" + rs.getString("urlSlug") + "\",\n");
+				json.append("\"sku\":\"" + rs.getString("sku") + "\"\n");
+				json.append("},\n");
+			}
+			pst.close();
+			json.deleteCharAt(json.length() - 2); // Remove the trailing comma
+			json.append("]");
+
+			return json.toString();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
-			System.out.println(e.getMessage());
 		}
-		return product;
-	}*/
+		return null;
+	}
 }

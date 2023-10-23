@@ -62,7 +62,7 @@ public class ProductDao {
 		}
 	}
 
-	public Product getProduct(String sku) {
+	/*public Product getProduct(String sku) {
 		List<Product> products = getAllProducts();
 
 		try {
@@ -95,7 +95,7 @@ public class ProductDao {
 		// If the product with the given slug is not found, return null or throw an
 		// exception
 		return null;
-	}
+	}*/
 
 	public List<Cart> getCartProducts(ArrayList<Cart> cartList) {
 		List<Cart> products = new ArrayList<Cart>();
@@ -152,7 +152,7 @@ public class ProductDao {
 		return sum;
 	}
 
-	public String downloadProductCatalog() {
+	/*public String downloadProductCatalog() {
 		try {
 			query = "SELECT * FROM products";
 			pst = this.con.prepareStatement(query);
@@ -185,8 +185,8 @@ public class ProductDao {
 		return null;
 	}
 
-	public void createProduct(String sku, String name, String description, String category, String price,
-			String image, String vendor, String slug) {
+	public void createProduct(String sku, String name, String description, String category, String price, String image,
+			String vendor, String slug) {
 		try {
 			query = "SELECT * FROM products WHERE sku=?";
 			pst = this.con.prepareStatement(query);
@@ -232,8 +232,8 @@ public class ProductDao {
 		}
 	}
 
-	public void updateProduct(String sku, String name, String description, String category, String price,
-			String image, String vendor, String slug) {
+	public void updateProduct(String sku, String name, String description, String category, String price, String image,
+			String vendor, String slug) {
 		System.out.println(price);
 		if (!name.isBlank()) {
 			updateName(sku, name);
@@ -272,7 +272,7 @@ public class ProductDao {
 			}
 
 		}
-	}
+	}*/
 
 	public void updateName(String sku, String name) {
 		try {
@@ -383,8 +383,4 @@ public class ProductDao {
 			System.out.println(e.getMessage());
 		}
 	}
-
-	// public void updateImg(String sku, String img) {
-
-	// }
 }

@@ -13,7 +13,7 @@ import java.text.DecimalFormat;
 import java.util.List;
 
 import database_package_connection.databaseConnection;
-import database_package_dao.ProductDao;
+import database_package_dao.BusinessFunctions;
 import database_package_model.Product;
 
 /**
@@ -31,11 +31,11 @@ public class ProductDetails extends HttpServlet {
 	    if (pathInfo != null && pathInfo.length() > 1) {
 	        String slugName = pathInfo.substring(1);
 	        
-	        ProductDao pd;
+	        BusinessFunctions bf;
 	        
 			try(PrintWriter out = response.getWriter()) {
-				pd = new ProductDao(databaseConnection.getConnection());
-				Product product = pd.getProductBySlug(slugName);
+				bf = new BusinessFunctions(databaseConnection.getConnection());
+				Product product = bf.getProductBySlug(slugName);
 				
 				DecimalFormat dcf = new DecimalFormat("#.00");
 			    request.setAttribute("dcf", dcf);

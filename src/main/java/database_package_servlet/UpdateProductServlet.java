@@ -6,7 +6,6 @@ import java.sql.SQLException;
 
 import database_package_connection.databaseConnection;
 import database_package_dao.BusinessFunctions;
-import database_package_dao.ProductDao;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -36,8 +35,8 @@ public class UpdateProductServlet extends HttpServlet {
 			String productVendor = request.getParameter("product-vendor");
 			String productSlug = request.getParameter("product-slug");
 			try {
-				ProductDao pd = new ProductDao(databaseConnection.getConnection());
-				pd.updateProduct(productSku, productName, productDescription, productCategory,productPrice, productImage,
+				BusinessFunctions bf = new BusinessFunctions(databaseConnection.getConnection());
+				bf.updateProduct(productSku, productName, productDescription, productCategory,productPrice, productImage,
 						productVendor, productSlug);
 				response.sendRedirect("products.jsp");
 
