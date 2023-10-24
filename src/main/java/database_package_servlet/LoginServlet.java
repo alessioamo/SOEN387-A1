@@ -40,7 +40,7 @@ public class LoginServlet extends HttpServlet {
 					request.getSession().setAttribute("auth", user);
 					response.sendRedirect("index.jsp");
 				} else {
-					String loginFailedMessage = "User login failed";
+					String loginFailedMessage = "User login failed, username or password is incorrect.";
 				    response.sendRedirect("login.jsp?loginFailedMessage=" + loginFailedMessage);
 					//out.print("User login failed");
 				}
