@@ -7,9 +7,15 @@
 <%@ page import="java.util.ArrayList"%>
 <%
 User auth = (User) request.getSession().getAttribute("auth");
-if (auth != null) {
+if (auth != null){
 	request.setAttribute("auth", auth);
+	if (!("admin".equals(auth.getUsername()))){
+		response.sendRedirect("index.jsp");
+	}
+}else if (auth == null) {
+	response.sendRedirect("login.jsp");
 }
+
 
 ArrayList<Cart> cart_list = (ArrayList<Cart>) session.getAttribute("cart-list");
 if (cart_list != null) {
