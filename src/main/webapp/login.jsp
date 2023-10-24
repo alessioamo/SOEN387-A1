@@ -22,7 +22,14 @@
 </head>
 <body>
 	<%@include file="includes/navbar.jsp" %>
-	
+	 <%
+        // Retrieve the status code that was set in the sender.jsp
+        int statusCode = response.getStatus();
+	 	if (statusCode == 302){
+    %>
+    <p>HTTP Status Code: <%= statusCode %></p>
+    <p>Admin Only page: Please Log in to your staff account to view the Admin Toolkit</p>
+    <%} %>
 	<div class="container">
 		<div class="card w-50 mx-auto my-5">
 			<div class="card-header text-center">Admin Login</div>
