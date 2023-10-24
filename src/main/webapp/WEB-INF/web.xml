@@ -109,4 +109,14 @@
     <servlet-name>GetCartServlet</servlet-name>
     <url-pattern>/get-cart</url-pattern>
   </servlet-mapping>
+  <servlet>
+		<description></description>
+		<display-name>GetProductListServlet</display-name>
+		<servlet-name>GetProductListServlet</servlet-name>
+		<servlet-class>database_package_servlet.GetProductListServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>GetProductListServlet</servlet-name>
+		<url-pattern>/product-list</url-pattern>
+	</servlet-mapping>
 </web-app>

@@ -182,6 +182,16 @@ request.setAttribute("dcf", dcf);
 					</form>
 				</div>
 			</div>
+			<div class="card w-50 mx-auto my-5">
+				<div class="card-header text-center">Products List</div>
+				<div class="card-body">
+					<form action="product-list" method="get">
+						<div class="text-center">
+							<button type="submit" class="btn btn-primary">See Products list</button>
+						</div>
+					</form>
+				</div>
+			</div>
 		</div>
 	</div>
 
