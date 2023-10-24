@@ -81,7 +81,10 @@
 							</div>
 						</form>
 					</td>
-					<td><a class="btn btn-sm btn-danger" href="remove-from-cart?id=<%= c.getId() %>">Remove</a></td>
+					<td><form action="remove-from-cart?id=<%= c.getId() %>" method="post">
+							<button type="submit" class="btn btn-sm btn-danger">Remove</button>
+						</form></td>
+					<!-- old method of removing from cart <td><a class="btn btn-sm btn-danger" href="remove-from-cart?id=<%= c.getId() %>">Remove</a></td> -->
 				</tr>
 				<% }
 			}
