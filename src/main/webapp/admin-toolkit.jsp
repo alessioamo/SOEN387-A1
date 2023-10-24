@@ -10,10 +10,14 @@ User auth = (User) request.getSession().getAttribute("auth");
 if (auth != null){
 	request.setAttribute("auth", auth);
 	if (!("admin".equals(auth.getUsername()))){
-		response.sendRedirect("index.jsp");
+		response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+		request.getRequestDispatcher("index.jsp").forward(request, response);
+		//response.sendRedirect("index.jsp");
 	}
 }else if (auth == null) {
-	response.sendRedirect("login.jsp");
+	//response.sendRedirect("login.jsp");
+	response.setStatus(HttpServletResponse.SC_FOUND);
+	request.getRequestDispatcher("login.jsp").forward(request, response);
 }
 
 
