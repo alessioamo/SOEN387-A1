@@ -18,8 +18,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Main Page</title>
+	<title>Home Page</title>
 	<%@include file="includes/head.jsp" %>
+	<link rel="stylesheet" href="style.css">
 </head>
 <body>
 	<%@include file="includes/navbar.jsp" %>
@@ -32,7 +33,20 @@
     <p>Admin Only page: Please Log in to your staff account to view the Admin Toolkit</p>
     <%} %>
 	
-	<% out.print(databaseConnection.getConnection()); %>
+	<!-- <% out.print(databaseConnection.getConnection()); %> -->
+	
+	<div class="intro">
+		<h1 class="logo-header">
+			<span class="logo">JS</span><span class="logo">ho</span><span class="logo">P</span>
+		</h1>
+	</div>
+	
+	<div class="welcome-message">
+		<h4>Welcome to JShoP</h4>
+		<h3>Powering your online shopping through JSP and servlets.</h3>
+	</div>
+	
+	<script src="main.js"></script>
 	
 	<%@include file="includes/footer.jsp" %>
 </body>

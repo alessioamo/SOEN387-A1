@@ -19,6 +19,17 @@
 <head>
 	<title>Login Page</title>
 	<%@include file="includes/head.jsp" %>
+	
+	<script>
+        // Check if the URL contains the loginFailedMessage parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const loginFailedMessage = urlParams.get('loginFailedMessage');
+
+        if (loginFailedMessage) {
+            // Display an alert box with the login failed message
+            alert(loginFailedMessage);
+        }
+    </script>
 </head>
 <body>
 	<%@include file="includes/navbar.jsp" %>
