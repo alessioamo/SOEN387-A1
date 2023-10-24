@@ -40,13 +40,12 @@ public class CreateProductServlet extends HttpServlet {
 				bf.createProduct(productSku, productName, productDescription, productCategory,productPrice, productImage,
 						productVendor, productSlug);
 				response.sendRedirect("products.jsp");
-			}catch (InvalidSkuException ise){
-				System.out.println(ise.getMessage());
-				response.sendRedirect("admin-toolkit.jsp");
 			} catch (ClassNotFoundException | SQLException e) {
 				e.printStackTrace();
+			}catch (InvalidSkuException ise){
+				ise.printStackTrace();
+				response.sendRedirect("admin-toolkit.jsp");
 			}
-			
 		}
 	}
 }

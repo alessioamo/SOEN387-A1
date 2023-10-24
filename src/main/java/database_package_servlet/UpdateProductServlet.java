@@ -40,11 +40,10 @@ public class UpdateProductServlet extends HttpServlet {
 				bf.updateProduct(productSku, productName, productDescription, productCategory,productPrice, productImage,
 						productVendor, productSlug);
 				response.sendRedirect("products.jsp");
-
 			} catch (ClassNotFoundException | SQLException e) {
 				e.printStackTrace();
 			} catch (InvalidSlugException ise) {
-				System.out.println(ise.getMessage());
+				System.out.println(ise);
 				response.sendRedirect("admin-toolkit.jsp");
 			}
 

@@ -64,14 +64,13 @@ public class BusinessFunctions {
 				pst.close();
 				throw new InvalidSkuException("SKU = "+sku+" is already assigned to another product.");
 			}
-		}catch (Exception e) {
-			System.out.println(e.getMessage());
+		}catch (SQLException e) {
+			System.out.println(e);
 		}
 	}
 
 	public void updateProduct(String sku, String name, String description, String category, String price, String image,
 			String vendor, String slug) throws InvalidSlugException{
-		System.out.println(price);
 		if (!name.isBlank()) {
 			pd.updateName(sku, name);
 		}
@@ -91,42 +90,27 @@ public class BusinessFunctions {
 			pd.updateVendor(sku, vendor);
 		}
 		if (!slug.isBlank()) {
-			try {
-				query = "SELECT * FROM products WHERE urlSlug=?";
-				pst = this.con.prepareStatement(query);
-				pst.setString(1, slug);
-				rs = pst.executeQuery();
-				if (!rs.next()) {
-					pd.updateSlug(sku, slug);
-					pst.close();
-				} else {
-					pst.close();
-					throw new InvalidSlugException("URL Slug = "+slug+" is already assigned to another product.");
-				}
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}finally {
-				
-			}
+			pd.updateSlug(sku, slug);
 		}
 	}
 
 	public Product getProduct(String sku) {
 		List<Product> products = pd.getAllProducts();
-
-		try {
-			// Find the product with the matching slug
-			for (Product product : products) {
-				if (product.getSku().equals(sku)) {
-					return product;
+		if (sku.length()>0) {
+			try {
+				// Find the product with the matching slug
+				for (Product product : products) {
+					if (product.getSku().equals(sku)) {
+						return product;
+					}
 				}
+				throw new InvalidSkuException("SKU = "+sku+" is not assigned to any product");
+			}catch (InvalidSkuException ise) {
+				System.out.println(ise);
+			}catch (Exception e) {
+				e.printStackTrace();
 			}
-			throw new InvalidSkuException("SKU = "+sku+" is not assigned to any product");
-		}catch (InvalidSkuException ise) {
-			System.out.println(ise.getMessage());
-		}catch (Exception e) {
-			e.printStackTrace();
+			return null;
 		}
 		return null;
 	}
@@ -143,7 +127,7 @@ public class BusinessFunctions {
 			}
 			throw new InvalidSlugException("URL Slug = "+slug+" is not assigned to any product.");
 		} catch (InvalidSlugException ise) {
-			System.out.println(ise.getMessage());
+			System.out.println(ise);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -158,7 +142,7 @@ public class BusinessFunctions {
 			rs = pst.executeQuery();
 
 			StringBuilder json = new StringBuilder("[\n");
-			/*while (rs.next()) {
+			while (rs.next()) {
 				json.append("{\n");
 				json.append("\"id\":" + rs.getInt("id") + ",\n");
 				json.append("\"name\":\"" + rs.getString("name") + "\",\n");
@@ -171,7 +155,7 @@ public class BusinessFunctions {
 				json.append("\"urlSlug\":\"" + rs.getString("urlSlug") + "\",\n");
 				json.append("\"sku\":\"" + rs.getString("sku") + "\"\n");
 				json.append("},\n");
-			}*/
+			}
 			pst.close();
 			if (json.length()>2) {
 				json.deleteCharAt(json.length() - 2); // Remove the trailing comma

@@ -358,13 +358,23 @@ public class ProductDao {
 	}
 
 	public void updateSlug(String sku, String slug) {
-	try {
-			query = "UPDATE products SET urlSlug = ? WHERE sku=?;";
+		try {
+			query = "SELECT * FROM products WHERE urlSlug=?";
 			pst = this.con.prepareStatement(query);
 			pst.setString(1, slug);
-			pst.setString(2, sku);
-			pst.executeUpdate();
-			pst.close();
+			rs = pst.executeQuery();
+			if (!rs.next()) {
+				query = "UPDATE products SET urlSlug = ? WHERE sku=?;";
+				pst = this.con.prepareStatement(query);
+				pst.setString(1, slug);
+				pst.setString(2, sku);
+				pst.executeUpdate();
+				pst.close();
+			} else {
+				pst.close();
+				throw new InvalidSlugException("URL Slug = "+slug+" is already assigned to another product.");
+			}
+				
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());

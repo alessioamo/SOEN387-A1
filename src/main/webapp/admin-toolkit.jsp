@@ -106,7 +106,7 @@ request.setAttribute("dcf", dcf);
 				<div class="card-body">
 					<form action="update-product" method="post">
 						<div class="form-group">
-							<label class="">SKU</label> <input type="text"
+							<label class="">SKU of the product you wish to update</label> <input type="text"
 								class="form-control" name="product-sku"
 								placeholder="Product SKU" value="<%=productSku%>" required>
 						</div>
