@@ -57,9 +57,8 @@ public class ProductDao {
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 			e.printStackTrace();
-		} finally {
-			return (new ArrayList<Cart>());
 		}
+		return (new ArrayList<Cart>());
 	}
 
 	/*public Product getProduct(String sku) {
@@ -359,25 +358,13 @@ public class ProductDao {
 	}
 
 	public void updateSlug(String sku, String slug) {
-		try {
-			query = "SELECT * FROM products WHERE urlSlug=?;";
+	try {
+			query = "UPDATE products SET urlSlug = ? WHERE sku=?;";
 			pst = this.con.prepareStatement(query);
 			pst.setString(1, slug);
-			rs = pst.executeQuery();
-
-			if (rs.next()) {
-				query = "UPDATE products SET urlSlug = ? WHERE sku=?;";
-				pst = this.con.prepareStatement(query);
-				pst.setString(1, slug);
-				pst.setString(2, sku);
-				pst.executeUpdate();
-				pst.close();
-			} else {
-				pst.close();
-				// Throw Exception here
-				System.out.println(false);
-			}
-
+			pst.setString(2, sku);
+			pst.executeUpdate();
+			pst.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());

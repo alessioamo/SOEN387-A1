@@ -6,6 +6,7 @@ import java.sql.SQLException;
 
 import database_package_connection.databaseConnection;
 import database_package_dao.BusinessFunctions;
+import database_package_dao.InvalidSlugException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -42,6 +43,9 @@ public class UpdateProductServlet extends HttpServlet {
 
 			} catch (ClassNotFoundException | SQLException e) {
 				e.printStackTrace();
+			} catch (InvalidSlugException ise) {
+				System.out.println(ise.getMessage());
+				response.sendRedirect("admin-toolkit.jsp");
 			}
 
 		}
