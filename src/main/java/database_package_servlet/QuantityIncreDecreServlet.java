@@ -49,14 +49,6 @@ public class QuantityIncreDecreServlet extends HttpServlet {
 							session.setAttribute("cart_list", cart.getCartProducts());
 							pd.updateQuantity(sku, product.getQuantity());
 							break;
-							/*int quantity = p.getQuantity();
-							quantity++;
-							p.setQuantity(quantity);
-							pd.updateQuantity(sku, p.getQuantity());
-							ArrayList<Product> newCartList = cart.getCartProducts();
-							newCartList.add(product);
-							cart.setCartProducts(newCartList);
-							session.setAttribute("cart_list", cart.getCartProducts());*/
 						}
 					}
 					response.sendRedirect("cart.jsp");
@@ -69,14 +61,6 @@ public class QuantityIncreDecreServlet extends HttpServlet {
 							session.setAttribute("cart_list", cart.getCartProducts());
 							pd.updateQuantity(sku, product.getQuantity());
 							break;
-							/*int quantity = p.getQuantity();
-							quantity--;
-							p.setQuantity(quantity);
-							pd.updateQuantity(sku, p.getQuantity());
-							ArrayList<Product> newCartList = cart.getCartProducts();
-							newCartList.add(product);
-							cart.setCartProducts(newCartList);
-							session.setAttribute("cart_list", cart.getCartProducts());*/
 						}
 					}
 					response.sendRedirect("cart.jsp");

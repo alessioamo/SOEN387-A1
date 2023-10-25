@@ -53,40 +53,6 @@ public class ProductDao {
 		return user.getCart().getCartProducts();
 	}
 
-	/*public Product getProduct(String sku) {
-		List<Product> products = getAllProducts();
-
-		try {
-			// Find the product with the matching slug
-			for (Product product : products) {
-				if (product.getSku().equals(sku)) {
-					return product;
-				}
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-
-	public Product getProductBySlug(String slug) {
-		List<Product> products = getAllProducts();
-
-		try {
-			// Find the product with the matching slug
-			for (Product product : products) {
-				if (product.getUrlSlug().equals(slug)) {
-					return product;
-				}
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		// If the product with the given slug is not found, return null or throw an
-		// exception
-		return null;
-	}*/
 
 	public ArrayList<Product> getCartProducts(ArrayList<Product> cartList) {
 		ArrayList<Product> products = new ArrayList<Product>();
