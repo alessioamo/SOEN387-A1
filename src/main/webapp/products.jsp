@@ -18,7 +18,7 @@
     ProductDao pd = new ProductDao(databaseConnection.getConnection());
     List<Product> products = pd.getAllProducts();
     
-    ArrayList<Cart> cart_list = (ArrayList<Cart>) session.getAttribute("cart-list");
+    ArrayList<Product> cart_list = (ArrayList<Product>) session.getAttribute("cart-list");
     if (cart_list != null) {
     	request.setAttribute("cart_list", cart_list);
     }
@@ -49,8 +49,8 @@
 							<h6 class="price">Price: $<%= dcf.format(p.getPrice()) %></h6>
 							<h6 class="category">Category: <%= p.getCategory() %></h6>
 							<div class="mt-3 d-flex justify-content-between">
-								<!-- old method of adding to cart <a href="add-to-cart?id=<%= p.getId() %>" class="btn btn-dark">Add to Cart</a> -->
-								<form action="add-to-cart?id=<%= p.getId() %>" method="post">
+								<!-- old method of adding to cart <a href="add-to-cart?sku=<%= p.getSku() %>" class="btn btn-dark">Add to Cart</a> -->
+								<form action="add-to-cart?sku=<%= p.getSku() %>" method="post">
 									<button type="submit" class="btn btn-dark">Add to Cart</button>
 								</form>
 								

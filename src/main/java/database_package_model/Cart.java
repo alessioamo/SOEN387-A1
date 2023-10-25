@@ -24,7 +24,7 @@ public class Cart{
 		return cartProducts;
 	}
 	
-	public void getCartProducts(ArrayList<Product> newCart){
+	public void setCartProducts(ArrayList<Product> newCart){
 		this.cartProducts = newCart;
 	}
 	
