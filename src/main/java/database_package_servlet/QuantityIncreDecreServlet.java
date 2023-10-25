@@ -20,27 +20,27 @@ public class QuantityIncreDecreServlet extends HttpServlet {
 		response.setContentType("text/html;charset=UTF-8");
 		try(PrintWriter out = response.getWriter();) {
 			String action = request.getParameter("action");
-			int id = Integer.parseInt(request.getParameter("id"));
+			int id = Integer.parseInt(request.getParameter("sku"));
 			
-			ArrayList<Cart> cart_list = (ArrayList<Cart>) request.getSession().getAttribute("cart-list");
+			ArrayList<Product> cart_list = (ArrayList<Product>) request.getSession().getAttribute("cart-list");
 			
 			if (action != null && id >= 1) {
 				if (action.equals("incre")) {
-					for (Cart c:cart_list) {
-						if (c.getId() == id) {
-							int quantity = c.getQuantity();
+					for (Product p:cart_list) {
+						if (p.getId() == id) {
+							int quantity = p.getQuantity();
 							quantity++;
-							c.setQuantity(quantity);
+							p.setQuantity(quantity);
 							response.sendRedirect("cart.jsp");
 						}
 					}
 				}
 				if (action.equals("decre")) {
-					for (Cart c:cart_list) {
-						if (c.getId() == id && c.getQuantity() > 1) {
-							int quantity = c.getQuantity();
+					for (Product p:cart_list) {
+						if (p.getId() == id && p.getQuantity() > 1) {
+							int quantity = p.getQuantity();
 							quantity--;
-							c.setQuantity(quantity);
+							p.setQuantity(quantity);
 							break;
 						}
 					}

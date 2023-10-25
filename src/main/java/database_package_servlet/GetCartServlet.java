@@ -32,7 +32,7 @@ public class GetCartServlet extends HttpServlet {
 				System.out.println(false);
 			} else {
 				ProductDao pd = new ProductDao(databaseConnection.getConnection());
-				ArrayList<Cart> cart = pd.getCart((ArrayList<Cart>) session.getAttribute("cart-list"));
+				ArrayList<Product> cart = pd.getCart((ArrayList<Product>) session.getAttribute("cart-list"));
 				response.sendRedirect("products.jsp");
 			}
 		} catch (ClassNotFoundException | SQLException e) {
