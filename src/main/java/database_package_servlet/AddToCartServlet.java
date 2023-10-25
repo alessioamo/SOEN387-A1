@@ -38,27 +38,33 @@ public class AddToCartServlet extends HttpServlet {
 			User user;
 			Cart cart;
 			Product product;
-			if (request.getSession().getAttribute ("auth") != null) {
+			int newQuantity=0;
+			if (request.getSession().getAttribute("auth") != null) {
 				user = (User) request.getSession().getAttribute("auth");
 				cart = user.getCart();
-				product = bf.getProduct(sku);
-				if (product.getQuantity() == 0) {
-					product.setQuantity(1);
-					ArrayList<Product> newCartList = cart.getCartProducts();
-					newCartList.add(product);
-					cart.setCartProducts(newCartList);
-					session.setAttribute("cart_list", cart.getCartProducts());
-					response.sendRedirect("products.jsp");
+				
+				ArrayList<Product> newCartList = cart.getCartProducts();
+				if (cart.findInCart(sku)) {
+					for (Product p : newCartList) {
+						if (p.getSku().equals(sku)) {
+							newQuantity = p.getQuantity() + 1;
+							p.setQuantity(newQuantity);
+							break;
+						}
+					}
 				} else {
-					product.setQuantity(product.getQuantity() + 1);
-					response.sendRedirect("products.jsp");
+					newQuantity=1;
+					newCartList.add(bf.getProduct(sku));
 				}
-				pd.updateQuantity(sku, product.getQuantity());
-			}else {
-				//Throw exception here
+
+				cart.setCartProducts(newCartList);
+				session.setAttribute("cart_list", cart.getCartProducts());
+				pd.updateQuantity(sku,newQuantity);
+				response.sendRedirect("products.jsp");
+			} else {
+				// Throw exception here
 				response.sendRedirect("products.jsp");
 			}
-			
 
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block

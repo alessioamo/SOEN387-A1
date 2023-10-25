@@ -5,9 +5,16 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 import java.util.ArrayList;
+
+import database_package_connection.databaseConnection;
+import database_package_dao.BusinessFunctions;
+import database_package_dao.ProductDao;
 import database_package_model.*;
 
 /**
@@ -20,28 +27,56 @@ public class QuantityIncreDecreServlet extends HttpServlet {
 		response.setContentType("text/html;charset=UTF-8");
 		try(PrintWriter out = response.getWriter();) {
 			String action = request.getParameter("action");
-			int id = Integer.parseInt(request.getParameter("sku"));
+			String sku = request.getParameter("sku");
+			HttpSession session = request.getSession();
+			ProductDao pd =new ProductDao(databaseConnection.getConnection());
+			BusinessFunctions bf = new BusinessFunctions(databaseConnection.getConnection());
 			
-			ArrayList<Product> cart_list = (ArrayList<Product>) request.getSession().getAttribute("cart-list");
+			User user;
+			Cart cart;
+			Product product;
 			
-			if (action != null && id >= 1) {
+			if (request.getSession().getAttribute ("auth") != null && action != null) {
+				user = (User) request.getSession().getAttribute("auth");
+				cart = user.getCart();
+				product = bf.getProduct(sku);
+				ArrayList<Product> newCartList = cart.getCartProducts();
 				if (action.equals("incre")) {
-					for (Product p:cart_list) {
-						if (p.getId() == id) {
-							int quantity = p.getQuantity();
+					for (Product p:newCartList) {
+						if (p.getSku().equals(sku)) {
+							p.setQuantity(p.getQuantity()+1);
+							cart.setCartProducts(newCartList);
+							session.setAttribute("cart_list", cart.getCartProducts());
+							pd.updateQuantity(sku, product.getQuantity());
+							break;
+							/*int quantity = p.getQuantity();
 							quantity++;
 							p.setQuantity(quantity);
-							response.sendRedirect("cart.jsp");
+							pd.updateQuantity(sku, p.getQuantity());
+							ArrayList<Product> newCartList = cart.getCartProducts();
+							newCartList.add(product);
+							cart.setCartProducts(newCartList);
+							session.setAttribute("cart_list", cart.getCartProducts());*/
 						}
 					}
+					response.sendRedirect("cart.jsp");
 				}
 				if (action.equals("decre")) {
-					for (Product p:cart_list) {
-						if (p.getId() == id && p.getQuantity() > 1) {
-							int quantity = p.getQuantity();
+					for (Product p:newCartList) {
+						if (p.getSku().equals(sku) && p.getQuantity() > 1) {
+							p.setQuantity(p.getQuantity()-1);
+							cart.setCartProducts(newCartList);
+							session.setAttribute("cart_list", cart.getCartProducts());
+							pd.updateQuantity(sku, product.getQuantity());
+							break;
+							/*int quantity = p.getQuantity();
 							quantity--;
 							p.setQuantity(quantity);
-							break;
+							pd.updateQuantity(sku, p.getQuantity());
+							ArrayList<Product> newCartList = cart.getCartProducts();
+							newCartList.add(product);
+							cart.setCartProducts(newCartList);
+							session.setAttribute("cart_list", cart.getCartProducts());*/
 						}
 					}
 					response.sendRedirect("cart.jsp");
@@ -49,6 +84,12 @@ public class QuantityIncreDecreServlet extends HttpServlet {
 			} else {
 				response.sendRedirect("cart.jsp");
 			}
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 

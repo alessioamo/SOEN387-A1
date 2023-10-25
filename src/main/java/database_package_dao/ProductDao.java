@@ -50,17 +50,6 @@ public class ProductDao {
 	}
 
 	public ArrayList<Product> getCart(User user) {
-		/*try {
-			// after we confirm there are items in our cart list, we will proceed
-			if (user.getCart().getCartProducts().size() > 0) {
-				return user.getCart().getCartProducts();
-			}
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-			e.printStackTrace();
-		}
-		return (new ArrayList<Product>());
-		*/
 		return user.getCart().getCartProducts();
 	}
 

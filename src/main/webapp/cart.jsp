@@ -73,15 +73,15 @@
 					<td>$<%= dcf.format(p.getPrice()) %></td>
 					<td>
 						<form action="" method="post" class="form-inline">
-							<input type="hidden" name="id" value="<%= p.getId() %>" class="form-input">
+							<input type="hidden" name="sku" value="<%= p.getSku() %>" class="form-input">
 							<div class="form-group d-flex justify-content-between">
-								<a class="btn btn-sm btn-decre" href="quantity-incre-decre?action=decre&id=<%= p.getId() %>"><i class="fas fa-minus-square"></i></a>
+								<a class="btn btn-sm btn-decre" href="quantity-incre-decre?action=decre&sku=<%= p.getSku() %>"><i class="fas fa-minus-square"></i></a>
 								<input type="text" name="quantity" class="form-control" value="<%= p.getQuantity() %>" readonly>
-								<a class="btn btn-sm btn-incre" href="quantity-incre-decre?action=incre&id=<%= p.getId() %>"><i class="fas fa-plus-square"></i></a>
+								<a class="btn btn-sm btn-incre" href="quantity-incre-decre?action=incre&sku=<%= p.getSku() %>"><i class="fas fa-plus-square"></i></a>
 							</div>
 						</form>
 					</td>
-					<td><form action="remove-from-cart?id=<%= p.getId() %>" method="post">
+					<td><form action="remove-from-cart?sku=<%= p.getSku() %>" method="post">
 							<button type="submit" class="btn btn-sm btn-danger">Remove</button>
 						</form></td>
 					<!-- old method of removing from cart <td><a class="btn btn-sm btn-danger" href="remove-from-cart?id=<%= p.getId() %>">Remove</a></td> -->

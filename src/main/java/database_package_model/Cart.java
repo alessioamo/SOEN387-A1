@@ -11,9 +11,9 @@ public class Cart{
 		cartProducts = new ArrayList<Product>(); 
 	}
 	
-	public boolean findInCart(int id) {
+	public boolean findInCart(String sku) {
 		for (Product p: cartProducts) {
-			if (p.getId() == id) {
+			if (p.getSku().equals(sku)) {
 				return true;
 			}
 		}
