@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import database_package_connection.databaseConnection;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -92,6 +93,39 @@ public class BusinessFunctions {
 		if (!slug.isBlank()) {
 			pd.updateSlug(sku, slug);
 		}
+	}
+	public void addProductToCart(User user, String sku) {
+		Cart cart = user.getCart();
+		int newQuantity = 0;
+		ArrayList<Product> newCartList = cart.getCartProducts();
+		if (cart.findInCart(sku)) {
+			for (Product p : newCartList) {
+				if (p.getSku().equals(sku)) {
+					newQuantity = p.getQuantity() + 1;
+					p.setQuantity(newQuantity);
+					break;
+				}
+			}
+		} else {
+			Product product= getProduct(sku);
+			product.setQuantity(1);
+			newCartList.add(product);
+		}
+		cart.setCartProducts(newCartList);
+		pd.updateQuantity(sku,newQuantity);
+	}
+	
+	public void removeProductFromCart(User user, String sku) {
+		Cart cart = user.getCart();
+		ArrayList<Product> newCartList = cart.getCartProducts();
+		for (Product p : newCartList) {
+			if (p.getSku().equals(sku)) {
+				newCartList.remove(p);
+				break;
+			}
+		}
+		cart.setCartProducts(newCartList);
+		pd.updateQuantity(sku, 0);
 	}
 
 	public Product getProduct(String sku) {

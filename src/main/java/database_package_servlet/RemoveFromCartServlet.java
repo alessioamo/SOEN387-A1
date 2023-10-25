@@ -34,23 +34,14 @@ public class RemoveFromCartServlet extends HttpServlet {
 
 			HttpSession session = request.getSession();
 			BusinessFunctions bf = new BusinessFunctions(databaseConnection.getConnection());
-			ProductDao pd = new ProductDao(databaseConnection.getConnection());
 			String sku = request.getParameter("sku");
 			User user;
 			Cart cart;
 			if (request.getSession().getAttribute("auth") != null) {
 				user = (User) request.getSession().getAttribute("auth");
+				bf.removeProductFromCart(user, sku);
 				cart = user.getCart();
-				ArrayList<Product> newCartList = cart.getCartProducts();
-				for (Product p : newCartList) {
-					if (p.getSku().equals(sku)) {
-						newCartList.remove(p);
-						break;
-					}
-				}
-				cart.setCartProducts(newCartList);
 				session.setAttribute("cart_list", cart.getCartProducts());
-				pd.updateQuantity(sku, 0);
 				response.sendRedirect("cart.jsp");
 			} else {
 				response.setStatus(HttpServletResponse.SC_FOUND);
