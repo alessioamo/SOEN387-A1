@@ -1,10 +1,10 @@
-const isPageReloaded = performance.navigation.type === performance.navigation.TYPE_RELOAD;
+//const isPageReloaded = performance.navigation.type === performance.navigation.TYPE_RELOAD;
 
 let intro = document.querySelector(".intro");
 let logo = document.querySelector(".logo-header");
 let logoSpan = document.querySelectorAll(".logo");
 
-if (isPageReloaded) {
+//if (isPageReloaded) {
     window.addEventListener("DOMContentLoaded", () => {
         setTimeout(() => {
             logoSpan.forEach((span, idx) => {
@@ -27,7 +27,6 @@ if (isPageReloaded) {
             }, 2300);
         });
     });
-} else {
-    intro.style.display = "none";
-}
-
+//} else {
+//    intro.style.display = "none";
+//}
