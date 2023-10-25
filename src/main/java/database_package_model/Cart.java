@@ -1,23 +1,38 @@
 package database_package_model;
 
-public class Cart extends Product {
-	private int quantity;
+import java.util.ArrayList;
+
+public class Cart{
+	//private int quantity;
+	
+	private ArrayList<Product> cartProducts;
 	
 	public Cart() {
-		
+		cartProducts = new ArrayList<Product>(); 
 	}
-
-	public int getQuantity() {
-		return quantity;
+	
+	public boolean findInCart(int id) {
+		for (Product p: cartProducts) {
+			if (p.getId() == id) {
+				return true;
+			}
+		}
+		return false;
 	}
-
-	public void setQuantity(int quantity) {
-		this.quantity = quantity;
+	
+	public ArrayList<Product> getCartProducts(){
+		return cartProducts;
+	}
+	
+	public void getCartProducts(ArrayList<Product> newCart){
+		this.cartProducts = newCart;
 	}
 	
 	public String toString() {
-		return "Product [id=" + this.getId() + ", name=" + this.getName() + ", price=" + this.getPrice() + ", quantity=" + this.getQuantity() +", category=" + this.getCategory() + ", image="
-				+ this.getImage() + ", description=" + this.getDescription() + ", vendor=" + this.getVendor() + ", urlSlug=" + this.getUrlSlug() + ", sku="
-				+ this.getSku() + "]";
+		String cart = "";
+		for (Product p:cartProducts) {
+			cart = cart + p.toString();
+		}
+		return cart;
 	}
 }
