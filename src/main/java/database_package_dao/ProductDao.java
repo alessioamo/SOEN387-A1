@@ -9,6 +9,7 @@ import java.util.List;
 
 import database_package_model.Cart;
 import database_package_model.Product;
+import database_package_model.User;
 
 public class ProductDao {
 	private Connection con;
@@ -48,74 +49,31 @@ public class ProductDao {
 		return products;
 	}
 
-	public ArrayList<Cart> getCart(ArrayList<Cart> cartList) {
-		try {
-			// after we confirm there are items in our cart list, we will proceed
-			if (cartList.size() > 0) {
-				return cartList;
-			}
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-			e.printStackTrace();
-		}
-		return (new ArrayList<Cart>());
+	public ArrayList<Product> getCart(User user) {
+		return user.getCart().getCartProducts();
 	}
 
-	/*public Product getProduct(String sku) {
-		List<Product> products = getAllProducts();
 
-		try {
-			// Find the product with the matching slug
-			for (Product product : products) {
-				if (product.getSku().equals(sku)) {
-					return product;
-				}
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-
-	public Product getProductBySlug(String slug) {
-		List<Product> products = getAllProducts();
-
-		try {
-			// Find the product with the matching slug
-			for (Product product : products) {
-				if (product.getUrlSlug().equals(slug)) {
-					return product;
-				}
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		// If the product with the given slug is not found, return null or throw an
-		// exception
-		return null;
-	}*/
-
-	public List<Cart> getCartProducts(ArrayList<Cart> cartList) {
-		List<Cart> products = new ArrayList<Cart>();
+	public ArrayList<Product> getCartProducts(ArrayList<Product> cartList) {
+		ArrayList<Product> products = new ArrayList<Product>();
 
 		try {
 			// after we confirm there are items in our cart list, we will proceed
 			if (cartList.size() > 0) {
-				for (Cart item : cartList) {
+				for (Product p : cartList) {
 					query = "select * from products where id=?";
 					pst = this.con.prepareStatement(query);
-					pst.setInt(1, item.getId());
+					pst.setInt(1, p.getId());
 					rs = pst.executeQuery();
 					while (rs.next()) {
-						Cart row = new Cart();
+						Product row = new Product();
 						row.setId(rs.getInt("id"));
 						row.setName(rs.getString("name"));
 						row.setCategory(rs.getString("category"));
-						row.setPrice(rs.getDouble("price") * item.getQuantity());
-						row.setQuantity(item.getQuantity());
+						row.setPrice(rs.getDouble("price") * p.getQuantity());
+						row.setQuantity(p.getQuantity());
 						row.setImage(rs.getString("image"));
-						products.add(row);
+						cartList.add(row);
 					}
 				}
 			}
@@ -128,12 +86,12 @@ public class ProductDao {
 
 	}
 
-	public double getTotalCartPrice(ArrayList<Cart> cartList) {
+	public double getTotalCartPrice(ArrayList<Product> cartList) {
 		double sum = 0;
 
 		try {
 			if (cartList.size() > 0) {
-				for (Cart item : cartList) {
+				for (Product item : cartList) {
 					query = "select price from products where id=?";
 					pst = this.con.prepareStatement(query);
 					pst.setInt(1, item.getId());
@@ -150,128 +108,6 @@ public class ProductDao {
 
 		return sum;
 	}
-
-	/*public String downloadProductCatalog() {
-		try {
-			query = "SELECT * FROM products";
-			pst = this.con.prepareStatement(query);
-			rs = pst.executeQuery();
-
-			StringBuilder json = new StringBuilder("[\n");
-			while (rs.next()) {
-				json.append("{\n");
-				json.append("\"id\":" + rs.getInt("id") + ",\n");
-				json.append("\"name\":\"" + rs.getString("name") + "\",\n");
-				json.append("\"category\":\"" + rs.getString("category") + "\",\n");
-				json.append("\"price\":" + rs.getDouble("price") + ",\n");
-				json.append("\"quantity\":" + rs.getInt("quantity") + ",\n");
-				json.append("\"image\":\"" + rs.getString("image") + "\",\n");
-				json.append("\"description\":\"" + rs.getString("description") + "\",\n");
-				json.append("\"vendor\":\"" + rs.getString("vendor") + "\",\n");
-				json.append("\"urlSlug\":\"" + rs.getString("urlSlug") + "\",\n");
-				json.append("\"sku\":\"" + rs.getString("sku") + "\"\n");
-				json.append("},\n");
-			}
-			pst.close();
-			json.deleteCharAt(json.length() - 2); // Remove the trailing comma
-			json.append("]");
-
-			return json.toString();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
-	}
-
-	public void createProduct(String sku, String name, String description, String category, String price, String image,
-			String vendor, String slug) {
-		try {
-			query = "SELECT * FROM products WHERE sku=?";
-			pst = this.con.prepareStatement(query);
-			pst.setString(1, sku);
-			rs = pst.executeQuery();
-			if (!rs.next()) {
-				query = "INSERT INTO products (name, sku) VALUES (?, ?)";
-				pst = this.con.prepareStatement(query);
-				pst.setString(1, name);
-				pst.setString(2, sku);
-				pst.executeUpdate();
-				pst.close();
-				if (!name.isBlank()) {
-					updateName(sku, name);
-				}
-				if (!description.isBlank()) {
-					updateDescription(sku, description);
-				}
-				if (!category.isBlank()) {
-					updateCategory(sku, category);
-				}
-				if (!price.isBlank()) {
-					updatePrice(sku, Double.parseDouble(price));
-				}
-				if (!image.isBlank()) {
-					updateImage(sku, image);
-				}
-				if (!vendor.isBlank()) {
-					updateVendor(sku, vendor);
-				}
-				if (!slug.isBlank()) {
-					updateSlug(sku, slug);
-				}
-			} else {
-				// Throw Exception here
-				System.out.println(false);
-			}
-			pst.close();
-
-		} catch (Exception e) {
-			e.printStackTrace();
-			System.out.println(e.getMessage());
-		}
-	}
-
-	public void updateProduct(String sku, String name, String description, String category, String price, String image,
-			String vendor, String slug) {
-		System.out.println(price);
-		if (!name.isBlank()) {
-			updateName(sku, name);
-		}
-		if (!description.isBlank()) {
-			updateDescription(sku, description);
-		}
-		if (!category.isBlank()) {
-			updateCategory(sku, category);
-		}
-		if (!price.isBlank()) {
-			updatePrice(sku, Double.parseDouble(price));
-		}
-		if (!image.isBlank()) {
-			updateImage(sku, image);
-		}
-		if (!vendor.isBlank()) {
-			updateVendor(sku, vendor);
-		}
-		if (!slug.isBlank()) {
-			try {
-				query = "SELECT * FROM products WHERE urlSlug=?";
-				pst = this.con.prepareStatement(query);
-				pst.setString(1, slug);
-				rs = pst.executeQuery();
-				if (!rs.next()) {
-					updateSlug(sku, slug);
-				} else {
-					pst.close();
-					// throw exception here
-					System.out.println("FALSE");
-				}
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
-		}
-	}*/
 
 	public void updateName(String sku, String name) {
 		try {
@@ -348,6 +184,19 @@ public class ProductDao {
 			query = "UPDATE products SET vendor = ? WHERE sku=?;";
 			pst = this.con.prepareStatement(query);
 			pst.setString(1, vendor);
+			pst.setString(2, sku);
+			pst.executeUpdate();
+			pst.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		}
+	}
+	public void updateQuantity(String sku, int quantity) {
+		try {
+			query = "UPDATE products SET quantity = ? WHERE sku=?;";
+			pst = this.con.prepareStatement(query);
+			pst.setInt(1, quantity+1);
 			pst.setString(2, sku);
 			pst.executeUpdate();
 			pst.close();

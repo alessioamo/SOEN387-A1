@@ -14,6 +14,8 @@ import java.util.ArrayList;
 
 import database_package_connection.databaseConnection;
 import database_package_dao.ProductDao;
+import database_package_model.Product;
+import database_package_model.User;
 import database_package_model.Cart;
 
 /**
@@ -28,11 +30,19 @@ public class GetCartServlet extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		HttpSession session = request.getSession();
 		try {
-			if (session.getAttribute("cart-list") == null) {
+			if (session.getAttribute("cart_list") == null) {
 				System.out.println(false);
 			} else {
 				ProductDao pd = new ProductDao(databaseConnection.getConnection());
-				ArrayList<Cart> cart = pd.getCart((ArrayList<Cart>) session.getAttribute("cart-list"));
+				
+				User user;
+				Cart cart;
+				if (request.getSession().getAttribute ("auth") != null) {
+					user = (User) request.getSession().getAttribute("auth");
+					cart = user.getCart();
+					ArrayList<Product> cartProducts = pd.getCart(user);
+					System.out.println(cart.toString());
+				}
 				response.sendRedirect("products.jsp");
 			}
 		} catch (ClassNotFoundException | SQLException e) {

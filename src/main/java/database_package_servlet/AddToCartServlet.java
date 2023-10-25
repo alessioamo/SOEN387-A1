@@ -6,12 +6,18 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import database_package_model.User;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
+import database_package_connection.databaseConnection;
+import database_package_dao.BusinessFunctions;
+import database_package_dao.ProductDao;
 import database_package_model.Cart;
+import database_package_model.Product;
 
 /**
  * Servlet implementation class AddToCartServlet
@@ -19,45 +25,55 @@ import database_package_model.Cart;
 public class AddToCartServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		response.setContentType("text/html; charset=UTF-8");
-		
-		try(PrintWriter out = response.getWriter()) {
-			ArrayList<Cart> cartList = new ArrayList<>();
-			
-			int id = Integer.parseInt(request.getParameter("id"));
-			Cart cm = new Cart();
-			cm.setId(id);
-			cm.setQuantity(1);
-			
+
+		try (PrintWriter out = response.getWriter()) {
+
 			HttpSession session = request.getSession();
-			ArrayList<Cart> cart_list = (ArrayList<Cart>) session.getAttribute("cart-list");
-			
-			if (cart_list == null) {
-				cartList.add(cm);
-				session.setAttribute("cart-list", cartList);
-				response.sendRedirect("products.jsp");
-			}
-			else {
-				cartList = cart_list;
-				boolean exist = false;
+			BusinessFunctions bf = new BusinessFunctions(databaseConnection.getConnection());
+			ProductDao pd = new ProductDao(databaseConnection.getConnection());
+			String sku = request.getParameter("sku");
+			User user;
+			Cart cart;
+			Product product;
+			int newQuantity=0;
+			if (request.getSession().getAttribute("auth") != null) {
+				user = (User) request.getSession().getAttribute("auth");
+				cart = user.getCart();
 				
-				for (Cart c:cart_list) {
-					if (c.getId() == id) {
-						exist = true;
-						c.setQuantity(c.getQuantity() + 1);
-						response.sendRedirect("products.jsp");
-						//out.print("<h3 style='color:crimson; font-size:40px; text-align:center'>Item already exists in Cart.<br>"
-								//+ "<a href='cart.jsp'>Go to Cart Page</a><br><a href='products.jsp'>Go back to Products Page</a></h3>");
+				ArrayList<Product> newCartList = cart.getCartProducts();
+				if (cart.findInCart(sku)) {
+					for (Product p : newCartList) {
+						if (p.getSku().equals(sku)) {
+							newQuantity = p.getQuantity() + 1;
+							p.setQuantity(newQuantity);
+							break;
+						}
 					}
+				} else {
+					newQuantity=1;
+					product= bf.getProduct(sku);
+					product.setQuantity(newQuantity);
+					newCartList.add(product);
 				}
-				if (!exist) {
-					cartList.add(cm);
-					response.sendRedirect("products.jsp");
-				}
+
+				cart.setCartProducts(newCartList);
+				session.setAttribute("cart_list", cart.getCartProducts());
+				pd.updateQuantity(sku,newQuantity);
+				response.sendRedirect("products.jsp");
+			} else {
+				response.setStatus(HttpServletResponse.SC_FOUND);
+				response.sendRedirect("login.jsp?status=" + HttpServletResponse.SC_FOUND);
 			}
-			
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
-	
+
 }

@@ -11,17 +11,19 @@ if (auth != null){
 	request.setAttribute("auth", auth);
 	if (!("admin".equals(auth.getUsername()))){
 		response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-		request.getRequestDispatcher("index.jsp").forward(request, response);
+		response.sendRedirect("index.jsp?status="+ 403);
+		//request.getRequestDispatcher("index.jsp").forward(request, response);
 		//response.sendRedirect("index.jsp");
 	}
 }else if (auth == null) {
 	//response.sendRedirect("login.jsp");
 	response.setStatus(HttpServletResponse.SC_FOUND);
-	request.getRequestDispatcher("login.jsp").forward(request, response);
+	response.sendRedirect("login.jsp?status="+ 302);
+	//request.getRequestDispatcher("login.jsp").forward(request, response);
 }
 
 
-ArrayList<Cart> cart_list = (ArrayList<Cart>) session.getAttribute("cart-list");
+ArrayList<Product> cart_list = (ArrayList<Product>) session.getAttribute("cart-list");
 if (cart_list != null) {
 	request.setAttribute("cart_list", cart_list);
 }

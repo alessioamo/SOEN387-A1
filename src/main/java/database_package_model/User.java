@@ -4,14 +4,17 @@ public class User {
 	private int id;
 	private String username;
 	private String password;
+	private Cart cart;
 	
 	public User() {
+		setCart(new Cart());
 	}
 	
 	public User(int id, String username, String password) {
 		this.id = id;
 		this.username = username;
 		this.password = password;
+		setCart(new Cart());
 	}
 
 	public int getId() {
@@ -41,6 +44,14 @@ public class User {
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", username=" + username + ", password=" + password + "]";
+	}
+
+	public Cart getCart() {
+		return cart;
+	}
+
+	public void setCart(Cart cart) {
+		this.cart = cart;
 	}
 	
 }

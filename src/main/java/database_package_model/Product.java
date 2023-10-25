@@ -8,6 +8,7 @@ public class Product {
 	private String image;
 	private String description;
 	private String vendor;
+	private int quantity;
 	private String urlSlug;
 	private String sku;
 	
@@ -81,6 +82,14 @@ public class Product {
 	public void setVendor(String vendor) {
 		this.vendor = vendor;
 	}
+	
+	public int getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
 
 	public String getUrlSlug() {
 		return urlSlug;
@@ -102,7 +111,7 @@ public class Product {
 	public String toString() {
 		return "Product [id=" + id + ", name=" + name + ", category=" + category + ", price=" + price + ", image="
 				+ image + ", description=" + description + ", vendor=" + vendor + ", urlSlug=" + urlSlug + ", sku="
-				+ sku + "]";
+				+ sku + ", cart quantity="+ quantity+"]\n";
 	}
 
 	
