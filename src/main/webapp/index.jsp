@@ -25,13 +25,17 @@
 <body>
 	<%@include file="includes/navbar.jsp" %>
 	<%
-        // Retrieve the status code that was set in the sender.jsp
-        int statusCode = response.getStatus();
-	 	if (statusCode == 403){
-    %>
-    <p>HTTP Status Code: <%= statusCode %></p>
-    <p>Admin Only page: Please Log in to your staff account to view the Admin Toolkit</p>
-    <%} %>
+		String statusParam = request.getParameter("status");
+		int statusCode;
+		if (statusParam!=null){
+			statusCode = Integer.parseInt(statusParam);
+		 	if (statusCode == 403){
+		 	    %>
+		 	    <p>HTTP Status Code: <%= statusCode %></p>
+		 	    <p>Admin Only page: Please Log in to your staff account to view the Admin Toolkit</p>
+		 	<%} 
+		}%>
+	
 	
 	<!-- <% out.print(databaseConnection.getConnection()); %> -->
 	

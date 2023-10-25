@@ -64,10 +64,9 @@ public class AddToCartServlet extends HttpServlet {
 				pd.updateQuantity(sku,newQuantity);
 				response.sendRedirect("products.jsp");
 			} else {
-				// Throw exception here
-				response.sendRedirect("products.jsp");
+				response.setStatus(HttpServletResponse.SC_FOUND);
+				response.sendRedirect("login.jsp?status=" + HttpServletResponse.SC_FOUND);
 			}
-
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

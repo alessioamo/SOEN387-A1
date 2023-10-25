@@ -38,15 +38,12 @@ public class RemoveFromCartServlet extends HttpServlet {
 			String sku = request.getParameter("sku");
 			User user;
 			Cart cart;
-			System.out.println("100");
 			if (request.getSession().getAttribute("auth") != null) {
 				user = (User) request.getSession().getAttribute("auth");
 				cart = user.getCart();
 				ArrayList<Product> newCartList = cart.getCartProducts();
-				System.out.println("1");
 				for (Product p : newCartList) {
 					if (p.getSku().equals(sku)) {
-						System.out.println("2");
 						newCartList.remove(p);
 						break;
 					}
@@ -56,9 +53,8 @@ public class RemoveFromCartServlet extends HttpServlet {
 				pd.updateQuantity(sku, 0);
 				response.sendRedirect("cart.jsp");
 			} else {
-				System.out.println("3");
-				// Throw exception here
-				response.sendRedirect("products.jsp");
+				response.setStatus(HttpServletResponse.SC_FOUND);
+				response.sendRedirect("login.jsp?status=" + HttpServletResponse.SC_FOUND);
 			}
 
 		} catch (ClassNotFoundException e) {

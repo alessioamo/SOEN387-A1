@@ -82,7 +82,8 @@ public class QuantityIncreDecreServlet extends HttpServlet {
 					response.sendRedirect("cart.jsp");
 				}
 			} else {
-				response.sendRedirect("cart.jsp");
+				response.setStatus(HttpServletResponse.SC_FOUND);
+				response.sendRedirect("login.jsp?status=" + HttpServletResponse.SC_FOUND);
 			}
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
