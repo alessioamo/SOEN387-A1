@@ -7,6 +7,7 @@ public class User {
 	private Cart cart;
 	
 	public User() {
+		setCart(new Cart());
 	}
 	
 	public User(int id, String username, String password) {

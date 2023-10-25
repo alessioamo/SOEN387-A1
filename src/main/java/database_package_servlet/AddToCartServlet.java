@@ -38,7 +38,7 @@ public class AddToCartServlet extends HttpServlet {
 			User user;
 			Cart cart;
 			Product product;
-			if (request.getParameter("auth") != null) {
+			if (request.getSession().getAttribute ("auth") != null) {
 				user = (User) request.getSession().getAttribute("auth");
 				cart = user.getCart();
 				product = bf.getProduct(sku);
@@ -47,16 +47,17 @@ public class AddToCartServlet extends HttpServlet {
 					ArrayList<Product> newCartList = cart.getCartProducts();
 					newCartList.add(product);
 					cart.setCartProducts(newCartList);
-					session.setAttribute("cart-list", cart.getCartProducts());
+					session.setAttribute("cart_list", cart.getCartProducts());
 					response.sendRedirect("products.jsp");
 				} else {
 					product.setQuantity(product.getQuantity() + 1);
-					
+					response.sendRedirect("products.jsp");
 				}
 				pd.updateQuantity(sku, product.getQuantity());
+			}else {
+				//Throw exception here
+				response.sendRedirect("products.jsp");
 			}
-			response.sendRedirect("products.jsp");
-
 			
 
 		} catch (ClassNotFoundException e) {

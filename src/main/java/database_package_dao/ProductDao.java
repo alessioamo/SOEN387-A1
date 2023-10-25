@@ -9,6 +9,7 @@ import java.util.List;
 
 import database_package_model.Cart;
 import database_package_model.Product;
+import database_package_model.User;
 
 public class ProductDao {
 	private Connection con;
@@ -48,17 +49,19 @@ public class ProductDao {
 		return products;
 	}
 
-	public ArrayList<Product> getCart(ArrayList<Product> cartList) {
-		try {
+	public ArrayList<Product> getCart(User user) {
+		/*try {
 			// after we confirm there are items in our cart list, we will proceed
-			if (cartList.size() > 0) {
-				return cartList;
+			if (user.getCart().getCartProducts().size() > 0) {
+				return user.getCart().getCartProducts();
 			}
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 			e.printStackTrace();
 		}
 		return (new ArrayList<Product>());
+		*/
+		return user.getCart().getCartProducts();
 	}
 
 	/*public Product getProduct(String sku) {

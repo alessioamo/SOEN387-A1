@@ -15,13 +15,13 @@
     	request.setAttribute("auth", auth);
     }
     
-    ArrayList<Product> cart_list = (ArrayList<Product>) session.getAttribute("cart-list");
-    ArrayList<Product> cartProduct = new ArrayList<Product>();
+    ArrayList<Product> cart_list = (ArrayList<Product>) session.getAttribute("cart_list");
+    //ArrayList<Product> cartProduct = new ArrayList<Product>();
     if (cart_list != null) {
     	ProductDao pDao = new ProductDao(databaseConnection.getConnection());
-    	cartProduct = pDao.getCartProducts(cart_list);
+    	//cartProduct = pDao.getCartProducts(cart_list);
     	double total = pDao.getTotalCartPrice(cart_list);
-    	request.setAttribute("cart_list", cart_list);
+    	//request.setAttribute("cart_list", cart_list);
     	request.setAttribute("total", total);
     }
     %>
@@ -65,7 +65,7 @@
 			<tbody>
 			<%
 			if (cart_list != null) {
-				for (Product p:cartProduct) { %>
+				for (Product p:cart_list) { %>
 					<tr>
 					<td><img src="product-images/<%= p.getImage() %>" style="width:4rem;height:4rem;"></td>
 					<td><%= p.getName() %></td>
