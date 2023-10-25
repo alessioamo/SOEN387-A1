@@ -54,7 +54,9 @@ public class AddToCartServlet extends HttpServlet {
 					}
 				} else {
 					newQuantity=1;
-					newCartList.add(bf.getProduct(sku));
+					product= bf.getProduct(sku);
+					product.setQuantity(newQuantity);
+					newCartList.add(product);
 				}
 
 				cart.setCartProducts(newCartList);
