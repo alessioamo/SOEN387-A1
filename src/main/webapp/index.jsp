@@ -5,6 +5,7 @@
     pageEncoding="ISO-8859-1"%>
     <%
     User auth = (User) request.getSession().getAttribute("auth");
+    // temp refers to the anonymous user (not logged in)
     if (auth != null && auth.getUsername() != "temp") {
     	request.setAttribute("auth", auth);
     }

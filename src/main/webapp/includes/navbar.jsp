@@ -22,11 +22,13 @@
 					href="products.jsp">Products</a></li>
 
 				<%
+				// Note: Auth says it cannot be resolved to a variable but the navbar is included in every jsp page after the auth variable has been initialized so this error is incorrect
 				if (auth != null) {
-					if (auth.getId() != 0) {System.out.println("in if " + auth.getUsername());System.out.println("auth in if " + auth);%>
+					// Auth.getId() will be 0 if the user is not logged in (they are in anonymous mode or as we called it "temp")
+					if (auth.getId() != 0) {%>
 						<li class="nav-item active"><a class="nav-link" href="log-out">Logout</a></li>
 						<!-- <li class="nav-item active"><a class="nav-link" href="orders.jsp">Orders</a></li> -->
-				<%	} else {System.out.println("in else " + auth.getUsername());%>
+				<%	} else {%>
 						<li class="nav-item active"><a class="nav-link" href="log-out">Login</a></li>
 				<%	}
 				} else { %>

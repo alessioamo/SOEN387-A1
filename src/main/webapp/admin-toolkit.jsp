@@ -15,6 +15,7 @@ if (auth != null){
 		//request.getRequestDispatcher("index.jsp").forward(request, response);
 		//response.sendRedirect("index.jsp");
 	}
+	// temp refers to the anonymous user (not logged in)
 }else if (auth == null || auth.getUsername() == "temp") {
 	//response.sendRedirect("login.jsp");
 	response.setStatus(HttpServletResponse.SC_FOUND);

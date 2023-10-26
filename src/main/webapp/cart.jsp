@@ -11,6 +11,7 @@
     request.setAttribute("dcf", dcf);
     
     User auth = (User) request.getSession().getAttribute("auth");
+	// temp refers to the anonymous user (not logged in)
     if (auth != null && auth.getUsername() != "temp") {
     	request.setAttribute("auth", auth);
     }
@@ -21,12 +22,9 @@
     }
     
     ArrayList<Product> cart_list = (ArrayList<Product>) session.getAttribute("cart_list");
-    //ArrayList<Product> cartProduct = new ArrayList<Product>();
     if (cart_list != null) {
     	ProductDao pDao = new ProductDao(databaseConnection.getConnection());
-    	//cartProduct = pDao.getCartProducts(cart_list);
     	double total = pDao.getTotalCartPrice(cart_list);
-    	//request.setAttribute("cart_list", cart_list);
     	request.setAttribute("total", total);
     }
     %>

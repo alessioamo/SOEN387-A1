@@ -33,10 +33,9 @@ public class AddToCartServlet extends HttpServlet {
 			String sku = request.getParameter("sku");
 			User user;
 			Cart cart;
-			System.out.println("ttt " + request.getSession().getAttribute("auth"));
 			user = (User) request.getSession().getAttribute("auth");
+			// temp refers to the anonymous user (not logged in)
 			if (request.getSession().getAttribute("auth") != null && user.getUsername() != "temp") {
-				System.out.println("Test: " + request.getSession().getAttribute("auth"));
 				bf.addProductToCart(user, sku);
 				cart = user.getCart();
 				session.setAttribute("cart_list", cart.getCartProducts());
@@ -44,12 +43,9 @@ public class AddToCartServlet extends HttpServlet {
 			} else {
 				user = new User();
 				session.setAttribute("auth", user);
-				System.out.println("auth " + request.getSession().getAttribute("auth"));;
-				
 				bf.addProductToCart(user, sku);
 				cart = user.getCart();
 				session.setAttribute("cart_list", cart.getCartProducts());
-				
 				response.sendRedirect("products.jsp");
 				
 				//response.setStatus(HttpServletResponse.SC_FOUND);

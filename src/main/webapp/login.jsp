@@ -35,7 +35,6 @@ if (cart_list != null) {
 	<%@include file="includes/navbar.jsp"%>
 	<%
 	String statusParam = request.getParameter("status");
-	//System.out.println("status: " + statusParam);
 	int statusCode;
 	if (statusParam != null) {
 		statusCode = Integer.parseInt(statusParam);
