@@ -5,8 +5,13 @@
     pageEncoding="ISO-8859-1"%>
     <%
     User auth = (User) request.getSession().getAttribute("auth");
-    if (auth != null) {
+    if (auth != null && auth.getUsername() != "temp") {
     	request.setAttribute("auth", auth);
+    }
+    else {
+    	auth = new User();
+    	auth.setUsername("temp");
+    	session.setAttribute("auth", auth);
     }
     
     ArrayList<Product> cart_list = (ArrayList<Product>) session.getAttribute("cart-list");

@@ -13,6 +13,7 @@ public class LogoutServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try(PrintWriter out = response.getWriter()) {
+			System.out.println("in logout servlet " + request.getSession().getAttribute("auth"));
 			if (request.getSession().getAttribute("auth") != null) {
 				//this means user is logged in
 				request.getSession().removeAttribute("auth");
@@ -20,6 +21,7 @@ public class LogoutServlet extends HttpServlet {
 			}
 			else {
 				response.sendRedirect("index.jsp");
+				System.out.println("REDIRECT");
 			}
 		}
 	}

@@ -4,9 +4,9 @@
 <%@ page import="database_package_model.*"%>
 <%
 User auth = (User) request.getSession().getAttribute("auth");
+
 if (auth != null) {
 	request.setAttribute("auth", auth);
-	response.sendRedirect("index.jsp");
 }
 
 ArrayList<Product> cart_list = (ArrayList<Product>) session.getAttribute("cart-list");
@@ -35,6 +35,7 @@ if (cart_list != null) {
 	<%@include file="includes/navbar.jsp"%>
 	<%
 	String statusParam = request.getParameter("status");
+	//System.out.println("status: " + statusParam);
 	int statusCode;
 	if (statusParam != null) {
 		statusCode = Integer.parseInt(statusParam);

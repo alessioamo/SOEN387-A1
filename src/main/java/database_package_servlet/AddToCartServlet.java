@@ -33,15 +33,27 @@ public class AddToCartServlet extends HttpServlet {
 			String sku = request.getParameter("sku");
 			User user;
 			Cart cart;
-			if (request.getSession().getAttribute("auth") != null) {
-				user = (User) request.getSession().getAttribute("auth");
+			System.out.println("ttt " + request.getSession().getAttribute("auth"));
+			user = (User) request.getSession().getAttribute("auth");
+			if (request.getSession().getAttribute("auth") != null && user.getUsername() != "temp") {
+				System.out.println("Test: " + request.getSession().getAttribute("auth"));
 				bf.addProductToCart(user, sku);
 				cart = user.getCart();
 				session.setAttribute("cart_list", cart.getCartProducts());
 				response.sendRedirect("products.jsp");
 			} else {
-				response.setStatus(HttpServletResponse.SC_FOUND);
-				response.sendRedirect("login.jsp?status=" + HttpServletResponse.SC_FOUND);
+				user = new User();
+				session.setAttribute("auth", user);
+				System.out.println("auth " + request.getSession().getAttribute("auth"));;
+				
+				bf.addProductToCart(user, sku);
+				cart = user.getCart();
+				session.setAttribute("cart_list", cart.getCartProducts());
+				
+				response.sendRedirect("products.jsp");
+				
+				//response.setStatus(HttpServletResponse.SC_FOUND);
+				//response.sendRedirect("login.jsp?status=" + HttpServletResponse.SC_FOUND);
 			}
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block

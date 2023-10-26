@@ -29,6 +29,8 @@ public class LoginServlet extends HttpServlet {
 			throws ServletException, IOException {
 		response.setContentType("text/html;charset=UTF-8");
 		try (PrintWriter out = response.getWriter()) {
+			System.out.println("in login servlet " + request.getSession().getAttribute("auth"));
+			
 			String username = request.getParameter("login-username");
 			String password = request.getParameter("login-password");
 

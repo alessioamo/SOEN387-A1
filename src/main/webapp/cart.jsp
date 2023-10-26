@@ -11,8 +11,13 @@
     request.setAttribute("dcf", dcf);
     
     User auth = (User) request.getSession().getAttribute("auth");
-    if (auth != null) {
+    if (auth != null && auth.getUsername() != "temp") {
     	request.setAttribute("auth", auth);
+    }
+    else {
+    	auth = new User();
+    	auth.setUsername("temp");
+    	session.setAttribute("auth", auth);
     }
     
     ArrayList<Product> cart_list = (ArrayList<Product>) session.getAttribute("cart_list");
@@ -70,7 +75,7 @@
 					<td><img src="product-images/<%= p.getImage() %>" style="width:4rem;height:4rem;"></td>
 					<td><%= p.getName() %></td>
 					<td><%= p.getCategory() %></td>
-					<td>$<%= dcf.format(p.getPrice()) %></td>
+					<td>$<%= dcf.format(p.getPrice()*p.getQuantity()) %></td>
 					<td>
 						<form action="" method="post" class="form-inline">
 							<input type="hidden" name="sku" value="<%= p.getSku() %>" class="form-input">

@@ -11,8 +11,13 @@
     request.setAttribute("dcf", dcf);
     
     User auth = (User) request.getSession().getAttribute("auth");
-    if (auth != null) {
+    if (auth != null && auth.getUsername() != "temp") {
     	request.setAttribute("auth", auth);
+    }
+    else {
+    	auth = new User();
+    	auth.setUsername("temp");
+    	session.setAttribute("auth", auth);
     }
     
     ProductDao pd = new ProductDao(databaseConnection.getConnection());

@@ -22,10 +22,14 @@
 					href="products.jsp">Products</a></li>
 
 				<%
-				if (auth != null) {%>
-				<!-- <li class="nav-item active"><a class="nav-link" href="orders.jsp">Orders</a></li> -->
-				<li class="nav-item active"><a class="nav-link" href="log-out">Logout</a></li>
-				<%} else { %>
+				if (auth != null) {
+					if (auth.getId() != 0) {System.out.println("in if " + auth.getUsername());System.out.println("auth in if " + auth);%>
+						<li class="nav-item active"><a class="nav-link" href="log-out">Logout</a></li>
+						<!-- <li class="nav-item active"><a class="nav-link" href="orders.jsp">Orders</a></li> -->
+				<%	} else {System.out.println("in else " + auth.getUsername());%>
+						<li class="nav-item active"><a class="nav-link" href="log-out">Login</a></li>
+				<%	}
+				} else { %>
 				<li class="nav-item active"><a class="nav-link"
 					href="login.jsp">Login</a></li>
 				<%}
