@@ -51,7 +51,7 @@
 	<div class="container">
 		<div class="d-flex py-3">
 			<h3>Total Price: $${ (total>0)?dcf.format(total):0 }</h3>
-			<!-- <a class="mx-3 btn btn-primary" href="#">Check Out</a> -->
+			<a class="mx-3 btn btn-primary" href="#">Place Order</a>
 		</div>
 		<table class="table table-light">
 			<thead>
@@ -60,7 +60,6 @@
 					<th scope="col">Name</th>
 					<th scope="col">Category</th>
 					<th scope="col">Price</th>
-					<!-- TODO - add image stuff all on this page -->
 					<th scope="col">Quantity</th>
 					<th scope="col">Cancel</th>
 				</tr>

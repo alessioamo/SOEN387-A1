@@ -1,17 +1,26 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%@ page import="java.util.ArrayList" %>
+<%@ page import="java.text.DecimalFormat" %>
 <%@ page import="database_package_model.*" %>
     <%
+    DecimalFormat dcf = new DecimalFormat("#.00");
+    request.setAttribute("dcf", dcf);
+    
     User auth = (User) request.getSession().getAttribute("auth");
     if (auth != null) {
     	request.setAttribute("auth", auth);
+    } else {
+    	//TODO - uncomment this: response.sendRedirect("login.jsp");
     }
     
     ArrayList<Product> cart_list = (ArrayList<Product>) session.getAttribute("cart-list");
     if (cart_list != null) {
     	request.setAttribute("cart_list", cart_list);
     }
+    
+    //TODO add order list
+    
     %>
 <!DOCTYPE html>
 <html>
@@ -22,7 +31,49 @@
 <body>
 	<%@include file="includes/navbar.jsp" %>
 	
-	<h1>Hello World!</h1>
+	<div class="container">
+		<div class="card-header my-3">All Orders</div>
+		<table class="table table-light">
+			<thead>
+				<tr>
+					<th scope="colr">Order ID</th>
+					<th scope="colr">Date </th>
+					<th scope="colr">Shipping Address</th>
+					<th scope="colr">Tracking Number</th>
+					<th scope="colr">Quantity</th>
+				</tr>
+			</thead>
+			<tbody>
+			<%
+			// if the user is an admin, show all orders. else, show only those belonging to the logged in user
+			if (user != null && "admin".equals(user.getUsername())) {
+				if (orders != null) {
+					for (Order o:orders) {%>
+						<tr><%= o.getOrderId %></tr>
+						<tr><%= o.getDate %></tr>
+						<tr><%= o.getShippingAddress %></tr>
+						<tr><%= o.getTrackingNumber %></tr>
+						<tr><%= o.getDate %></tr>
+					<%}
+				}
+			}
+			else {
+				if (orders != null) {
+					for (Order o:orders) {
+						if (/*TODO if statement to see if id of the user order is the same as the user id who is logged in*/) {%>
+							<tr><%= o.getOrderId %></tr>
+							<tr><%= o.getDate %></tr>
+							<tr><%= o.getShippingAddress %></tr>
+							<tr><%= o.getTrackingNumber %></tr>
+							<tr><%= o.getDate %></tr>
+					<%	}
+					}
+				}	
+			}
+			%>
+			</tbody>
+		</table>
+	</div>
 	
 	<%@include file="includes/footer.jsp" %>
 </body>

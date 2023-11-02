@@ -17,7 +17,7 @@ if (cart_list != null) {
 <!DOCTYPE html>
 <html>
 <head>
-<title>Login Page</title>
+<title>Account Page</title>
 <%@include file="includes/head.jsp"%>
 
 <script>
@@ -51,7 +51,7 @@ if (cart_list != null) {
 	%>
 	<div class="container">
 		<div class="card w-50 mx-auto my-5">
-			<div class="card-header text-center">Admin Login</div>
+			<div class="card-header text-center">User Login</div>
 			<div class="card-body">
 				<form action="user-login" method="post">
 					<div class="form-group">
@@ -65,8 +65,32 @@ if (cart_list != null) {
 							class="form-control" name="login-password" placeholder="Password"
 							required>
 					</div>
+					<br>
 					<div class="text-center">
 						<button type="submit" class="btn btn-primary">Login</button>
+					</div>
+				</form>
+			</div>
+		</div>
+		<div class="card w-50 mx-auto my-5">
+			<div class="card-header text-center">Create Account</div>
+			<div class="card-body">
+			<!-- TODO: Make a create account servlet -->
+				<form action="" method="post">
+					<div class="form-group">
+						<label class="">Username</label> <input
+							type="username" class="form-control" name="login-username"
+							placeholder="Username" required>
+					</div>
+
+					<div class="form-group">
+						<label class="">Password</label> <input type="password"
+							class="form-control" name="login-password" placeholder="Password"
+							required>
+					</div>
+					<br>
+					<div class="text-center">
+						<button type="submit" class="btn btn-success">Create Account</button>
 					</div>
 				</form>
 			</div>
