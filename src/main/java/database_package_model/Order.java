@@ -8,18 +8,20 @@ public class Order {
 	private int trackingNumber;
 	private String datePlaced;
 	private String productsInCart; //TODO not sure what we do with this yet cause json file
+	private Double totalCost;
 	private int userId;
 	
 	public Order() {
 	}
 	
-	public Order(int orderId, String shippingAddress, int trackingNumber, String productsInCart,
+	public Order(int orderId, String shippingAddress, int trackingNumber, String productsInCart, Double totalCost,
 			int userId) {
 		this.orderId = orderId;
 		this.shippingAddress = shippingAddress;
 		this.trackingNumber = trackingNumber;
 		this.datePlaced = LocalDate.now().toString();
 		this.productsInCart = productsInCart;
+		this.totalCost = totalCost;
 		this.userId = userId;
 	}
 
@@ -70,11 +72,19 @@ public class Order {
 	public void setUserId(int userId) {
 		this.userId = userId;
 	}
-	
+
+	public double getTotalCost() {
+		return totalCost;
+	}
+
+	public void setTotalCost(double totalCost) {
+		this.totalCost = totalCost;
+	}
+
 	@Override
 	public String toString() {
 		return "Order [orderId=" + orderId + ", shippingAddress=" + shippingAddress + ", trackingNumber="
-				+ trackingNumber + ", datePlaced=" + datePlaced + ", productsInCart=" + productsInCart + ", userId="
-				+ userId + "]";
+				+ trackingNumber + ", datePlaced=" + datePlaced + ", productsInCart=" + productsInCart + ", totalCost="
+				+ totalCost + ", userId=" + userId + "]";
 	}
 }

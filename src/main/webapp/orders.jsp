@@ -57,6 +57,7 @@
 					<th scope="colr">Shipping Address</th>
 					<th scope="colr">Tracking Number</th>
 					<th scope="colr">Products</th>
+					<th scope="colr">Cost</th>
 					<% if (auth.getUsername() == "admin") {%>
 						<th scope="colr">User ID</th>
 					<%}%>
@@ -76,6 +77,7 @@
 							<td><%= o.getShippingAddress() %></td>
 							<td><%= o.getTrackingNumber() %></td>
 							<td>Temp</td>
+							<td>$<%= dcf.format(o.getTotalCost()) %></td>
 							<td><%= o.getUserId() %></td>
 						</tr>
 					<%}
@@ -88,6 +90,7 @@
 							<td><%= o.getShippingAddress() %></td>
 							<td><%= o.getTrackingNumber() %></td>
 							<td>Temp</td>
+							<td>$<%= dcf.format(o.getTotalCost()) %></td>
 						</tr>
 					<%}	
 					}

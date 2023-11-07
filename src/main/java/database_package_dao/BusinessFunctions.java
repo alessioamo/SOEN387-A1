@@ -206,6 +206,7 @@ public class BusinessFunctions {
 
 	public void createOrder(User user, String shippingAddress) {
 		int orderId = 0;
+		double totalCost = 0;
 		Cart cart = user.getCart();
 		StringBuilder productsInCart =  new StringBuilder("[\n");
 		for (Product p : cart.getCartProducts()) {
@@ -216,13 +217,17 @@ public class BusinessFunctions {
 			productsInCart.append("\"vendor\":\"" + p.getVendor() + "\",\n");
 			productsInCart.append("\"sku\":\"" + p.getSku() + "\"\n");
 			productsInCart.append("},\n");
+			
+			totalCost += (p.getPrice() * p.getQuantity());
 		}
+		System.out.println("total: " + totalCost);
+		
 		if (productsInCart.length()>2) {
 			productsInCart.deleteCharAt(productsInCart.length() - 2); // Remove the trailing comma
 		}
 		productsInCart.append("]");
 		int userId = user.getId();
-		Order order = new Order(orderId, shippingAddress, 0, productsInCart.toString(),
+		Order order = new Order(orderId, shippingAddress, 0, productsInCart.toString(), totalCost,
 				userId);
 	}
 	
@@ -242,6 +247,7 @@ public class BusinessFunctions {
 				row.setTrackingNumber(rs.getInt("trackingNumber"));
 				row.setDatePlaced(rs.getString("datePlaced"));
 				row.setProductsInCart(rs.getString("productsInCart"));
+				row.setTotalCost(rs.getDouble("totalCost"));
 				row.setUserId(rs.getInt("userId"));
 
 				orders.add(row);
@@ -268,6 +274,7 @@ public class BusinessFunctions {
 				row.setTrackingNumber(rs.getInt("trackingNumber"));
 				row.setDatePlaced(rs.getString("datePlaced"));
 				row.setProductsInCart(rs.getString("productsInCart"));
+				row.setTotalCost(rs.getDouble("totalCost"));
 				row.setUserId(rs.getInt("userId"));
 
 				orders.add(row);
