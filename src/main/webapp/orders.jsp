@@ -33,6 +33,7 @@
     
     BusinessFunctions bf = new BusinessFunctions(databaseConnection.getConnection());
     List<Order> orders = bf.getOrders(auth);
+    List<Order> allOrders = bf.getAllOrders();
     
     //TODO add order list
     
@@ -52,16 +53,45 @@
 			<thead>
 				<tr>
 					<th scope="colr">Order ID</th>
-					<th scope="colr">Date </th>
+					<th scope="colr">Date Placed</th>
 					<th scope="colr">Shipping Address</th>
 					<th scope="colr">Tracking Number</th>
 					<th scope="colr">Products</th>
+					<% if (auth.getUsername() == "admin") {%>
+						<th scope="colr">User ID</th>
+					<%}%>
+					
+					
 				</tr>
 			</thead>
 			<tbody>
 			<!-- TODO - Not implemented yet  -->
 			<% System.out.println("orders in jsp is " + orders);
-			
+				if (orders != null) {
+					if (auth.getUsername() == "admin") {
+						for (Order o:allOrders) {System.out.println("o is " + o);%>
+						<tr>
+							<td><%= o.getOrderId() %></td>
+							<td><%= o.getDatePlaced() %></td>
+							<td><%= o.getShippingAddress() %></td>
+							<td><%= o.getTrackingNumber() %></td>
+							<td>Temp</td>
+							<td><%= o.getUserId() %></td>
+						</tr>
+					<%}
+					}
+					else {
+						for (Order o:orders) {System.out.println("o is " + o);%>
+						<tr>
+							<td><%= o.getOrderId() %></td>
+							<td><%= o.getDatePlaced() %></td>
+							<td><%= o.getShippingAddress() %></td>
+							<td><%= o.getTrackingNumber() %></td>
+							<td>Temp</td>
+						</tr>
+					<%}	
+					}
+				}
 			%>
 			</tbody>
 		</table>

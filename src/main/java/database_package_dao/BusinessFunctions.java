@@ -252,4 +252,30 @@ public class BusinessFunctions {
 		System.out.println("Returning orders: " + orders);
 		return orders;
 	}
+	
+	public List<Order> getAllOrders() {
+		System.out.println("In getAllOrders");
+		List<Order> orders = new ArrayList<Order>();
+
+		try {
+			query = "select * from orders";
+			pst = this.con.prepareStatement(query);
+			rs = pst.executeQuery();
+			while (rs.next()) {
+				Order row = new Order();
+				row.setOrderId(rs.getInt("orderId"));
+				row.setShippingAddress(rs.getString("shippingAddress"));
+				row.setTrackingNumber(rs.getInt("trackingNumber"));
+				row.setDatePlaced(rs.getString("datePlaced"));
+				row.setProductsInCart(rs.getString("productsInCart"));
+				row.setUserId(rs.getInt("userId"));
+
+				orders.add(row);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		System.out.println("Returning all orders: " + orders);
+		return orders;
+	}
 }
