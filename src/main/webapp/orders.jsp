@@ -58,10 +58,10 @@
 					<%}
 				}
 			}
-			else {
+			else if (user != null) {
 				if (orders != null) {
 					for (Order o:orders) {
-						if (/*TODO if statement to see if id of the user order is the same as the user id who is logged in*/) {%>
+						if (o.getUserId == auth.getId()/*TODO if statement to see if id of the user order is the same as the user id who is logged in*/) {%>
 							<tr><%= o.getOrderId %></tr>
 							<tr><%= o.getDate %></tr>
 							<tr><%= o.getShippingAddress %></tr>
