@@ -35,16 +35,13 @@ public class LoginServlet extends HttpServlet {
 			try {
 				UserDao udao = new UserDao(databaseConnection.getConnection());
 				User user = udao.userAuthentication(authenticationKey);
-				
-				//read file for login
 
 				if (user != null) {
 					request.getSession().setAttribute("auth", user);
 					response.sendRedirect("index.jsp");
 				} else {
-					String loginFailedMessage = "User login failed, username or password is incorrect.";
+					String loginFailedMessage = "Authentication failed, please try again.";
 				    response.sendRedirect("login.jsp?loginFailedMessage=" + loginFailedMessage);
-					//out.print("User login failed");
 				}
 			} catch (ClassNotFoundException | SQLException e) {
 				e.printStackTrace();

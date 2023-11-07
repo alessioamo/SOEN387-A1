@@ -65,10 +65,11 @@ public class UserDao {
                     String key = jsonNode.get("authenticationKey").asText();
 
                     if (authenticationKey.equals(key)) {
-                    	System.out.println("Match found!");
+                    	System.out.println("Match found in users.json!");
                     	matchFound = true;
+                    	user = new User();
                     	// This if statement is so that we can keep our current code of checking for admin
-                    	if (authenticationKey == "secret") {
+                    	if (authenticationKey.equals("secret")) {
                     		user.setUsername("admin");
                     	}
                     	int userId = jsonNode.get("id").asInt();
@@ -78,7 +79,7 @@ public class UserDao {
                     updatedRootNode.add(jsonNode);
                 }
                 if (!matchFound) {
-                	System.out.println("No match");
+                	System.out.println("No match found in users.json. Creating new User.");
 
                     // Create a new user object
                     ObjectNode newUser = objectMapper.createObjectNode();
@@ -94,6 +95,10 @@ public class UserDao {
 
                     // Write the updated JSON back to the file
                     objectMapper.writeValue(jsonFile, updatedRootNode);
+                    
+                    // Login to the new account
+                    user = new User();
+                    user.setId(newId);
                 }
             }
 		}
