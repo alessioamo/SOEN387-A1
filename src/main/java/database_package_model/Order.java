@@ -8,7 +8,7 @@ public class Order {
 	private int trackingNumber;
 	private String datePlaced;
 	private String productsInCart; //TODO not sure what we do with this yet cause json file
-	private int userId; //TODO do we import user for this?
+	private int userId;
 	
 	public Order() {
 	}
@@ -22,7 +22,7 @@ public class Order {
 		this.productsInCart = productsInCart;
 		this.userId = userId;
 	}
-	
+
 	public int getOrderId() {
 		return orderId;
 	}
@@ -61,5 +61,20 @@ public class Order {
 	
 	public void setDatePlaced(String datePlaced) {
 		this.datePlaced = datePlaced;
+	}
+
+	public int getUserId() {
+		return userId;
+	}
+
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
+	
+	@Override
+	public String toString() {
+		return "Order [orderId=" + orderId + ", shippingAddress=" + shippingAddress + ", trackingNumber="
+				+ trackingNumber + ", datePlaced=" + datePlaced + ", productsInCart=" + productsInCart + ", userId="
+				+ userId + "]";
 	}
 }

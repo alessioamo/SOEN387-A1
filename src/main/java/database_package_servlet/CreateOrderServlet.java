@@ -56,6 +56,7 @@ public class CreateOrderServlet extends HttpServlet {
 					System.out.println(cart.toString());
 					BusinessFunctions bf = new BusinessFunctions(databaseConnection.getConnection());
 					bf.createOrder(user, shippingAddress);
+					session.setAttribute("orders_list", bf.getOrders(user));
 					response.sendRedirect("products.jsp");
 				}
 				else {

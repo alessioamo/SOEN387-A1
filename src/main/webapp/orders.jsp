@@ -1,23 +1,38 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%@ page import="java.util.List" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.text.DecimalFormat" %>
 <%@ page import="database_package_model.*" %>
+<%@ page import="database_package_connection.*" %>
+<%@ page import="database_package_dao.*" %>
+
     <%
     DecimalFormat dcf = new DecimalFormat("#.00");
     request.setAttribute("dcf", dcf);
     
 	User auth = (User) request.getSession().getAttribute("auth");
-    System.out.print("Auth is " + auth);
-    if (auth == null || auth.getUsername() == null) {
+    if (auth == null || auth.getUsername() == "temp") {
         // User is not logged in; redirect to login.jsp
         response.sendRedirect("login.jsp");
+    }
+    
+    if (auth != null && auth.getUsername() != "temp") {
+    	request.setAttribute("auth", auth);
+    }
+    else {
+    	auth = new User();
+    	auth.setUsername("temp");
+    	session.setAttribute("auth", auth);
     }
     
     ArrayList<Product> cart_list = (ArrayList<Product>) session.getAttribute("cart-list");
     if (cart_list != null) {
     	request.setAttribute("cart_list", cart_list);
     }
+    
+    BusinessFunctions bf = new BusinessFunctions(databaseConnection.getConnection());
+    List<Order> orders = bf.getOrders(auth);
     
     //TODO add order list
     
@@ -45,32 +60,8 @@
 			</thead>
 			<tbody>
 			<!-- TODO - Not implemented yet  -->
-			<%
-			// if the user is an admin, show all orders. else, show only those belonging to the logged in user
-			if (user != null && "admin".equals(user.getUsername())) {
-				if (orders != null) {
-					for (Order o:orders) {%>
-						<tr><%= o.getOrderId %></tr>
-						<tr><%= o.getDate %></tr>
-						<tr><%= o.getShippingAddress %></tr>
-						<tr><%= o.getTrackingNumber %></tr>
-						<tr><%= //o.getProducts %></tr>
-					<%}
-				}
-			}
-			else if (user != null) {
-				if (orders != null) {
-					for (Order o:orders) {
-						if (o.getUserId == auth.getId()/*TODO if statement to see if id of the user order is the same as the user id who is logged in*/) {%>
-							<tr><%= o.getOrderId %></tr>
-							<tr><%= o.getDate %></tr>
-							<tr><%= o.getShippingAddress %></tr>
-							<tr><%= o.getTrackingNumber %></tr>
-							<tr><%= o.getDate %></tr>
-					<%	}
-					}
-				}	
-			}
+			<% System.out.println("orders in jsp is " + orders);
+			
 			%>
 			</tbody>
 		</table>

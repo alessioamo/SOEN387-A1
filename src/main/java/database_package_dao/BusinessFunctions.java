@@ -225,4 +225,31 @@ public class BusinessFunctions {
 		Order order = new Order(orderId, shippingAddress, 0, productsInCart.toString(),
 				userId);
 	}
+	
+	public List<Order> getOrders(User user) {
+		System.out.println("In getOrders");
+		List<Order> orders = new ArrayList<Order>();
+
+		try {
+			query = "select * from orders where userId = ?";
+			pst = this.con.prepareStatement(query);
+			pst.setInt(1, user.getId());
+			rs = pst.executeQuery();
+			while (rs.next()) {
+				Order row = new Order();
+				row.setOrderId(rs.getInt("orderId"));
+				row.setShippingAddress(rs.getString("shippingAddress"));
+				row.setTrackingNumber(rs.getInt("trackingNumber"));
+				row.setDatePlaced(rs.getString("datePlaced"));
+				row.setProductsInCart(rs.getString("productsInCart"));
+				row.setUserId(rs.getInt("userId"));
+
+				orders.add(row);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		System.out.println("Returning orders: " + orders);
+		return orders;
+	}
 }
