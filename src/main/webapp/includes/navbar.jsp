@@ -26,8 +26,8 @@
 				if (auth != null) {
 					// Auth.getId() will be 0 if the user is not logged in (they are in anonymous mode or as we called it "temp")
 					if (auth.getId() != 0) {%>
+						<li class="nav-item active"><a class="nav-link" href="orders.jsp">Orders</a></li>
 						<li class="nav-item active"><a class="nav-link" href="log-out">Logout</a></li>
-						<!-- <li class="nav-item active"><a class="nav-link" href="orders.jsp">Orders</a></li> -->
 				<%	} else {%>
 						<li class="nav-item active"><a class="nav-link" href="log-out">Login</a></li>
 				<%	}
