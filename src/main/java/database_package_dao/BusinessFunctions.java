@@ -203,4 +203,26 @@ public class BusinessFunctions {
 		}
 		return null;
 	}
+
+	public void createOrder(User user, String shippingAddress) {
+		int orderId = 0;
+		Cart cart = user.getCart();
+		StringBuilder productsInCart =  new StringBuilder("[\n");
+		for (Product p : cart.getCartProducts()) {
+			productsInCart.append("{\n");
+			productsInCart.append("\"id\":" + p.getId() + ",\n");
+			productsInCart.append("\"name\":\"" + p.getName() + "\",\n");
+			productsInCart.append("\"quantity\":" + p.getQuantity() + ",\n");
+			productsInCart.append("\"vendor\":\"" + p.getVendor() + "\",\n");
+			productsInCart.append("\"sku\":\"" + p.getSku() + "\"\n");
+			productsInCart.append("},\n");
+		}
+		if (productsInCart.length()>2) {
+			productsInCart.deleteCharAt(productsInCart.length() - 2); // Remove the trailing comma
+		}
+		productsInCart.append("]");
+		int userId = user.getId();
+		Order order = new Order(orderId, shippingAddress, 0, productsInCart.toString(),
+				userId);
+	}
 }

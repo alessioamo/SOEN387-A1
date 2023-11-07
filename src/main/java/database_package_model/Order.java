@@ -1,6 +1,8 @@
 package database_package_model;
+import  java.time.LocalDate;
 
 public class Order {
+	
 	private int orderId;
 	private String shippingAddress;
 	private int trackingNumber;
@@ -9,7 +11,16 @@ public class Order {
 	private int userId; //TODO do we import user for this?
 	
 	public Order() {
-		
+	}
+	
+	public Order(int orderId, String shippingAddress, int trackingNumber, String productsInCart,
+			int userId) {
+		this.orderId = orderId;
+		this.shippingAddress = shippingAddress;
+		this.trackingNumber = trackingNumber;
+		this.datePlaced = LocalDate.now().toString();
+		this.productsInCart = productsInCart;
+		this.userId = userId;
 	}
 	
 	public int getOrderId() {
