@@ -23,7 +23,37 @@ public class LoginServlet extends HttpServlet {
 			throws ServletException, IOException {
 		response.sendRedirect("login.jsp");
 	}
+	
+	@Override
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		response.setContentType("text/html;charset=UTF-8");
+		try (PrintWriter out = response.getWriter()) {
+			
+			String authenticationKey = request.getParameter("authentication-key");
 
+			try {
+				UserDao udao = new UserDao(databaseConnection.getConnection());
+				User user = udao.userAuthentication(authenticationKey);
+				
+				//read file for login
+
+				if (user != null) {
+					request.getSession().setAttribute("auth", user);
+					response.sendRedirect("index.jsp");
+				} else {
+					String loginFailedMessage = "User login failed, username or password is incorrect.";
+				    response.sendRedirect("login.jsp?loginFailedMessage=" + loginFailedMessage);
+					//out.print("User login failed");
+				}
+			} catch (ClassNotFoundException | SQLException e) {
+				e.printStackTrace();
+			}
+
+		}
+	}
+
+	/* Old login servlet
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -51,5 +81,6 @@ public class LoginServlet extends HttpServlet {
 
 		}
 	}
+	*/
 
 }

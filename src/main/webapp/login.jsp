@@ -55,6 +55,24 @@ if (cart_list != null) {
 			<div class="card-body">
 				<form action="user-login" method="post">
 					<div class="form-group">
+						<label class="">Authentication Key (secret for Admin)</label> <input
+							type="username" class="form-control" name="authentication-key"
+							placeholder="Authentication Key" required>
+					</div>
+					<br>
+					<div class="text-center">
+						<button type="submit" class="btn btn-primary">Login</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	
+		<!-- Old User login
+		<div class="card w-50 mx-auto my-5">
+			<div class="card-header text-center">User Login</div>
+			<div class="card-body">
+				<form action="user-login" method="post">
+					<div class="form-group">
 						<label class="">Username (admin for admin)</label> <input
 							type="username" class="form-control" name="login-username"
 							placeholder="Username" required>
@@ -72,10 +90,12 @@ if (cart_list != null) {
 				</form>
 			</div>
 		</div>
+		-->
+		
+		<!-- Stuff to create account if needed in future
 		<div class="card w-50 mx-auto my-5">
 			<div class="card-header text-center">Create Account</div>
 			<div class="card-body">
-			<!-- TODO: Make a create account servlet -->
 				<form action="" method="post">
 					<div class="form-group">
 						<label class="">Username</label> <input
@@ -95,6 +115,8 @@ if (cart_list != null) {
 				</form>
 			</div>
 		</div>
+		-->
+		
 	</div>
 
 	<%@include file="includes/footer.jsp"%>
