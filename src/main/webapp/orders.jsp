@@ -67,8 +67,10 @@ ObjectMapper objectMapper = new ObjectMapper();
 					%>
 					<th scope="colr">User ID</th>
 					<%}%>
-
-
+					<th scope="colr">Details</th>
+					<% if (auth.getUsername() == "admin") {%>
+						<th scope="colr">Ship Order</th>
+					<%}%>
 				</tr>
 			</thead>
 			<tbody>
@@ -78,91 +80,90 @@ ObjectMapper objectMapper = new ObjectMapper();
 				if (orders != null) {
 					if (auth.getUsername() == "admin") {
 						for (Order o : allOrders) {
-						System.out.println("o is " + o);
-						JsonNode rootNode = null;
-						if(o.getProductsInCart()!=null){
-							rootNode = objectMapper.readTree(o.getProductsInCart());
+							System.out.println("o is " + o);
+							JsonNode rootNode = null;
+							if(o.getProductsInCart()!=null){
+								rootNode = objectMapper.readTree(o.getProductsInCart());
+							} %>
+				<tr>
+					<td><%= o.getOrderId() %></td>
+					<td><%= o.getDatePlaced() %></td>
+					<td><%= o.getShippingAddress() %></td>
+					<% if (o.getTrackingNumber() != 0) {%>
+						<td><%= o.getTrackingNumber() %></td>
+					<%} else {%>
+						<td>Not Shipped Yet</td>
+					<% } %>
+					<td><ul>
+						<% 
+						if (rootNode!=null && rootNode.isArray()) {
+							ArrayNode updatedRootNode = objectMapper.createArrayNode();
+							for (JsonNode jsonNode : rootNode) {
+								String name = jsonNode.get("name").asText();
+								int quantity = jsonNode.get("quantity").asInt();
+								String prod = (name + " x"+quantity);
+						%>
+								<li> <%=prod %></li>
+						<%
+							}
 						}
-				%>
-				<tr>
-					<td><%=o.getOrderId()%></td>
-					<td><%=o.getDatePlaced()%></td>
-					<td><%=o.getShippingAddress()%></td>
-					<%
-					if (o.getTrackingNumber() != 0) {
-					%>
-					<td><%=o.getTrackingNumber()%></td>
-					<%} else {%>
-					<td>Not Shipped Yet</td>
-					<%
-					}
-					%>
-					<td><ul>
-					<% 
-					if (rootNode!=null && rootNode.isArray()) {
-		            	ArrayNode updatedRootNode = objectMapper.createArrayNode();
-						for (JsonNode jsonNode : rootNode) {
-		                    String name = jsonNode.get("name").asText();
-		                    int quantity = jsonNode.get("quantity").asInt();
-		                    String prod = (name + " x"+quantity);
-                    %> 
-		                    <li> <%=prod %></li>
-                    <%
-	                }
-					}
-					%>
-		                
-		                </ul></td>
-					<td>$<%=dcf.format(o.getTotalCost())%></td>
-					<td><%=o.getUserId()%></td>
+						%>   
+					</ul></td>
+					<td>$<%= dcf.format(o.getTotalCost()) %></td>
+					<td><%= o.getUserId() %></td>
+					<td><a href="<%= request.getContextPath() %>/orders/<%= o.getOrderId() %>">View Order</a></td>
+					<td>
+						<!-- TODO - ship order servlet/function to implement here which provides tracking number also -->
+						<form action="" method="">
+							<button class="btn btn-primary">Ship</button>
+						</form>
+					</td>
 				</tr>
-				<%
-				}
-				} else {
-				for (Order o : orders) {
-				System.out.println("o is " + o);
-				JsonNode rootNode = null;
-				if(o.getProductsInCart()!=null){
-					rootNode = objectMapper.readTree(o.getProductsInCart());
-				}
-				%>
-				<tr>
-					<td><%=o.getOrderId()%></td>
-					<td><%=o.getDatePlaced()%></td>
-					<td><%=o.getShippingAddress()%></td>
-					<%
-					if (o.getTrackingNumber() != 0) {
-					%>
-					<td><%=o.getTrackingNumber()%></td>
-					<%} else {%>
-					<td>Not Shipped Yet</td>
-					<%
+							
+					<%}
+					}
+					else {
+						for (Order o : orders) {
+							System.out.println("o is " + o);
+							JsonNode rootNode = null;
+							if (o.getProductsInCart()!=null) {
+								rootNode = objectMapper.readTree(o.getProductsInCart());
+							}
+						%>
+						<tr>
+							<td><%= o.getOrderId() %></td>
+							<td><%= o.getDatePlaced() %></td>
+							<td><%= o.getShippingAddress() %></td>
+							<% if (o.getTrackingNumber() != 0) {%>
+								<td><%= o.getTrackingNumber() %></td>
+							<%} else {%>
+								<td>Not Shipped Yet</td>
+							<% } %>
+							<td><ul>
+								<% 
+								if (rootNode!=null && rootNode.isArray()) {
+									ArrayNode updatedRootNode = objectMapper.createArrayNode();
+									for (JsonNode jsonNode : rootNode) {
+										String name = jsonNode.get("name").asText();
+										int quantity = jsonNode.get("quantity").asInt();
+										String prod = (name + " x"+quantity);
+								%> 
+										<li><%= prod %> </li>
+								<%
+									}
+								}
+								%>
+									
+							</ul></td>
+							<td>$<%= dcf.format(o.getTotalCost()) %></td>
+							<td><a href="<%= request.getContextPath() %>/orders/<%= o.getOrderId() %>">View Order</a></td>
+						</tr>
+					<%}	
 					}
 					%>
-					<td><ul>
-					<% 
-					if (rootNode!=null && rootNode.isArray()) {
-		            	ArrayNode updatedRootNode = objectMapper.createArrayNode();
-						for (JsonNode jsonNode : rootNode) {
-		                    String name = jsonNode.get("name").asText();
-		                    int quantity = jsonNode.get("quantity").asInt();
-		                    String prod = (name + " x"+quantity);
-                    %> 
-		                    <li><%= prod %> </li>
-                    <%
-	                }
-					}
-					%>
-		                
-		                </ul>
-		                </td>
-					<td>$<%=dcf.format(o.getTotalCost())%></td>
-				</tr>
+
 				<%
-				}
-				}
-				}
-				%>
+				}%>
 			</tbody>
 		</table>
 	</div>

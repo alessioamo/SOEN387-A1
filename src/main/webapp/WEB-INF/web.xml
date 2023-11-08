@@ -129,4 +129,14 @@
     <servlet-name>CreateOrderServlet</servlet-name>
     <url-pattern>/CreateOrderServlet</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>OrderDetails</display-name>
+    <servlet-name>OrderDetails</servlet-name>
+    <servlet-class>database_package_servlet.OrderDetails</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>OrderDetails</servlet-name>
+    <url-pattern>/orders/*</url-pattern>
+  </servlet-mapping>
 </web-app>

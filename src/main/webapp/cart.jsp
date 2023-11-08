@@ -52,6 +52,10 @@
 		<div class="d-flex py-3">
 			<h3>Total Price: $${ (total>0)?dcf.format(total):0 }</h3>
 			<form action="CreateOrderServlet" method="post">
+				<label for="shipping-address">Shipping Address:</label>
+			    <input type="text" id="shipping-address" name="shipping-address" required>
+			    <button type="submit" class="mx-3 btn btn-primary">Place Order</button>
+				
 				<button type="submit" class="mx-3 btn btn-primary">Place Order</button>
 			</form>
 		</div>

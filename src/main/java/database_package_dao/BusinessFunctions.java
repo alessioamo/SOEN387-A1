@@ -290,4 +290,25 @@ public class BusinessFunctions {
 		System.out.println("Returning all orders: " + orders);
 		return orders;
 	}
+	
+	public Order getOrderById(String orderId) {
+		List<Order> orders = getAllOrders();
+
+		try {
+			// Find the product with the matching slug
+			for (Order order : orders) {
+				String orderIdAsString = Integer.toString(order.getOrderId());
+				if (orderIdAsString.equals(orderId)) {
+					return order;
+				}
+			}
+			// TODO - create a new exception for this order
+			throw new InvalidSlugException("Order Id = "+orderId+" is not a valid id.");
+		} catch (InvalidSlugException ise) {
+			System.out.println(ise);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 }
