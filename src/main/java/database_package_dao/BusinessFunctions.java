@@ -112,7 +112,7 @@ public class BusinessFunctions {
 			product.setQuantity(1);
 			newCartList.add(product);
 		}
-		cart.setCartProducts(newCartList);
+		user.getCart().setCartProducts(newCartList);
 		pd.updateQuantity(sku,newQuantity);
 	}
 	
@@ -125,7 +125,7 @@ public class BusinessFunctions {
 				break;
 			}
 		}
-		cart.setCartProducts(newCartList);
+		user.getCart().setCartProducts(newCartList);
 		pd.updateQuantity(sku, 0);
 	}
 
@@ -204,6 +204,31 @@ public class BusinessFunctions {
 		}
 		return null;
 	}
+	
+	public void clearCart(User user) {
+		Cart cart = user.getCart();
+		for (Product p : cart.getCartProducts()) {
+			pd.updateQuantity(p.getSku(), 0);
+		}
+		cart.setCartProducts(new ArrayList<Product>());
+		user.setCart(cart);	
+	}
+	
+	public void SetProductQuantityInCart(User user, String sku, int quantity) {
+		Cart cart = user.getCart();
+		ArrayList<Product> newCartList = cart.getCartProducts();
+		boolean isFound = false;
+		for (Product p : newCartList) {
+			if (p.getSku().equals(sku)) {
+				p.setQuantity(quantity);
+				pd.updateQuantity(sku, quantity);
+				isFound = true;
+				user.getCart().setCartProducts(newCartList);
+				break;
+			}
+			
+		}
+	}
 
 	public void createOrder(User user, String shippingAddress) {
 		System.out.println("in createorder() bf");
@@ -235,6 +260,7 @@ public class BusinessFunctions {
 				userId);
 		od.newOrder(order);
 		System.out.println("done createorder() bf");
+		clearCart(user);
 	}
 	
 	public List<Order> getOrders(User user) {

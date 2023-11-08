@@ -100,6 +100,7 @@ public class CreateOrderServlet extends HttpServlet {
 						BusinessFunctions bf = new BusinessFunctions(databaseConnection.getConnection());
 						bf.createOrder(user, shippingAddress);
 						session.setAttribute("orders_list", bf.getOrders(user));
+						session.setAttribute("cart_list", user.getCart().getCartProducts());
 						response.sendRedirect("orders.jsp");
 					}
 					else {
