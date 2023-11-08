@@ -41,12 +41,12 @@ public class OrderDetails extends HttpServlet {
 			    
 			    String trackingInfo;
 			    if (order.getTrackingNumber() != 0) {
-			    	trackingInfo = Integer.toString(order.getTrackingNumber());
+			    	trackingInfo = bf.getTrackingNumber(order.getTrackingNumber());
+			    	
 			    }
 			    else {
 			    	trackingInfo = "Not Shipped Yet";
 			    }
-
 
 		        String htmlContent = "<html><head><title>Order " + order.getOrderId() + "</title>"
 		        		+ "<style>.product {\r\n"

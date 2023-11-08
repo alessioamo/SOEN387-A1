@@ -57,7 +57,7 @@ public class CreateOrderServlet extends HttpServlet {
 					BusinessFunctions bf = new BusinessFunctions(databaseConnection.getConnection());
 					bf.createOrder(user, shippingAddress);
 					session.setAttribute("orders_list", bf.getOrders(user));
-					response.sendRedirect("products.jsp");
+					response.sendRedirect("orders.jsp");
 				}
 				else {
 					System.out.println("User is not logged in, redirecting to login.");
@@ -95,11 +95,18 @@ public class CreateOrderServlet extends HttpServlet {
 				if (user.getId() != 0) {
 					System.out.println("User is logged in.");
 					cart = user.getCart();
-					System.out.println(cart.toString());
-					BusinessFunctions bf = new BusinessFunctions(databaseConnection.getConnection());
-					bf.createOrder(user, shippingAddress);
-					session.setAttribute("orders_list", bf.getOrders(user));
-					response.sendRedirect("products.jsp");
+					System.out.println("Cart is: " + cart.toString());
+					if (cart.toString() != "") {
+						BusinessFunctions bf = new BusinessFunctions(databaseConnection.getConnection());
+						bf.createOrder(user, shippingAddress);
+						session.setAttribute("orders_list", bf.getOrders(user));
+						response.sendRedirect("orders.jsp");
+					}
+					else {
+						System.out.println("Cart is empty, don't add order.");
+						String cartIsEmptyMessage = "Cart is empty, please add a product to place an order.";
+					    response.sendRedirect("cart.jsp?cartIsEmptyMessage=" + cartIsEmptyMessage);
+					}
 				}
 				else {
 					System.out.println("User is not logged in, redirecting to login.");

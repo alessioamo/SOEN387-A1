@@ -338,4 +338,10 @@ public class BusinessFunctions {
 		result = result.substring(result.length() - 5);
 		return Integer.parseInt(result);
 	}
+	
+	public String getTrackingNumber(int trackingNumber) {
+		String result = "00000" + Integer.toString(trackingNumber);
+		result = result.substring(result.length() - 5);
+		return result;
+	}
 }

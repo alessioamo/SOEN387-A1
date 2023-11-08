@@ -47,6 +47,7 @@ ObjectMapper objectMapper = new ObjectMapper();
 <head>
 <title>Orders</title>
 <%@include file="includes/head.jsp"%>
+
 </head>
 <body>
 	<%@include file="includes/navbar.jsp"%>
@@ -90,7 +91,7 @@ ObjectMapper objectMapper = new ObjectMapper();
 					<td><%= o.getDatePlaced() %></td>
 					<td><%= o.getShippingAddress() %></td>
 					<% if (o.getTrackingNumber() != 0) {%>
-						<td><%= o.getTrackingNumber() %></td>
+						<td><%= bf.getTrackingNumber(o.getTrackingNumber()) %></td>
 					<%} else {%>
 						<td>Not Shipped Yet</td>
 					<% } %>
@@ -130,7 +131,7 @@ ObjectMapper objectMapper = new ObjectMapper();
 					}
 					else {
 						for (Order o : orders) {
-							System.out.println("o is " + o);
+							String trackingNumberAsString = bf.getTrackingNumber(o.getTrackingNumber());
 							JsonNode rootNode = null;
 							if (o.getProductsInCart()!=null) {
 								rootNode = objectMapper.readTree(o.getProductsInCart());
@@ -141,7 +142,7 @@ ObjectMapper objectMapper = new ObjectMapper();
 							<td><%= o.getDatePlaced() %></td>
 							<td><%= o.getShippingAddress() %></td>
 							<% if (o.getTrackingNumber() != 0) {%>
-								<td><%= o.getTrackingNumber() %></td>
+								<td><%= trackingNumberAsString %></td>
 							<%} else {%>
 								<td>Not Shipped Yet</td>
 							<% } %>

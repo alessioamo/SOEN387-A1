@@ -44,6 +44,17 @@
 			color: green;
 		}
 	</style>
+	
+	<script>
+	// Check if the URL contains the loginFailedMessage parameter
+	const urlParams = new URLSearchParams(window.location.search);
+	const cartIsEmptyMessage = urlParams.get('cartIsEmptyMessage');
+
+	if (cartIsEmptyMessage) {
+		// Display an alert box with the login failed message
+		alert(cartIsEmptyMessage);
+	}
+	</script>
 </head>
 <body>
 	<%@include file="includes/navbar.jsp" %>
