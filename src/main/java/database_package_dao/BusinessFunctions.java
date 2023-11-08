@@ -20,6 +20,7 @@ public class BusinessFunctions {
 	private PreparedStatement pst;
 	private ResultSet rs;
 	private ProductDao pd;
+	private OrderDao od;
 
 	public BusinessFunctions(Connection con) {
 		this.con = con;
@@ -205,9 +206,11 @@ public class BusinessFunctions {
 	}
 
 	public void createOrder(User user, String shippingAddress) {
+		System.out.println("in createorder() bf");
 		int orderId = 0;
 		double totalCost = 0;
 		Cart cart = user.getCart();
+		od = new OrderDao(this.con);
 		StringBuilder productsInCart =  new StringBuilder("[\n");
 		for (Product p : cart.getCartProducts()) {
 			productsInCart.append("{\n");
@@ -229,6 +232,8 @@ public class BusinessFunctions {
 		int userId = user.getId();
 		Order order = new Order(orderId, shippingAddress, 0, productsInCart.toString(), totalCost,
 				userId);
+		od.newOrder(order);
+		System.out.println("done createorder() bf");
 	}
 	
 	public List<Order> getOrders(User user) {

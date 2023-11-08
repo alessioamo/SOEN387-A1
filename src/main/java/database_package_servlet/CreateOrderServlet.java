@@ -82,8 +82,38 @@ public class CreateOrderServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		System.out.println("In create order servlet doPost.");
-		doGet(request, response);
+		response.setContentType("text/html;charset=UTF-8");
+		HttpSession session = request.getSession();
+		try (PrintWriter out = response.getWriter()) {
+			User user;
+			Cart cart;
+			String shippingAddress = request.getParameter("shipping-address");
+			if (request.getSession().getAttribute("auth") != null) {
+				user = (User) request.getSession().getAttribute("auth");
+				
+				// We must check if user is logged in, any id not equal to 0 means they are. If not logged in, redirect them to login
+				if (user.getId() != 0) {
+					System.out.println("User is logged in.");
+					cart = user.getCart();
+					System.out.println(cart.toString());
+					BusinessFunctions bf = new BusinessFunctions(databaseConnection.getConnection());
+					bf.createOrder(user, shippingAddress);
+					session.setAttribute("orders_list", bf.getOrders(user));
+					response.sendRedirect("products.jsp");
+				}
+				else {
+					System.out.println("User is not logged in, redirecting to login.");
+					String loginFailedMessage = "User is not authenticated, please provide or create a new authentication key.";
+				    response.sendRedirect("login.jsp?loginFailedMessage=" + loginFailedMessage);
+				}
+			} else {
+				System.out.println("Null User Shud prolly be exception");
+			}
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 }
