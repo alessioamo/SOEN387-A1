@@ -41,7 +41,6 @@ public class GetCartServlet extends HttpServlet {
 					user = (User) request.getSession().getAttribute("auth");
 					cart = user.getCart();
 					ArrayList<Product> cartProducts = pd.getCart(user);
-					System.out.println(cart.toString());
 				}
 				response.sendRedirect("products.jsp");
 			}
@@ -49,7 +48,6 @@ public class GetCartServlet extends HttpServlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		//System.out.println(session.getAttribute("cart-list"));
 		
 	}
 }

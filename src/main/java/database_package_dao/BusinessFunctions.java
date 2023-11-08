@@ -230,7 +230,6 @@ public class BusinessFunctions {
 	}
 
 	public void createOrder(User user, String shippingAddress) {
-		System.out.println("in createorder() bf");
 		int orderId = 0;
 		double totalCost = 0;
 		Cart cart = user.getCart();
@@ -248,7 +247,6 @@ public class BusinessFunctions {
 			
 			totalCost += (p.getPrice() * p.getQuantity());
 		}
-		System.out.println("total: " + totalCost);
 		
 		if (productsInCart.length()>2) {
 			productsInCart.deleteCharAt(productsInCart.length() - 2); // Remove the trailing comma
@@ -264,7 +262,6 @@ public class BusinessFunctions {
 	}
 	
 	public List<Order> getOrders(User user) {
-		System.out.println("In getOrders");
 		List<Order> orders = new ArrayList<Order>();
 
 		try {
@@ -287,7 +284,6 @@ public class BusinessFunctions {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		System.out.println("Returning orders: " + orders);
 		return orders;
 	}
 	
@@ -317,7 +313,6 @@ public class BusinessFunctions {
 	}
 	
 	public List<Order> getAllOrders() {
-		System.out.println("In getAllOrders");
 		List<Order> orders = new ArrayList<Order>();
 
 		try {
@@ -339,7 +334,6 @@ public class BusinessFunctions {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		System.out.println("Returning all orders: " + orders);
 		return orders;
 	}
 	
@@ -373,7 +367,6 @@ public class BusinessFunctions {
         
         query = "UPDATE orders SET trackingNumber = ? WHERE orderId = ?";
         try {
-        	System.out.println("In try: " + query);
 			pst = this.con.prepareStatement(query);
 			pst.setInt(1, trackingNumberAsInt);
 	        pst.setInt(2, orderIdAsInt);

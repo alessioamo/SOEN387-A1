@@ -53,7 +53,6 @@ public class CreateOrderServlet extends HttpServlet {
 				if (user.getId() != 0) {
 					System.out.println("User is logged in.");
 					cart = user.getCart();
-					System.out.println(cart.toString());
 					BusinessFunctions bf = new BusinessFunctions(databaseConnection.getConnection());
 					bf.createOrder(user, shippingAddress);
 					session.setAttribute("orders_list", bf.getOrders(user));
@@ -65,7 +64,7 @@ public class CreateOrderServlet extends HttpServlet {
 				    response.sendRedirect("login.jsp?loginFailedMessage=" + loginFailedMessage);
 				}
 			} else {
-				System.out.println("Null User Shud prolly be exception");
+				
 			}
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
@@ -95,7 +94,6 @@ public class CreateOrderServlet extends HttpServlet {
 				if (user.getId() != 0) {
 					System.out.println("User is logged in.");
 					cart = user.getCart();
-					System.out.println("Cart is: " + cart.toString());
 					if (cart.toString() != "") {
 						BusinessFunctions bf = new BusinessFunctions(databaseConnection.getConnection());
 						bf.createOrder(user, shippingAddress);
