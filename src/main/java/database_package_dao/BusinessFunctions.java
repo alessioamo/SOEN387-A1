@@ -311,4 +311,31 @@ public class BusinessFunctions {
 		}
 		return null;
 	}
+	
+	public void shipOrder(String orderId, String trackingNumber) {
+		Order order;
+        order = getOrderById(orderId);
+        int orderIdAsInt = Integer.parseInt(orderId);
+        order.setTrackingNumber(orderIdAsInt);
+        
+        int trackingNumberAsInt = getTrackingNumber(trackingNumber);
+        
+        query = "UPDATE orders SET trackingNumber = ? WHERE orderId = ?";
+        try {
+        	System.out.println("In try: " + query);
+			pst = this.con.prepareStatement(query);
+			pst.setInt(1, trackingNumberAsInt);
+	        pst.setInt(2, orderIdAsInt);
+	        pst.executeUpdate();
+	        pst.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public int getTrackingNumber(String trackingNumber) {
+		String result = "00000" + trackingNumber;
+		result = result.substring(result.length() - 5);
+		return Integer.parseInt(result);
+	}
 }

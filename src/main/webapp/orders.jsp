@@ -114,9 +114,15 @@ ObjectMapper objectMapper = new ObjectMapper();
 					<td><a href="<%= request.getContextPath() %>/orders/<%= o.getOrderId() %>">View Order</a></td>
 					<td>
 						<!-- TODO - ship order servlet/function to implement here which provides tracking number also -->
-						<form action="" method="">
-							<button class="btn btn-primary">Ship</button>
-						</form>
+						<% if (o.getTrackingNumber() == 0) {%>
+							<form action="ShipOrderServlet" method="post">
+								<input type="hidden" name="orderId" value="<%= o.getOrderId() %>">
+	    						<button type="submit" class="btn btn-primary">Ship</button>
+							</form>
+						<%} else {%>
+							Shipped
+						<%}%>
+						
 					</td>
 				</tr>
 							

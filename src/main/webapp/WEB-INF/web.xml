@@ -139,4 +139,14 @@
     <servlet-name>OrderDetails</servlet-name>
     <url-pattern>/orders/*</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ShipOrderServlet</display-name>
+    <servlet-name>ShipOrderServlet</servlet-name>
+    <servlet-class>database_package_servlet.ShipOrderServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ShipOrderServlet</servlet-name>
+    <url-pattern>/ShipOrderServlet</url-pattern>
+  </servlet-mapping>
 </web-app>
