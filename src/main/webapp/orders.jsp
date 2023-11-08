@@ -79,7 +79,10 @@ ObjectMapper objectMapper = new ObjectMapper();
 					if (auth.getUsername() == "admin") {
 						for (Order o : allOrders) {
 						System.out.println("o is " + o);
-						JsonNode rootNode = objectMapper.readTree(o.getProductsInCart());
+						JsonNode rootNode = null;
+						if(o.getProductsInCart()!=null){
+							rootNode = objectMapper.readTree(o.getProductsInCart());
+						}
 				%>
 				<tr>
 					<td><%=o.getOrderId()%></td>
@@ -96,7 +99,7 @@ ObjectMapper objectMapper = new ObjectMapper();
 					%>
 					<td><ul>
 					<% 
-					if (rootNode.isArray()) {
+					if (rootNode!=null && rootNode.isArray()) {
 		            	ArrayNode updatedRootNode = objectMapper.createArrayNode();
 						for (JsonNode jsonNode : rootNode) {
 		                    String name = jsonNode.get("name").asText();
@@ -118,7 +121,10 @@ ObjectMapper objectMapper = new ObjectMapper();
 				} else {
 				for (Order o : orders) {
 				System.out.println("o is " + o);
-				JsonNode rootNode = objectMapper.readTree(o.getProductsInCart());
+				JsonNode rootNode = null;
+				if(o.getProductsInCart()!=null){
+					rootNode = objectMapper.readTree(o.getProductsInCart());
+				}
 				%>
 				<tr>
 					<td><%=o.getOrderId()%></td>
@@ -135,7 +141,7 @@ ObjectMapper objectMapper = new ObjectMapper();
 					%>
 					<td><ul>
 					<% 
-					if (rootNode.isArray()) {
+					if (rootNode!=null && rootNode.isArray()) {
 		            	ArrayNode updatedRootNode = objectMapper.createArrayNode();
 						for (JsonNode jsonNode : rootNode) {
 		                    String name = jsonNode.get("name").asText();
