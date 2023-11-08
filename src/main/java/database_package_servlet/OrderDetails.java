@@ -10,6 +10,11 @@ import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+
 import database_package_connection.databaseConnection;
 import database_package_dao.BusinessFunctions;
 import database_package_model.Order;
@@ -47,7 +52,24 @@ public class OrderDetails extends HttpServlet {
 			    else {
 			    	trackingInfo = "Not Shipped Yet";
 			    }
-
+			    
+			    ObjectMapper objectMapper = new ObjectMapper();
+			    JsonNode rootNode = null;
+				if(order.getProductsInCart()!=null){
+					rootNode = objectMapper.readTree(order.getProductsInCart());
+				}
+				String prod="";
+				if (rootNode!=null && rootNode.isArray()) {
+					ArrayNode updatedRootNode = objectMapper.createArrayNode();
+					for (JsonNode jsonNode : rootNode) {
+						String name = jsonNode.get("name").asText();
+						int quantity = jsonNode.get("quantity").asInt();
+						String vendor = jsonNode.get("vendor").asText();
+						Double price = jsonNode.get("price").asDouble();
+						
+						prod += ("<li>"+name + " x"+quantity+" (Vendor: "+ vendor+ "): $"+price+"</li>\n");
+					}
+				}
 		        String htmlContent = "<html><head><title>Order " + order.getOrderId() + "</title>"
 		        		+ "<style>.product {\r\n"
 		        		+ "      max-width: 50%;\r\n"
@@ -114,7 +136,7 @@ public class OrderDetails extends HttpServlet {
 		        		+ "<div class=\"category\">Date Placed: " + order.getDatePlaced() + "</div><br>"
 		        		+ "<div class=\"description\">Shipping Address: " + order.getShippingAddress() + "</div><br>"
         				+ "<div class=\"description\">Tracking Number: " + trackingInfo + "</div><br>"
-		        		+ "<div class=\"description\">Products: " + order.getProductsInCart() + "</div><br>"
+		        		+ "<div class=\"description\">Products: <ul style=\"list-style: none;\">" + prod + "</ul></div><br>"
         				+ "<div class=\"price\">Total Cost: $" + dcf.format(order.getTotalCost()) + "</div><br>"
         				+ "<div class=\"vendor\">Placed by User ID: " + order.getUserId() + "</div>"
 		        		+ "</div>"

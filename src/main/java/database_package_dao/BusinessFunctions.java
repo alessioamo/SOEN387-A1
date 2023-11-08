@@ -218,7 +218,8 @@ public class BusinessFunctions {
 			productsInCart.append("\"name\":\"" + p.getName() + "\",\n");
 			productsInCart.append("\"quantity\":" + p.getQuantity() + ",\n");
 			productsInCart.append("\"vendor\":\"" + p.getVendor() + "\",\n");
-			productsInCart.append("\"sku\":\"" + p.getSku() + "\"\n");
+			productsInCart.append("\"sku\":\"" + p.getSku() + "\",\n");
+			productsInCart.append("\"price\":\"" + p.getPrice() + "\"\n");
 			productsInCart.append("},\n");
 			
 			totalCost += (p.getPrice() * p.getQuantity());
