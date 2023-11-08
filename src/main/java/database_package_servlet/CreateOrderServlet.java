@@ -113,8 +113,6 @@ public class CreateOrderServlet extends HttpServlet {
 					String loginFailedMessage = "User is not authenticated, please provide or create a new authentication key.";
 				    response.sendRedirect("login.jsp?loginFailedMessage=" + loginFailedMessage);
 				}
-			} else {
-				System.out.println("Null User Shud prolly be exception");
 			}
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();

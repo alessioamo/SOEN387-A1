@@ -52,10 +52,8 @@ public class AddToCartServlet extends HttpServlet {
 				//response.sendRedirect("login.jsp?status=" + HttpServletResponse.SC_FOUND);
 			}
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

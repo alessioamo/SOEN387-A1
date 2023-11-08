@@ -62,12 +62,16 @@ public class OrderDetails extends HttpServlet {
 				if (rootNode!=null && rootNode.isArray()) {
 					ArrayNode updatedRootNode = objectMapper.createArrayNode();
 					for (JsonNode jsonNode : rootNode) {
-						String name = jsonNode.get("name").asText();
-						int quantity = jsonNode.get("quantity").asInt();
-						String vendor = jsonNode.get("vendor").asText();
-						Double price = jsonNode.get("price").asDouble();
+						try {
+							String name = jsonNode.get("name").asText();
+							int quantity = jsonNode.get("quantity").asInt();
+							String vendor = jsonNode.get("vendor").asText();
+							Double price = jsonNode.get("price").asDouble();
+							prod += ("<li>"+name + " x"+quantity+" (Vendor: "+ vendor+ "): $"+price+"</li>\n");
+						}catch (Exception e) {
+							e.printStackTrace();
+						}
 						
-						prod += ("<li>"+name + " x"+quantity+" (Vendor: "+ vendor+ "): $"+price+"</li>\n");
 					}
 				}
 		        String htmlContent = "<html><head><title>Order " + order.getOrderId() + "</title>"

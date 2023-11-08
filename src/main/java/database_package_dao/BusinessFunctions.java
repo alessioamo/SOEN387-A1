@@ -294,7 +294,7 @@ public class BusinessFunctions {
 	
 	public Order getOrderById(String orderId) {
 		List<Order> orders = getAllOrders();
-
+		
 		try {
 			// Find the product with the matching slug
 			for (Order order : orders) {
@@ -304,9 +304,9 @@ public class BusinessFunctions {
 				}
 			}
 			// TODO - create a new exception for this order
-			throw new InvalidSlugException("Order Id = "+orderId+" is not a valid id.");
-		} catch (InvalidSlugException ise) {
-			System.out.println(ise);
+			throw new InvalidOrderIdException("Order Id = "+orderId+" is not a valid id.");
+		} catch (InvalidOrderIdException ioe) {
+			System.out.println(ioe);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
