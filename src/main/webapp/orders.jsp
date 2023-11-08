@@ -148,7 +148,7 @@ ObjectMapper objectMapper = new ObjectMapper();
 		                    int quantity = jsonNode.get("quantity").asInt();
 		                    String prod = (name + " x"+quantity);
                     %> 
-		                    <li> prod</li>
+		                    <li><%= prod %> </li>
                     <%
 	                }
 					}
