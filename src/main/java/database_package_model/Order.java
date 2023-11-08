@@ -11,6 +11,7 @@ public class Order {
 	private Double totalCost;
 	private int userId;
 	
+
 	public Order() {
 	}
 	

@@ -19,30 +19,30 @@ public class OrderDao {
 	
 	public void newOrder(Order order) {
 		System.out.println("in neworder() od");
-		try {
-			query = "SELECT * FROM orders WHERE orderId=?";
+		try { 
+			System.out.println("if neworder() od");
+			query = "INSERT INTO orders (userId, datePlaced, totalCost) VALUES (?, ?, ?)";
 			pst = this.con.prepareStatement(query);
-			pst.setInt(1, order.getOrderId());
+			//pst.setInt(1, order.getOrderId());
+			pst.setInt(1, order.getUserId());
+			pst.setString(2, order.getDatePlaced());
+			pst.setDouble(3, order.getTotalCost());
+			pst.executeUpdate();
+			query = "SELECT MAX(orderId) FROM orders";
+			pst = this.con.prepareStatement(query);
 			rs = pst.executeQuery();
-			if (!rs.next()) {
-				System.out.println("if neworder() od");
-				query = "INSERT INTO orders (userId, datePlaced) VALUES ( ?, ?)";
-				pst = this.con.prepareStatement(query);
-				//pst.setInt(1, order.getOrderId());
-				pst.setInt(1, order.getUserId());
-				pst.setString(2, order.getDatePlaced());
-				pst.executeUpdate();
-				pst.close();
-				updateProductsInCart(order);
-				updateShippingAddress(order);
-				if (order.getTrackingNumber()!=0) {
-					updateTrackingNumber(order);
-				}
-				System.out.println("done neworder() od");
-			} else {
-				pst.close();
-				//throw new InvalidOrderIdException("OrderId = "+order.getOrderId()+" is already assigned to another order.");
+			if (rs.next()) {
+				order.setOrderId(rs.getInt(1));
 			}
+			pst.close();
+			System.out.println("orderId = "+order.getOrderId());
+			updateProductsInCart(order);
+			updateShippingAddress(order);
+			if (order.getTrackingNumber()!=0) {
+				updateTrackingNumber(order);
+			}
+			System.out.println("done neworder() od");
+			
 		}catch (SQLException e) {
 			System.out.println(e);
 		}
@@ -78,7 +78,7 @@ public class OrderDao {
 
 	private void updateProductsInCart(Order order) {
 		try {
-			query = "UPDATE orders SET trackingNumber = ? WHERE orderId=?;";
+			query = "UPDATE orders SET productsInCart = ? WHERE orderId=?;";
 			pst = this.con.prepareStatement(query);
 			pst.setString(1, order.getProductsInCart());
 			pst.setInt(2, order.getOrderId());
