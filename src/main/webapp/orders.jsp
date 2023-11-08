@@ -48,6 +48,16 @@ ObjectMapper objectMapper = new ObjectMapper();
 <title>Orders</title>
 <%@include file="includes/head.jsp"%>
 
+	<script>
+		// Check if the URL contains the invalidTrackingNumber parameter
+		const urlParams = new URLSearchParams(window.location.search);
+		const invalidTrackingNumber = urlParams.get('invalidTrackingNumber');
+	
+		if (invalidTrackingNumber) {
+			// Display an alert box with the login failed message
+			alert(invalidTrackingNumber);
+		}
+	</script>
 </head>
 <body>
 	<%@include file="includes/navbar.jsp"%>
@@ -118,6 +128,7 @@ ObjectMapper objectMapper = new ObjectMapper();
 						<% if (o.getTrackingNumber() == 0) {%>
 							<form action="ShipOrderServlet" method="post">
 								<input type="hidden" name="orderId" value="<%= o.getOrderId() %>">
+								<input type="number" id="shipping-address" name="tracking-number" required placeholder="Enter Tracking number">
 	    						<button type="submit" class="btn btn-primary">Ship</button>
 							</form>
 						<%} else {%>

@@ -46,7 +46,7 @@
 	</style>
 	
 	<script>
-	// Check if the URL contains the loginFailedMessage parameter
+	// Check if the URL contains the cartIsEmptyMessage parameter
 	const urlParams = new URLSearchParams(window.location.search);
 	const cartIsEmptyMessage = urlParams.get('cartIsEmptyMessage');
 

@@ -31,12 +31,22 @@ public class ShipOrderServlet extends HttpServlet {
 		try (PrintWriter out = response.getWriter()) {
 			
 			String orderId = request.getParameter("orderId");
-	        System.out.println("Received orderId: " + orderId);
+			String trackingNumber = request.getParameter("tracking-number");
 			
-			BusinessFunctions bf = new BusinessFunctions(databaseConnection.getConnection());
-			bf.shipOrder(orderId, orderId);
+			if (trackingNumber.length() != 5) {
+				System.out.println("Invalid Tracking Number Size.");
+				String invalidTrackingNumber = "Invalid tracking number. Please provide a 5-digit tracking number.";
+			    response.sendRedirect("orders.jsp?invalidTrackingNumber=" + invalidTrackingNumber);
+			}
 			
-	        response.sendRedirect("orders.jsp");
+			else {
+				System.out.println("Received orderId: " + orderId);
+				
+				BusinessFunctions bf = new BusinessFunctions(databaseConnection.getConnection());
+				bf.shipOrder(orderId, trackingNumber);
+				
+		        response.sendRedirect("orders.jsp");
+			}
 	
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
