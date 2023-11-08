@@ -108,7 +108,6 @@ public class ProductDetails extends HttpServlet {
 		        		+ "<div class=\"description\">" + product.getDescription() + "</div><br>"
         				+ "<div class=\"price\">$" + dcf.format(product.getPrice()) + "</div><br>"
 		        		+ "<div class=\"vendor\">Vendor: " + product.getVendor() + "</div>"
-		        		// TODO - add to cart button on product page + "<a href=\"add-to-cart?id=" + product.getId() + "\" class=\"btn btn-dark\">Add to Cart</a>"
 		        		+ "</div>"
 		        		+ "<script>\r\n"
 		        		+ "    function goBack() {\r\n"

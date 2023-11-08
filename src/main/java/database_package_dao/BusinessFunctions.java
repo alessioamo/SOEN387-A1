@@ -199,7 +199,6 @@ public class BusinessFunctions {
 
 			return json.toString();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
@@ -259,6 +258,7 @@ public class BusinessFunctions {
 		Order order = new Order(orderId, shippingAddress, 0, productsInCart.toString(), totalCost,
 				userId);
 		od.newOrder(order);
+		getOrder(user, 1);
 		System.out.println("done createorder() bf");
 		clearCart(user);
 	}
@@ -289,6 +289,31 @@ public class BusinessFunctions {
 		}
 		System.out.println("Returning orders: " + orders);
 		return orders;
+	}
+	
+	public Order getOrder(User user, int orderId) {
+		Order order = new Order();
+
+		try {
+			query = "select * from orders where userId = ? and orderId = ?";
+			pst = this.con.prepareStatement(query);
+			pst.setInt(1, user.getId());
+			pst.setInt(2, orderId);
+			rs = pst.executeQuery();
+			if (rs.next()) {
+				order.setOrderId(rs.getInt("orderId"));
+				order.setShippingAddress(rs.getString("shippingAddress"));
+				order.setTrackingNumber(rs.getInt("trackingNumber"));
+				order.setDatePlaced(rs.getString("datePlaced"));
+				order.setProductsInCart(rs.getString("productsInCart"));
+				order.setTotalCost(rs.getDouble("totalCost"));
+				order.setUserId(rs.getInt("userId"));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		System.out.println("getOrder(user orderid) returned this order: " + order);
+		return order;
 	}
 	
 	public List<Order> getAllOrders() {
@@ -329,7 +354,6 @@ public class BusinessFunctions {
 					return order;
 				}
 			}
-			// TODO - create a new exception for this order
 			throw new InvalidOrderIdException("Order Id = "+orderId+" is not a valid id.");
 		} catch (InvalidOrderIdException ioe) {
 			System.out.println(ioe);

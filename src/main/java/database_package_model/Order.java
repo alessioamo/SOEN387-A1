@@ -7,7 +7,7 @@ public class Order {
 	private String shippingAddress;
 	private int trackingNumber;
 	private String datePlaced;
-	private String productsInCart; //TODO not sure what we do with this yet cause json file
+	private String productsInCart;
 	private Double totalCost;
 	private int userId;
 	
