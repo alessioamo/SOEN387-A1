@@ -75,7 +75,11 @@
 							<td><%= o.getOrderId() %></td>
 							<td><%= o.getDatePlaced() %></td>
 							<td><%= o.getShippingAddress() %></td>
-							<td><%= o.getTrackingNumber() %></td>
+							<% if (o.getTrackingNumber() != 0) {%>
+								<td><%= o.getTrackingNumber() %></td>
+							<%} else {%>
+								<td>Not Shipped Yet</td>
+							<% } %>
 							<td>Temp</td>
 							<td>$<%= dcf.format(o.getTotalCost()) %></td>
 							<td><%= o.getUserId() %></td>
@@ -88,7 +92,11 @@
 							<td><%= o.getOrderId() %></td>
 							<td><%= o.getDatePlaced() %></td>
 							<td><%= o.getShippingAddress() %></td>
-							<td><%= o.getTrackingNumber() %></td>
+							<% if (o.getTrackingNumber() != 0) {%>
+								<td><%= o.getTrackingNumber() %></td>
+							<%} else {%>
+								<td>Not Shipped Yet</td>
+							<% } %>
 							<td>Temp</td>
 							<td>$<%= dcf.format(o.getTotalCost()) %></td>
 						</tr>
