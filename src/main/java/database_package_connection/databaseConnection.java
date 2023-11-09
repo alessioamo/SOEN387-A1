@@ -4,7 +4,10 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import database_package_config.databaseConfig;
+
 public class databaseConnection {
+	/*
 	private static Connection connection = null;
 	
 	public static Connection getConnection() throws ClassNotFoundException, SQLException {
@@ -15,4 +18,21 @@ public class databaseConnection {
 		}
 		return connection;
 	}
+	*/
+	
+	private static final databaseConfig config = new databaseConfig();
+
+    public static Connection getConnection() {
+        Connection connection = null;
+        try {
+            connection = DriverManager.getConnection(
+                "jdbc:mysql://" + config.getHost() + ":" + config.getPort() + "/" + config.getDatabase(),
+                config.getUser(),
+                config.getPassword()
+            );
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return connection;
+    }
 }

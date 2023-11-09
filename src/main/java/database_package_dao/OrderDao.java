@@ -18,9 +18,7 @@ public class OrderDao {
 	}
 	
 	public void newOrder(Order order) {
-		System.out.println("in neworder() od");
 		try { 
-			System.out.println("if neworder() od");
 			query = "INSERT INTO orders (userId, datePlaced, totalCost) VALUES (?, ?, ?)";
 			pst = this.con.prepareStatement(query);
 			//pst.setInt(1, order.getOrderId());
@@ -35,13 +33,11 @@ public class OrderDao {
 				order.setOrderId(rs.getInt(1));
 			}
 			pst.close();
-			System.out.println("orderId = "+order.getOrderId());
 			updateProductsInCart(order);
 			updateShippingAddress(order);
 			if (order.getTrackingNumber()!=0) {
 				updateTrackingNumber(order);
 			}
-			System.out.println("done neworder() od");
 			
 		}catch (SQLException e) {
 			System.out.println(e);

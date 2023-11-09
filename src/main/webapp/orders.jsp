@@ -39,8 +39,6 @@ List<Order> orders = bf.getOrders(auth);
 List<Order> allOrders = bf.getAllOrders();
 
 ObjectMapper objectMapper = new ObjectMapper();
-
-//TODO add order list
 %>
 <!DOCTYPE html>
 <html>
@@ -85,7 +83,6 @@ ObjectMapper objectMapper = new ObjectMapper();
 				</tr>
 			</thead>
 			<tbody>
-				<!-- TODO - Not implemented yet  -->
 				<%
 				System.out.println("orders in jsp is " + orders);
 				if (orders != null) {
@@ -124,7 +121,6 @@ ObjectMapper objectMapper = new ObjectMapper();
 					<td><%= o.getUserId() %></td>
 					<td><a href="<%= request.getContextPath() %>/orders/<%= o.getOrderId() %>">View Order</a></td>
 					<td>
-						<!-- TODO - ship order servlet/function to implement here which provides tracking number also -->
 						<% if (o.getTrackingNumber() == 0) {%>
 							<form action="ShipOrderServlet" method="post">
 								<input type="hidden" name="orderId" value="<%= o.getOrderId() %>">
