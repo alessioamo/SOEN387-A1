@@ -189,7 +189,7 @@ public class UserDao {
 	        if (rs.next()) {
 	            // Password already exists
 	            System.out.println("Password already exists for another user.");
-	            // TODO - raise an error
+	            throw new InvalidPasscodeException("Passcode = "+password+" is not a valid passcode. Please ensure this passcode is not already in use.");
 	        }
 	        else {
 	        	// Passowrd doesnt exist, change it for the user
@@ -205,8 +205,10 @@ public class UserDao {
 	                System.out.println("Password update failed.");
 	            }
 	        }
-		}
-		catch (Exception e) {
+		}catch (InvalidPasscodeException ipe) {
+			System.out.println(ipe);
+			ipe.printStackTrace();
+		}catch (Exception e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
 		}
