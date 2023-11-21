@@ -60,7 +60,7 @@ public class CreateOrderServlet extends HttpServlet {
 				}
 				else {
 					System.out.println("User is not logged in, redirecting to login.");
-					String loginFailedMessage = "User is not authenticated, please provide or create a new authentication key.";
+					String loginFailedMessage = "User is not logged in, please provide or create a passcode.";
 				    response.sendRedirect("login.jsp?loginFailedMessage=" + loginFailedMessage);
 				}
 			} else {
@@ -109,7 +109,7 @@ public class CreateOrderServlet extends HttpServlet {
 				}
 				else {
 					System.out.println("User is not logged in, redirecting to login.");
-					String loginFailedMessage = "User is not authenticated, please provide or create a new authentication key.";
+					String loginFailedMessage = "User is not logged in, please provide or create a passcode.";
 				    response.sendRedirect("login.jsp?loginFailedMessage=" + loginFailedMessage);
 				}
 			}

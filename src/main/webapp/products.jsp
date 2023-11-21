@@ -77,7 +77,7 @@
 									</form>
 									
 									<% 
-									if (user != null && "admin".equals(user.getUsername())) {
+									if (user != null && user.isAdmin()) {
 									%>
 									<a href="admin-toolkit.jsp?productSku=<%= p.getSku() %>#update-product-section" class="btn btn-primary">Edit</a>
 									<%}%>

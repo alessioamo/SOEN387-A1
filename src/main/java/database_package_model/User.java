@@ -4,6 +4,7 @@ public class User {
 	private int id;
 	private String username;
 	private String password;
+	private boolean isAdmin;
 	private Cart cart;
 	
 	public User() {
@@ -40,10 +41,18 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	
+	public boolean isAdmin() {
+		return isAdmin;
+	}
+
+	public void setAdmin(boolean isAdmin) {
+		this.isAdmin = isAdmin;
+	}
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", username=" + username + ", password=" + password + "]";
+		return "User [id=" + id + ", username=" + username + ", password=" + password + ", isAdmin=" + isAdmin + "]";
 	}
 
 	public Cart getCart() {

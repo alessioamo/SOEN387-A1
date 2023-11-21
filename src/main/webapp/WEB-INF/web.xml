@@ -149,4 +149,34 @@
     <servlet-name>ShipOrderServlet</servlet-name>
     <url-pattern>/ShipOrderServlet</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>CreateAccount</display-name>
+    <servlet-name>CreateAccount</servlet-name>
+    <servlet-class>database_package_servlet.CreateAccount</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>CreateAccount</servlet-name>
+    <url-pattern>/create-account</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ChangePassword</display-name>
+    <servlet-name>ChangePassword</servlet-name>
+    <servlet-class>database_package_servlet.ChangePassword</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ChangePassword</servlet-name>
+    <url-pattern>/change-password</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ChangePermission</display-name>
+    <servlet-name>ChangePermission</servlet-name>
+    <servlet-class>database_package_servlet.ChangePermission</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ChangePermission</servlet-name>
+    <url-pattern>/change-permission</url-pattern>
+  </servlet-mapping>
 </web-app>

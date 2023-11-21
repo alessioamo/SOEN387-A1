@@ -30,6 +30,34 @@ public class LoginServlet extends HttpServlet {
 		response.setContentType("text/html;charset=UTF-8");
 		try (PrintWriter out = response.getWriter()) {
 			
+			String password = request.getParameter("login-password");
+
+			try {
+				UserDao udao = new UserDao(databaseConnection.getConnection());
+				User user = udao.userLogin(password);
+
+				if (user != null) {
+					request.getSession().setAttribute("auth", user);
+					response.sendRedirect("index.jsp");
+				} else {
+					String loginFailedMessage = "User login failed, password is incorrect.";
+				    response.sendRedirect("login.jsp?loginFailedMessage=" + loginFailedMessage);
+					//out.print("User login failed");
+				}
+			} catch (ClassNotFoundException | SQLException e) {
+				e.printStackTrace();
+			}
+
+		}
+	}
+	
+	/* Old A2 login
+	@Override
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		response.setContentType("text/html;charset=UTF-8");
+		try (PrintWriter out = response.getWriter()) {
+			
 			String authenticationKey = request.getParameter("authentication-key");
 
 			try {
@@ -49,8 +77,9 @@ public class LoginServlet extends HttpServlet {
 
 		}
 	}
+	*/
 
-	/* Old login servlet
+	/* Old A1 login servlet
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {

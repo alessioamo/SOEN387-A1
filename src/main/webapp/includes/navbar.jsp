@@ -28,6 +28,7 @@
 					if (auth.getId() != 0) {%>
 						<li class="nav-item active"><a class="nav-link" href="orders.jsp">Orders</a></li>
 						<li class="nav-item active"><a class="nav-link" href="log-out">Logout</a></li>
+						<li class="nav-item active"><a class="nav-link" href="user.jsp">User</a></li>
 				<%	} else {%>
 						<li class="nav-item active"><a class="nav-link" href="log-out">Login</a></li>
 				<%	}
@@ -38,7 +39,7 @@
 				%>
 				<% 
 				   User user = (User) request.getSession().getAttribute("auth");
-				   if (user != null && "admin".equals(user.getUsername())) {
+				   if (user != null && user.isAdmin()) {
 				%>
 				<li class="nav-item active"><a class="nav-link" href="admin-toolkit.jsp">Admin Toolkit</a></li>
 				<%}%>

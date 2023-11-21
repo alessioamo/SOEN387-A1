@@ -72,12 +72,12 @@ ObjectMapper objectMapper = new ObjectMapper();
 					<th scope="colr">Products</th>
 					<th scope="colr">Cost</th>
 					<%
-					if (auth.getUsername() == "admin") {
+					if (user.isAdmin()) {
 					%>
 					<th scope="colr">User ID</th>
 					<%}%>
 					<th scope="colr">Details</th>
-					<% if (auth.getUsername() == "admin") {%>
+					<% if (user.isAdmin()) {%>
 						<th scope="colr">Ship Order</th>
 					<%}%>
 				</tr>
@@ -86,7 +86,7 @@ ObjectMapper objectMapper = new ObjectMapper();
 				<%
 				System.out.println("orders in jsp is " + orders);
 				if (orders != null) {
-					if (auth.getUsername() == "admin") {
+					if (user.isAdmin()) {
 						for (Order o : allOrders) {
 							System.out.println("o is " + o);
 							JsonNode rootNode = null;
