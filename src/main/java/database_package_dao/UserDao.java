@@ -178,7 +178,7 @@ public class UserDao {
 		return user;
 	}
 	
-	public void SetPasscode(User user, String password) {
+	public boolean SetPasscode(User user, String password) {
 		try {
 			// Check if the password already exists for another user
 	        query = "SELECT * FROM users WHERE password = ?";
@@ -189,10 +189,10 @@ public class UserDao {
 	        if (rs.next()) {
 	            // Password already exists
 	            System.out.println("Password already exists for another user.");
-	            throw new InvalidPasscodeException("Passcode = "+password+" is not a valid passcode. Please ensure this passcode is not already in use.");
+	            return false;
 	        }
 	        else {
-	        	// Passowrd doesnt exist, change it for the user
+	        	// Password doesn't exist, change it for the user
 	        	query = "UPDATE users SET password = ? WHERE id = ?";
 	        	pst = this.con.prepareStatement(query);
 	        	pst.setString(1, password);
@@ -201,16 +201,16 @@ public class UserDao {
 	        	
 	        	if (rowsUpdated > 0) {
 	                System.out.println("Password updated successfully.");
+	                return true;
 	            } else {
 	                System.out.println("Password update failed.");
+	                return false;
 	            }
 	        }
-		}catch (InvalidPasscodeException ipe) {
-			System.out.println(ipe);
-			ipe.printStackTrace();
 		}catch (Exception e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
+			return false;
 		}
 	}
 	

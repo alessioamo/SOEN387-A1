@@ -10,6 +10,7 @@ import java.io.PrintWriter;
 import java.sql.SQLException;
 
 import database_package_connection.databaseConnection;
+import database_package_dao.InvalidPasscodeException;
 import database_package_dao.UserDao;
 import database_package_model.User;
 
@@ -19,23 +20,26 @@ import database_package_model.User;
 public class ChangePassword extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		response.setContentType("text/html;charset=UTF-8");
-		try (PrintWriter out = response.getWriter()) {
-			
+
+		try {
+			PrintWriter out = response.getWriter();
 			String newPassword = request.getParameter("new-password");
-
-			try {
-				UserDao udao = new UserDao(databaseConnection.getConnection());
-				User user;
-				user = (User) request.getSession().getAttribute("auth");
-				udao.SetPasscode(user, newPassword);
+			UserDao udao = new UserDao(databaseConnection.getConnection());
+			User user;
+			user = (User) request.getSession().getAttribute("auth");
+			if (udao.SetPasscode(user, newPassword)) {
 				response.sendRedirect("user.jsp");
-			} catch (ClassNotFoundException | SQLException e) {
-				e.printStackTrace();
+			}else {
+				String passcodeFailedMessage = "Could not set new passcode. Passcode already exists for another user.";
+				response.sendRedirect("user.jsp?passcodeFailedMessage=" + passcodeFailedMessage);
 			}
-
+			
+		
+		}catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
 		}
 	}
 

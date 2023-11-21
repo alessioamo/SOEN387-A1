@@ -388,4 +388,20 @@ public class BusinessFunctions {
 		result = result.substring(result.length() - 5);
 		return result;
 	}
+	
+	public void SetOrderOwner(int orderId, int userId){
+		Order order = getOrderById(Integer.toString(orderId));
+        order.setUserId(userId);
+        
+        query = "UPDATE orders SET userId = ? WHERE orderId = ?";
+        try {
+			pst = this.con.prepareStatement(query);
+			pst.setInt(1, userId);
+	        pst.setInt(2, orderId);
+	        pst.executeUpdate();
+	        pst.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 }

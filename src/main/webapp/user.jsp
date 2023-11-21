@@ -35,15 +35,21 @@
 <meta charset="ISO-8859-1">
 <title>User Details</title>
 	<%@include file="includes/head.jsp" %>
-
+	
 	<script>
 		// Check if the URL contains the changePermissionsFailedMessage parameter
 		const urlParams = new URLSearchParams(window.location.search);
 		const changePermissionsFailedMessage = urlParams.get('changePermissionsFailedMessage');
-	
+		const passcodeFailedMessage = urlParams.get('passcodeFailedMessage');
+		
 		if (changePermissionsFailedMessage) {
 			// Display an alert box with the login failed message
 			alert(changePermissionsFailedMessage);
+		}
+
+		if (passcodeFailedMessage) {
+			// Display an alert box with the login failed message
+			alert(passcodeFailedMessage);
 		}
 	</script>
 
@@ -79,6 +85,7 @@
 					%>
 					<th scope="col">Is Admin?</th>
 					<th scope="col">Change Permission</th>
+					<th scope="col">Claim Ownership</th>
 					<%}%>
 				</tr>
 			</thead>
