@@ -14,6 +14,7 @@
 <%
 DecimalFormat dcf = new DecimalFormat("#.00");
 request.setAttribute("dcf", dcf);
+UserDao udao = new UserDao(databaseConnection.getConnection());
 
 User auth = (User) request.getSession().getAttribute("auth");
 if (auth == null || auth.getUsername() == "temp") {
@@ -36,6 +37,9 @@ if (cart_list != null) {
 
 BusinessFunctions bf = new BusinessFunctions(databaseConnection.getConnection());
 List<Order> orders = bf.getOrders(auth);
+if (auth.getId() != 0){
+	orders.addAll(bf.getOrders(udao.getUserFromId("0")));
+}
 List<Order> allOrders = bf.getAllOrders();
 
 ObjectMapper objectMapper = new ObjectMapper();

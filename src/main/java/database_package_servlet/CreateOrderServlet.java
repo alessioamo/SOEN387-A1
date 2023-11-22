@@ -88,9 +88,25 @@ public class CreateOrderServlet extends HttpServlet {
 			Cart cart;
 			String shippingAddress = request.getParameter("shipping-address");
 			if (request.getSession().getAttribute("auth") != null) {
+				System.out.println("HEWLLO HELLO HELLO");
 				user = (User) request.getSession().getAttribute("auth");
-				
+				System.out.println(user.getId());
 				// We must check if user is logged in, any id not equal to 0 means they are. If not logged in, redirect them to login
+				cart = user.getCart();
+				if (cart.toString() != "") {
+					BusinessFunctions bf = new BusinessFunctions(databaseConnection.getConnection());
+					bf.createOrder(user, shippingAddress);
+					session.setAttribute("orders_list", bf.getOrders(user));
+					session.setAttribute("cart_list", user.getCart().getCartProducts());
+					response.sendRedirect("orders.jsp");
+				}
+				else {
+					System.out.println("Cart is empty, don't add order.");
+					String cartIsEmptyMessage = "Cart is empty, please add a product to place an order.";
+				    response.sendRedirect("cart.jsp?cartIsEmptyMessage=" + cartIsEmptyMessage);
+				}
+			}
+				/*
 				if (user.getId() != 0) {
 					System.out.println("User is logged in.");
 					cart = user.getCart();
@@ -112,7 +128,7 @@ public class CreateOrderServlet extends HttpServlet {
 					String loginFailedMessage = "User is not logged in, please provide or create a passcode.";
 				    response.sendRedirect("login.jsp?loginFailedMessage=" + loginFailedMessage);
 				}
-			}
+			}*/
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		} catch (Exception e) {

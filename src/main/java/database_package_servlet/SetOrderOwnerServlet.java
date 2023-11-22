@@ -29,20 +29,12 @@ public class SetOrderOwnerServlet extends HttpServlet {
 		try (PrintWriter out = response.getWriter()) {
 
 			HttpSession session = request.getSession();
-			UserDao udao = new UserDao(databaseConnection.getConnection());
-			String userId = request.getParameter("userId");
-			User user = udao.getUserFromId(userId);
-			User currentUser = (User) request.getSession().getAttribute("auth");
+			BusinessFunctions bf = new BusinessFunctions(databaseConnection.getConnection());
+			String orderId = request.getParameter("orderId");
+			User currentUser = (User) session.getAttribute("auth");
 			
-			if (currentUser.getId() == user.getId()) {
-				System.out.println("Can't change your own permissions.");
-				String changePermissionsFailedMessage = "Permission Change Failed: You can't change your own permissions.";
-			    response.sendRedirect("user.jsp?changePermissionsFailedMessage=" + changePermissionsFailedMessage);
-			}
-			else {
-				udao.ChangePermission(user, user.isAdmin());
-				response.sendRedirect("user.jsp");
-			}
+		    bf.setOrderOwner(Integer.parseInt(orderId), currentUser.getId());
+			
 			
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -52,10 +44,5 @@ public class SetOrderOwnerServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 	}
-
-}
-package database_package_servlet;
-
-public class SetOrderOwnerServlet {
 
 }

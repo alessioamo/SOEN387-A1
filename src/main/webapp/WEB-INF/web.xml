@@ -179,4 +179,14 @@
     <servlet-name>ChangePermission</servlet-name>
     <url-pattern>/change-permission</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>SetOrderOwnerServlet</display-name>
+    <servlet-name>SetOrderOwnerServlet</servlet-name>
+    <servlet-class>database_package_servlet.SetOrderOwnerServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SetOrderOwnerServlet</servlet-name>
+    <url-pattern>/order-owner</url-pattern>
+  </servlet-mapping>
 </web-app>
