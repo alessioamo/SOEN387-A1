@@ -10,7 +10,6 @@ import java.io.PrintWriter;
 import java.sql.SQLException;
 
 import database_package_connection.databaseConnection;
-import database_package_dao.InvalidPasscodeException;
 import database_package_dao.UserDao;
 import database_package_model.User;
 
@@ -33,7 +32,7 @@ public class ChangePassword extends HttpServlet {
 			if (udao.SetPasscode(user, newPassword)) {
 				response.sendRedirect("user.jsp");
 			}else {
-				String passcodeFailedMessage = "Could not set new passcode. Passcode already exists for another user.";
+				String passcodeFailedMessage = "Could not set new passcode. Passcode already exists for another user or password is too short (minimum 4 characters).";
 				response.sendRedirect("user.jsp?passcodeFailedMessage=" + passcodeFailedMessage);
 			}
 			

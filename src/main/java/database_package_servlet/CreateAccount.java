@@ -41,7 +41,7 @@ public class CreateAccount extends HttpServlet {
 					request.getSession().setAttribute("auth", user);
 					response.sendRedirect("index.jsp");
 				} else {
-					String loginFailedMessage = "Could not create account, password already exists for another user.";
+					String loginFailedMessage = "Could not create account, password already exists for another user or password is too short (minimum 4 characters).";
 				    response.sendRedirect("login.jsp?loginFailedMessage=" + loginFailedMessage);
 					//out.print("User login failed");
 				}

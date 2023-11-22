@@ -141,76 +141,87 @@ public class UserDao {
 	
 	public User createAccount(String password) {
 		User user = null;
-		try {
-			// Check if the password already exists for another user
-	        query = "SELECT * FROM users WHERE password = ?";
-	        pst = this.con.prepareStatement(query);
-	        pst.setString(1, password);
-	        rs = pst.executeQuery();
-
-	        if (rs.next()) {
-	            // Password already exists, return null
-	            System.out.println("Password already exists for another user.");
-	            return null;
-	        }
-	        
-			query = "INSERT INTO users (username, password, isAdmin) VALUES (?, ?, ?)";
-			pst = this.con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-			pst.setString(1, "");
-			pst.setString(2, password);
-			pst.setBoolean(3, false);
-			pst.executeUpdate();
-			
-			rs = pst.getGeneratedKeys();
-			if (rs.next()) {
-				int newUserId = rs.getInt(1);
-		        user = new User();
-		        user.setId(newUserId);
-		        user.setUsername("");
-		        user.setAdmin(false);
-			}
-			pst.close();
+		if (password.length() < 4) {
+			System.out.println("Password not long enough.");
 		}
-		catch (Exception e) {
-			e.printStackTrace();
-			System.out.println(e.getMessage());
+		else {
+			try {
+				// Check if the password already exists for another user
+		        query = "SELECT * FROM users WHERE password = ?";
+		        pst = this.con.prepareStatement(query);
+		        pst.setString(1, password);
+		        rs = pst.executeQuery();
+
+		        if (rs.next()) {
+		            // Password already exists, return null
+		            System.out.println("Password already exists for another user.");
+		            return null;
+		        }
+		        
+				query = "INSERT INTO users (username, password, isAdmin) VALUES (?, ?, ?)";
+				pst = this.con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+				pst.setString(1, "");
+				pst.setString(2, password);
+				pst.setBoolean(3, false);
+				pst.executeUpdate();
+				
+				rs = pst.getGeneratedKeys();
+				if (rs.next()) {
+					int newUserId = rs.getInt(1);
+			        user = new User();
+			        user.setId(newUserId);
+			        user.setUsername("");
+			        user.setAdmin(false);
+				}
+				pst.close();
+			}
+			catch (Exception e) {
+				e.printStackTrace();
+				System.out.println(e.getMessage());
+			}
 		}
 		return user;
 	}
 	
 	public boolean SetPasscode(User user, String password) {
-		try {
-			// Check if the password already exists for another user
-	        query = "SELECT * FROM users WHERE password = ?";
-	        pst = this.con.prepareStatement(query);
-	        pst.setString(1, password);
-	        rs = pst.executeQuery();
-
-	        if (rs.next()) {
-	            // Password already exists
-	            System.out.println("Password already exists for another user.");
-	            return false;
-	        }
-	        else {
-	        	// Password doesn't exist, change it for the user
-	        	query = "UPDATE users SET password = ? WHERE id = ?";
-	        	pst = this.con.prepareStatement(query);
-	        	pst.setString(1, password);
-	        	pst.setInt(2, user.getId());
-	        	int rowsUpdated = pst.executeUpdate();
-	        	
-	        	if (rowsUpdated > 0) {
-	                System.out.println("Password updated successfully.");
-	                return true;
-	            } else {
-	                System.out.println("Password update failed.");
-	                return false;
-	            }
-	        }
-		}catch (Exception e) {
-			e.printStackTrace();
-			System.out.println(e.getMessage());
+		if (password.length() < 4) {
+			System.out.println("Password not long enough.");
 			return false;
+		}
+		else {
+			try {
+				// Check if the password already exists for another user
+		        query = "SELECT * FROM users WHERE password = ?";
+		        pst = this.con.prepareStatement(query);
+		        pst.setString(1, password);
+		        rs = pst.executeQuery();
+
+		        if (rs.next()) {
+		            // Password already exists
+		            System.out.println("Password already exists for another user.");
+		            return false;
+		        }
+		        else {
+		        	// Password doesn't exist, change it for the user
+		        	query = "UPDATE users SET password = ? WHERE id = ?";
+		        	pst = this.con.prepareStatement(query);
+		        	pst.setString(1, password);
+		        	pst.setInt(2, user.getId());
+		        	int rowsUpdated = pst.executeUpdate();
+		        	
+		        	if (rowsUpdated > 0) {
+		                System.out.println("Password updated successfully.");
+		                return true;
+		            } else {
+		                System.out.println("Password update failed.");
+		                return false;
+		            }
+		        }
+			}catch (Exception e) {
+				e.printStackTrace();
+				System.out.println(e.getMessage());
+				return false;
+			}
 		}
 	}
 	
