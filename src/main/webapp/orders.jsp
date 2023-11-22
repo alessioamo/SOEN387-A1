@@ -37,7 +37,7 @@ if (cart_list != null) {
 
 BusinessFunctions bf = new BusinessFunctions(databaseConnection.getConnection());
 List<Order> orders = bf.getOrders(auth);
-if (auth.getId() != 0){
+if (auth.getId() != 0) {
 	orders.addAll(bf.getOrders(udao.getUserFromId("0")));
 }
 List<Order> allOrders = bf.getAllOrders();
@@ -50,16 +50,16 @@ ObjectMapper objectMapper = new ObjectMapper();
 <title>Orders</title>
 <%@include file="includes/head.jsp"%>
 
-	<script>
-		// Check if the URL contains the invalidTrackingNumber parameter
-		const urlParams = new URLSearchParams(window.location.search);
-		const invalidTrackingNumber = urlParams.get('invalidTrackingNumber');
-	
-		if (invalidTrackingNumber) {
-			// Display an alert box with the login failed message
-			alert(invalidTrackingNumber);
-		}
-	</script>
+<script>
+	// Check if the URL contains the invalidTrackingNumber parameter
+	const urlParams = new URLSearchParams(window.location.search);
+	const invalidTrackingNumber = urlParams.get('invalidTrackingNumber');
+
+	if (invalidTrackingNumber) {
+		// Display an alert box with the login failed message
+		alert(invalidTrackingNumber);
+	}
+</script>
 </head>
 <body>
 	<%@include file="includes/navbar.jsp"%>
@@ -75,14 +75,16 @@ ObjectMapper objectMapper = new ObjectMapper();
 					<th scope="colr">Tracking Number</th>
 					<th scope="colr">Products</th>
 					<th scope="colr">Cost</th>
+					<th scope="colr">User ID</th>
+					<th scope="colr">Details</th>
 					<%
 					if (user.isAdmin()) {
 					%>
-					<th scope="colr">User ID</th>
-					<%}%>
-					<th scope="colr">Details</th>
-					<% if (user.isAdmin()) {%>
-						<th scope="colr">Ship Order</th>
+					<th scope="colr">Ship Order</th>
+					<%
+					} else {
+					%>
+					<th scope="colr">Claim Order Ownership</th>
 					<%}%>
 				</tr>
 			</thead>
@@ -92,96 +94,122 @@ ObjectMapper objectMapper = new ObjectMapper();
 				if (orders != null) {
 					if (user.isAdmin()) {
 						for (Order o : allOrders) {
-							System.out.println("o is " + o);
-							JsonNode rootNode = null;
-							if(o.getProductsInCart()!=null){
-								rootNode = objectMapper.readTree(o.getProductsInCart());
-							} %>
-				<tr>
-					<td><%= o.getOrderId() %></td>
-					<td><%= o.getDatePlaced() %></td>
-					<td><%= o.getShippingAddress() %></td>
-					<% if (o.getTrackingNumber() != 0) {%>
-						<td><%= bf.getTrackingNumber(o.getTrackingNumber()) %></td>
-					<%} else {%>
-						<td>Not Shipped Yet</td>
-					<% } %>
-					<td><ul>
-						<% 
-						if (rootNode!=null && rootNode.isArray()) {
-							ArrayNode updatedRootNode = objectMapper.createArrayNode();
-							for (JsonNode jsonNode : rootNode) {
-								String name = jsonNode.get("name").asText();
-								int quantity = jsonNode.get("quantity").asInt();
-								String prod = (name + " x"+quantity);
-						%>
-								<li> <%=prod %></li>
-						<%
-							}
-						}
-						%>   
-					</ul></td>
-					<td>$<%= dcf.format(o.getTotalCost()) %></td>
-					<td><%= o.getUserId() %></td>
-					<td><a href="<%= request.getContextPath() %>/orders/<%= o.getOrderId() %>">View Order</a></td>
-					<td>
-						<% if (o.getTrackingNumber() == 0) {%>
-							<form action="ShipOrderServlet" method="post">
-								<input type="hidden" name="orderId" value="<%= o.getOrderId() %>">
-								<input type="number" id="shipping-address" name="tracking-number" required placeholder="Enter Tracking number">
-	    						<button type="submit" class="btn btn-primary">Ship</button>
-							</form>
-						<%} else {%>
-							Shipped
-						<%}%>
-						
-					</td>
-				</tr>
-							
-					<%}
+					System.out.println("o is " + o);
+					JsonNode rootNode = null;
+					if (o.getProductsInCart() != null) {
+						rootNode = objectMapper.readTree(o.getProductsInCart());
 					}
-					else {
-						for (Order o : orders) {
-							String trackingNumberAsString = bf.getTrackingNumber(o.getTrackingNumber());
-							JsonNode rootNode = null;
-							if (o.getProductsInCart()!=null) {
-								rootNode = objectMapper.readTree(o.getProductsInCart());
-							}
-						%>
-						<tr>
-							<td><%= o.getOrderId() %></td>
-							<td><%= o.getDatePlaced() %></td>
-							<td><%= o.getShippingAddress() %></td>
-							<% if (o.getTrackingNumber() != 0) {%>
-								<td><%= trackingNumberAsString %></td>
-							<%} else {%>
-								<td>Not Shipped Yet</td>
-							<% } %>
-							<td><ul>
-								<% 
-								if (rootNode!=null && rootNode.isArray()) {
-									ArrayNode updatedRootNode = objectMapper.createArrayNode();
-									for (JsonNode jsonNode : rootNode) {
-										String name = jsonNode.get("name").asText();
-										int quantity = jsonNode.get("quantity").asInt();
-										String prod = (name + " x"+quantity);
-								%> 
-										<li><%= prod %> </li>
-								<%
-									}
-								}
-								%>
-									
-							</ul></td>
-							<td>$<%= dcf.format(o.getTotalCost()) %></td>
-							<td><a href="<%= request.getContextPath() %>/orders/<%= o.getOrderId() %>">View Order</a></td>
-						</tr>
-					<%}	
+				%>
+				<tr>
+					<td><%=o.getOrderId()%></td>
+					<td><%=o.getDatePlaced()%></td>
+					<td><%=o.getShippingAddress()%></td>
+					<%
+					if (o.getTrackingNumber() != 0) {
+					%>
+					<td><%=bf.getTrackingNumber(o.getTrackingNumber())%></td>
+					<%} else {%>
+					<td>Not Shipped Yet</td>
+					<%
 					}
 					%>
+					<td><ul>
+							<%
+							if (rootNode != null && rootNode.isArray()) {
+								ArrayNode updatedRootNode = objectMapper.createArrayNode();
+								for (JsonNode jsonNode : rootNode) {
+									String name = jsonNode.get("name").asText();
+									int quantity = jsonNode.get("quantity").asInt();
+									String prod = (name + " x" + quantity);
+							%>
+							<li><%=prod%></li>
+							<%
+							}
+							}
+							%>
+						</ul></td>
+					<td>$<%=dcf.format(o.getTotalCost())%></td>
+					<td><%=o.getUserId()%></td>
+					<td><a
+						href="<%=request.getContextPath()%>/orders/<%=o.getOrderId()%>">View
+							Order</a></td>
+					<td>
+						<%
+						if (o.getTrackingNumber() == 0) {
+						%>
+						<form action="ShipOrderServlet" method="post">
+							<input type="hidden" name="orderId" value="<%=o.getOrderId()%>">
+							<input type="number" id="shipping-address" name="tracking-number"
+								required placeholder="Enter Tracking number">
+							<button type="submit" class="btn btn-primary">Ship</button>
+						</form> <%} else {%> Shipped <%}%>
+
+					</td>
+				</tr>
 
 				<%
-				}%>
+				}
+				} else {
+				for (Order o : orders) {
+				String trackingNumberAsString = bf.getTrackingNumber(o.getTrackingNumber());
+				JsonNode rootNode = null;
+				if (o.getProductsInCart() != null) {
+					rootNode = objectMapper.readTree(o.getProductsInCart());
+				}
+				%>
+				<tr>
+					<td><%=o.getOrderId()%></td>
+					<td><%=o.getDatePlaced()%></td>
+					<td><%=o.getShippingAddress()%></td>
+					<%
+					if (o.getTrackingNumber() != 0) {
+					%>
+					<td><%=trackingNumberAsString%></td>
+					<%} else {%>
+					<td>Not Shipped Yet</td>
+					<%
+					}
+					%>
+					<td><ul>
+							<%
+							if (rootNode != null && rootNode.isArray()) {
+								ArrayNode updatedRootNode = objectMapper.createArrayNode();
+								for (JsonNode jsonNode : rootNode) {
+									String name = jsonNode.get("name").asText();
+									int quantity = jsonNode.get("quantity").asInt();
+									String prod = (name + " x" + quantity);
+							%>
+							<li><%=prod%></li>
+							<%
+							}
+							}
+							%>
+
+						</ul></td>
+					<td>$<%=dcf.format(o.getTotalCost())%></td>
+					<td><%=o.getUserId()%></td>
+					<td><a
+						href="<%=request.getContextPath()%>/orders/<%=o.getOrderId()%>">View
+							Order</a></td>
+					<td align="center">
+						<%
+						if (o.getUserId() == 0) {
+						%>
+						<form action="order-owner" method="post">
+							<input type="hidden" name="orderId" value="<%=o.getOrderId()%>">
+							<button type="submit" class="btn btn-primary">Claim</button>
+						</form> <%}%>
+
+					</td>
+				</tr>
+				<%
+				}
+				}
+				%>
+
+				<%
+				}
+				%>
 			</tbody>
 		</table>
 	</div>

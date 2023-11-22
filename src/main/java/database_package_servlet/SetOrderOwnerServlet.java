@@ -34,7 +34,7 @@ public class SetOrderOwnerServlet extends HttpServlet {
 			User currentUser = (User) session.getAttribute("auth");
 			
 		    bf.setOrderOwner(Integer.parseInt(orderId), currentUser.getId());
-			
+		    response.sendRedirect("orders.jsp");
 			
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block

@@ -85,7 +85,6 @@
 					%>
 					<th scope="col">Is Admin?</th>
 					<th scope="col">Change Permission</th>
-					<th scope="col">Claim Ownership</th>
 					<%}%>
 				</tr>
 			</thead>
