@@ -9,7 +9,7 @@
 User auth = (User) request.getSession().getAttribute("auth");
 if (auth != null){
 	request.setAttribute("auth", auth);
-	if (!("admin".equals(auth.getUsername()))){
+	if (!auth.isAdmin()){
 		response.setStatus(HttpServletResponse.SC_FORBIDDEN);
 		response.sendRedirect("index.jsp?status="+ 403);
 		//request.getRequestDispatcher("index.jsp").forward(request, response);

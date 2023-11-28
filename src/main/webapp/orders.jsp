@@ -37,9 +37,6 @@ if (cart_list != null) {
 
 BusinessFunctions bf = new BusinessFunctions(databaseConnection.getConnection());
 List<Order> orders = bf.getOrders(auth);
-if (auth.getId() != 0) {
-	orders.addAll(bf.getOrders(udao.getUserFromId("0")));
-}
 List<Order> allOrders = bf.getAllOrders();
 
 ObjectMapper objectMapper = new ObjectMapper();
@@ -75,16 +72,16 @@ ObjectMapper objectMapper = new ObjectMapper();
 					<th scope="colr">Tracking Number</th>
 					<th scope="colr">Products</th>
 					<th scope="colr">Cost</th>
+					<%
+					if (user.isAdmin()) {
+					%>
 					<th scope="colr">User ID</th>
+					<%}%>
 					<th scope="colr">Details</th>
 					<%
 					if (user.isAdmin()) {
 					%>
 					<th scope="colr">Ship Order</th>
-					<%
-					} else {
-					%>
-					<th scope="colr">Claim Order Ownership</th>
 					<%}%>
 				</tr>
 			</thead>
@@ -187,20 +184,9 @@ ObjectMapper objectMapper = new ObjectMapper();
 
 						</ul></td>
 					<td>$<%=dcf.format(o.getTotalCost())%></td>
-					<td><%=o.getUserId()%></td>
 					<td><a
 						href="<%=request.getContextPath()%>/orders/<%=o.getOrderId()%>">View
 							Order</a></td>
-					<td align="center">
-						<%
-						if (o.getUserId() == 0) {
-						%>
-						<form action="order-owner" method="post">
-							<input type="hidden" name="orderId" value="<%=o.getOrderId()%>">
-							<button type="submit" class="btn btn-primary">Claim</button>
-						</form> <%}%>
-
-					</td>
 				</tr>
 				<%
 				}
