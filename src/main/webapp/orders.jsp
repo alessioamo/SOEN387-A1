@@ -76,15 +76,17 @@ ObjectMapper objectMapper = new ObjectMapper();
 					<th scope="colr">Tracking Number</th>
 					<th scope="colr">Products</th>
 					<th scope="colr">Cost</th>
+					<%
+					if (user.isAdmin()) {
+					%>
 					<th scope="colr">User ID</th>
+					<%}%>
 					<th scope="colr">Details</th>
 					<%
 					if (user.isAdmin()) {
 					%>
 					<th scope="colr">Ship Order</th>
-					<%
-					}
-					%>
+					<%}%>
 				</tr>
 			</thead>
 			<tbody>
@@ -186,7 +188,6 @@ ObjectMapper objectMapper = new ObjectMapper();
 
 						</ul></td>
 					<td>$<%=dcf.format(o.getTotalCost())%></td>
-					<td><%=o.getUserId()%></td>
 					<td><a
 						href="<%=request.getContextPath()%>/orders/<%=o.getOrderId()%>">View
 							Order</a></td>

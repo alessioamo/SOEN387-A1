@@ -159,15 +159,18 @@ public class UserDao {
 		        }
 		        
 				query = "INSERT INTO users (username, password, isAdmin) VALUES (?, ?, ?)";
-				pst = this.con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+				pst = this.con.prepareStatement(query);
 				pst.setString(1, "");
 				pst.setString(2, password);
 				pst.setBoolean(3, false);
 				pst.executeUpdate();
 				
-				rs = pst.getGeneratedKeys();
+				//rs = pst.getGeneratedKeys();
+				Statement st = this.con.createStatement();
+				rs = st.executeQuery("SELECT last_insert_rowid()");
 				if (rs.next()) {
 					int newUserId = rs.getInt(1);
+					System.out.println(newUserId);
 			        user = new User();
 			        user.setId(newUserId);
 			        user.setUsername("");
