@@ -9,6 +9,13 @@ public class databaseConnection {
 	
 	public static Connection getConnection() throws ClassNotFoundException, SQLException {
 		if (connection == null) {
+			
+			/*// Old MySQL connection
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/soen387_assignment","root","Admin123.");
+			// connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/soen387","dbuser","dbpass.");
+			*/
+			
 			try {
 				Class.forName("org.sqlite.JDBC");
 			}catch (Exception e){
