@@ -37,9 +37,10 @@ if (cart_list != null) {
 
 BusinessFunctions bf = new BusinessFunctions(databaseConnection.getConnection());
 List<Order> orders = bf.getOrders(auth);
-if (auth.getId() != 0) {
+// The following is if we want to show unclaimed orders to logged in users
+/* if (auth.getId() != 0) {
 	orders.addAll(bf.getOrders(udao.getUserFromId("0")));
-}
+} */
 List<Order> allOrders = bf.getAllOrders();
 
 ObjectMapper objectMapper = new ObjectMapper();
@@ -82,10 +83,8 @@ ObjectMapper objectMapper = new ObjectMapper();
 					%>
 					<th scope="colr">Ship Order</th>
 					<%
-					} else {
+					}
 					%>
-					<th scope="colr">Claim Order Ownership</th>
-					<%}%>
 				</tr>
 			</thead>
 			<tbody>
@@ -124,7 +123,7 @@ ObjectMapper objectMapper = new ObjectMapper();
 							%>
 							<li><%=prod%></li>
 							<%
-							}
+								}
 							}
 							%>
 						</ul></td>
@@ -148,7 +147,7 @@ ObjectMapper objectMapper = new ObjectMapper();
 				</tr>
 
 				<%
-				}
+					}
 				} else {
 				for (Order o : orders) {
 				String trackingNumberAsString = bf.getTrackingNumber(o.getTrackingNumber());
@@ -181,7 +180,7 @@ ObjectMapper objectMapper = new ObjectMapper();
 							%>
 							<li><%=prod%></li>
 							<%
-							}
+								}
 							}
 							%>
 
@@ -191,16 +190,6 @@ ObjectMapper objectMapper = new ObjectMapper();
 					<td><a
 						href="<%=request.getContextPath()%>/orders/<%=o.getOrderId()%>">View
 							Order</a></td>
-					<td align="center">
-						<%
-						if (o.getUserId() == 0) {
-						%>
-						<form action="order-owner" method="post">
-							<input type="hidden" name="orderId" value="<%=o.getOrderId()%>">
-							<button type="submit" class="btn btn-primary">Claim</button>
-						</form> <%}%>
-
-					</td>
 				</tr>
 				<%
 				}

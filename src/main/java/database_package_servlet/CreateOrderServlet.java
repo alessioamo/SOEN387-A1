@@ -56,7 +56,7 @@ public class CreateOrderServlet extends HttpServlet {
 					BusinessFunctions bf = new BusinessFunctions(databaseConnection.getConnection());
 					bf.createOrder(user, shippingAddress);
 					session.setAttribute("orders_list", bf.getOrders(user));
-					response.sendRedirect("orders.jsp");
+					response.sendRedirect("cart.jsp");
 				}
 				else {
 					System.out.println("User is not logged in, redirecting to login.");
@@ -88,17 +88,24 @@ public class CreateOrderServlet extends HttpServlet {
 			Cart cart;
 			String shippingAddress = request.getParameter("shipping-address");
 			if (request.getSession().getAttribute("auth") != null) {
-				System.out.println("HEWLLO HELLO HELLO");
 				user = (User) request.getSession().getAttribute("auth");
 				System.out.println(user.getId());
-				// We must check if user is logged in, any id not equal to 0 means they are. If not logged in, redirect them to login
 				cart = user.getCart();
 				if (cart.toString() != "") {
 					BusinessFunctions bf = new BusinessFunctions(databaseConnection.getConnection());
 					bf.createOrder(user, shippingAddress);
 					session.setAttribute("orders_list", bf.getOrders(user));
 					session.setAttribute("cart_list", user.getCart().getCartProducts());
-					response.sendRedirect("orders.jsp");
+					
+					int orderIdToDisplay = bf.getMostRecentOrderId(user);
+					if (user.getId() == 0) {
+						String displayedOrderId = "Your Order Id is: " + orderIdToDisplay + ". "
+								+ "To claim your order, please login or create an account and enter this value.";
+					    response.sendRedirect("cart.jsp?displayedOrderId=" + displayedOrderId);
+					}
+					else {
+						response.sendRedirect("orders.jsp");
+					}
 				}
 				else {
 					System.out.println("Cart is empty, don't add order.");

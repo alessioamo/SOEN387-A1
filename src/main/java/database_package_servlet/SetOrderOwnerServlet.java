@@ -30,12 +30,15 @@ public class SetOrderOwnerServlet extends HttpServlet {
 
 			HttpSession session = request.getSession();
 			BusinessFunctions bf = new BusinessFunctions(databaseConnection.getConnection());
-			String orderId = request.getParameter("orderId");
+			String orderId = request.getParameter("order-id");
 			User currentUser = (User) session.getAttribute("auth");
-			
-		    bf.setOrderOwner(Integer.parseInt(orderId), currentUser.getId());
-		    response.sendRedirect("orders.jsp");
-			
+		    
+		    if (bf.setOrderOwner(Integer.parseInt(orderId), currentUser.getId())) {
+		    	response.sendRedirect("orders.jsp");
+			}else {
+				String invalidOrderIdMessage = "Invalid Order ID entered. Order belongs to another user or it doesn't exist.";
+				response.sendRedirect("user.jsp?invalidOrderIdMessage=" + invalidOrderIdMessage);
+			}
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

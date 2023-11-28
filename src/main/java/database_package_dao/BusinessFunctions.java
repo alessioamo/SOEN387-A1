@@ -257,7 +257,6 @@ public class BusinessFunctions {
 				userId);
 		od.newOrder(order);
 		getOrder(user, 1);
-		System.out.println("done createorder() bf");
 		clearCart(user);
 	}
 	
@@ -389,19 +388,73 @@ public class BusinessFunctions {
 		return result;
 	}
 	
-	public void setOrderOwner(int orderId, int userId){
-		Order order = getOrderById(Integer.toString(orderId));
-        order.setUserId(userId);
-        
-        query = "UPDATE orders SET userId = ? WHERE orderId = ?";
-        try {
+	public boolean setOrderOwner(int orderId, int userId){
+		boolean isValidOrder = false;
+		query = "select * from orders WHERE orderId = ?";
+		try {
 			pst = this.con.prepareStatement(query);
-			pst.setInt(1, userId);
-	        pst.setInt(2, orderId);
-	        pst.executeUpdate();
-	        pst.close();
+			pst.setInt(1, orderId);
+			try (ResultSet rs = pst.executeQuery()) {
+                // If a row is found, check if userId is 0
+                if (rs.next()) {
+                    int userIdFromDB = rs.getInt("userId");
+                    if (userIdFromDB == 0) {
+                    	System.out.println("Valid Unclaimed Order.");
+                    	isValidOrder = true;
+                    }
+                    else {
+                    	System.out.println("Invalid Order, Belongs To A User.");
+                    	isValidOrder = false;
+                    }
+                }
+            }
 		} catch (SQLException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		if (isValidOrder) {
+			Order order = getOrderById(Integer.toString(orderId));
+	        order.setUserId(userId);
+	        
+	        query = "UPDATE orders SET userId = ? WHERE orderId = ?";
+	        try {
+				pst = this.con.prepareStatement(query);
+				pst.setInt(1, userId);
+		        pst.setInt(2, orderId);
+		        pst.executeUpdate();
+		        pst.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+	        return true;
+		}
+		
+		else {
+			System.out.println("Invalid Order ID. Belongs To Another User or Doesn't Exist.");
+			return false;
+		}
+	}
+	
+	public int getMostRecentOrderId(User user) {
+		int orderId = -1; // Default value if no order is found
+
+        query = "SELECT MAX(orderId) AS max_id FROM Orders WHERE userId = ?";
+        try {
+			pst = this.con.prepareStatement(query);
+			pst.setInt(1, user.getId());
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
+        try (ResultSet rs = pst.executeQuery()) {
+            if (rs.next()) {
+                orderId = rs.getInt("max_id");
+            }
+        } catch (SQLException e) {
+        	e.printStackTrace();
+        }
+
+        return orderId;
 	}
 }

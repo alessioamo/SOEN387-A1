@@ -49,10 +49,16 @@
 	// Check if the URL contains the cartIsEmptyMessage parameter
 	const urlParams = new URLSearchParams(window.location.search);
 	const cartIsEmptyMessage = urlParams.get('cartIsEmptyMessage');
+	const displayedOrderId = urlParams.get('displayedOrderId');
 
 	if (cartIsEmptyMessage) {
 		// Display an alert box with the login failed message
 		alert(cartIsEmptyMessage);
+	}
+	
+	if (displayedOrderId) {
+		// Display an alert box with the login failed message
+		alert(displayedOrderId);
 	}
 	</script>
 </head>

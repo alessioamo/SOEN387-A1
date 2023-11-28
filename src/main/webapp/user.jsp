@@ -41,6 +41,7 @@
 		const urlParams = new URLSearchParams(window.location.search);
 		const changePermissionsFailedMessage = urlParams.get('changePermissionsFailedMessage');
 		const passcodeFailedMessage = urlParams.get('passcodeFailedMessage');
+		const invalidOrderIdMessage = urlParams.get('invalidOrderIdMessage');
 		
 		if (changePermissionsFailedMessage) {
 			// Display an alert box with the login failed message
@@ -50,6 +51,11 @@
 		if (passcodeFailedMessage) {
 			// Display an alert box with the login failed message
 			alert(passcodeFailedMessage);
+		}
+		
+		if (invalidOrderIdMessage) {
+			// Display an alert box with the login failed message
+			alert(invalidOrderIdMessage);
 		}
 	</script>
 
@@ -70,6 +76,23 @@
 					<br>
 					<div class="text-center">
 						<button type="submit" class="btn btn-primary">Change Passcode</button>
+					</div>
+				</form>
+			</div>
+		</div>
+		
+		<div class="card w-50 mx-auto my-5">
+			<div class="card-header text-center">Claim Your Order</div>
+			<div class="card-body">
+				<form action="order-owner" method="post">
+					<div class="form-group">
+						<label class="">Enter Order ID To Claim</label> <input
+							type="number" class="form-control" name="order-id"
+							placeholder="Order ID" required>
+					</div>
+					<br>
+					<div class="text-center">
+						<button type="submit" class="btn btn-primary">Claim Order</button>
 					</div>
 				</form>
 			</div>
