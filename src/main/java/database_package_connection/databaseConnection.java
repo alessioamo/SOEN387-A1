@@ -19,8 +19,8 @@ public class databaseConnection {
 			try {
 				Class.forName("org.sqlite.JDBC");
 			}catch (Exception e){
-				//TODO add exception or sum shit
-				System.out.println("OOPSIES");
+				System.out.println(e.getMessage());
+				e.printStackTrace();
 			}
 			// The first connection is the config for the students
 			connection = DriverManager.getConnection("jdbc:sqlite:database.db");
