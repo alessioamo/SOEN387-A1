@@ -1,18 +1,12 @@
-# SOEN387-A1
- 
-Tools used and versions
+### Development Environment:
 Tomcat v10.1
 jdk-17.0.3.1
 Eclipse 2023-09
+SQLite Version 3.39.5
+### Instructions:
+To generate the .war file, proceed to Eclipse and right click the project. Navigate to Export and then select WAR file. Afterwards, make sure the project you want is selected and choose the destination for the WAR file. Then click on finish.
 
-Instructions:
-To generate the .war file, proceed to Eclipse and right click the project. Navigate to Export and then select WAR file. Afterwards, make sure the project you want is selected and choose the destination for 
-the WAR file. Then click on finish.
+The project database, consisting of 3 tables, can be found in the project repository as “database.db”, along with the SQL dump: “SQLiteDump20231126.sql”. We migrated from MySQL to SQLite for asignment 3. We did this by exporting the MySQL database to a dump file, we then made slight changes to the file to comply with SQLite syntax. We created the .db file from the altered dump, by executing “cat  SQLiteDump20231126.sql | sqlite3 database.db” in the terminal.
 
-We connected a database with the attached .sql dump file. The host=localhost, username=dbuser, password=dbpass, port=3306, database=soen387 as per the requirements of the assignment. These can be altered 
-in the ‘databaseConnection.java’ file in the database_package_connection package.
+On the webpage, there are multiple features available. Users can choose to login or remain logged out. When logged out, users are still able to add items to their cart and place an order, however when they do they are prompted with the order id so they can claim it once they login. On the login page, users can enter a password to login, or enter a new password to create an account. If they enter an incorrect password (too short, user already exists if trying to create, etc) they will be notified and prompted to try again. Once logged in, users can add to their cart, place orders, and view all their orders. They can also view their user information, change their password (there are checks here as well to make sure it doesn’t exist and is a valid size), and claim an order if they enter the id (with appropriate error handling). Admins have all the same functionalities, as well as their previous functions (admin toolkit), and can see all users, all orders, and can change the permissions of other users (make them admins or not) but they can’t change their own permissions because that doesn’t make any sense.
 
-On the webpage, there are multiple features available. From the homepage, users can click on login to authenticate themselves and gain access to their orders page. Users are stored in users.json with their 
-authentication key and user id. If a user enters an existing key, they will login and be able to view their past orders. If a user enters a new key, a new user will be created in users.json and they will 
-now be able to view their orders page as well. There are 2 default users in users.json but more can be added. The first has the key ‘secret’ which means that they are an admin. When logged in, you will 
-gain admin privileges and be able to edit and create products, view all orders, ship orders, and every other required admin function. The second key is ‘aaa’ and it is a regular user that you can test yourself.
