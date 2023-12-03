@@ -230,6 +230,7 @@ public class BusinessFunctions {
 	}
 
 	public void createOrder(User user, String shippingAddress) {
+		System.out.println("start createorder() bf");
 		int orderId = 0;
 		double totalCost = 0;
 		Cart cart = user.getCart();
@@ -252,8 +253,10 @@ public class BusinessFunctions {
 			productsInCart.deleteCharAt(productsInCart.length() - 2); // Remove the trailing comma
 		}
 		productsInCart.append("]");
+		String productsInCartString = productsInCart.toString().replace("\\", "");
+
 		int userId = user.getId();
-		Order order = new Order(orderId, shippingAddress, 0, productsInCart.toString(), totalCost,
+		Order order = new Order(orderId, shippingAddress, 0, productsInCartString, totalCost,
 				userId);
 		od.newOrder(order);
 		getOrder(user, 1);
