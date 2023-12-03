@@ -23,7 +23,7 @@ public class databaseConnection {
 				System.out.println("OOPSIES");
 			}
 			// The first connection is the config for the students
-			connection = DriverManager.getConnection("jdbc:sqlite:/Users/boisghur/Documents/GitHub/SOEN387-A1/database.db");
+			connection = DriverManager.getConnection("jdbc:sqlite:database.db");
 			// The second connection is the config for the professor/TAs
 			// connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/soen387","dbuser","dbpass.");
 			System.out.println("Connected.");

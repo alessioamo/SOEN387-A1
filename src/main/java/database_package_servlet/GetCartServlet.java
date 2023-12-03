@@ -31,7 +31,8 @@ public class GetCartServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		try {
 			if (session.getAttribute("cart_list") == null) {
-				System.out.println(false);
+				System.out.println("Empty Cart");
+				response.sendRedirect("admin-toolkit.jsp");
 			} else {
 				ProductDao pd = new ProductDao(databaseConnection.getConnection());
 				
@@ -41,6 +42,10 @@ public class GetCartServlet extends HttpServlet {
 					user = (User) request.getSession().getAttribute("auth");
 					cart = user.getCart();
 					ArrayList<Product> cartProducts = pd.getCart(user);
+					System.out.println();
+					for (Product p : cartProducts) {
+						System.out.println(p);
+					}
 				}
 				response.sendRedirect("products.jsp");
 			}
